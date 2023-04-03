@@ -9,9 +9,9 @@ export const resolvers = {
       );
       return response.json();
     },
-    getAllPersons: async (_: any) => {
-      const response = await fetch("http://localhost:7000/api/users");
-      return response.json().then((response) => response.DATA);
+    getAllPersons: async (root: any, _args: any, { dataSources }: any) => {
+      const result = await dataSources.userDatasource.getAllPersons();
+      return result.DATA;
     },
   },
   Mutation: {

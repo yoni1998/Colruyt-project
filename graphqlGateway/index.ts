@@ -4,9 +4,13 @@ import { typeDefs } from "./typedefs/userTypedef";
 import { ApolloServer } from "apollo-server-express";
 import express from "express";
 import bodyParser from "body-parser";
+import UserDatasource from "./datasource/userDatasource";
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  dataSources: () => ({
+    userDatasource: new UserDatasource(),
+  }),
 });
 
 const app = express();
