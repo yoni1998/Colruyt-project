@@ -1,5 +1,5 @@
 import { Application, Request, Response } from "express";
-import { ArticleController } from "../controllers/ArticleController";
+import { ArticleController } from "../controllers/articleController";
 
 export class ArticleRoutes {
   private article_controller: ArticleController = new ArticleController();

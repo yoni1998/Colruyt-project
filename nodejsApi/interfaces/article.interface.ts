@@ -1,4 +1,4 @@
-import { ModificationNote } from "../common/modules.common.model";
+import { ModificationNote } from "../common/AbstractModel";
 
 export interface IArticle {
   _id?: String;

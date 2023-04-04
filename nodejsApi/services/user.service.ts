@@ -1,22 +1,23 @@
 import { IUser } from "../interfaces/user.interface";
-import users from "../models/user.model";
+import user from "../models/user.model";
 
 export default class UserService {
-  public createUser(user_params: IUser) {
-    const _session = new users(user_params);
-    _session.save();
+  protected findAll = async () => await user.find();
+
+  protected userOnId = async (id: any) => await user.findOne(id);
+
+  protected createUser(newUser: IUser) {
+    const createdUser = new user(newUser);
+    createdUser.save();
   }
-  public findAll = async () => users.find();
 
-  public userOnId = async (id: any) => await users.findOne(id);
-
-  public updateUser = async (user_params: IUser) => {
-    const query = { _id: user_params._id };
-    await users.findOneAndUpdate(query, user_params);
+  protected updateUser = async (editUser: IUser) => {
+    const id = { _id: editUser._id };
+    await user.findOneAndUpdate(id, editUser);
   };
 
-  public deleteUser = async (_id: String) => {
-    const query = { _id: _id };
-    await users.deleteOne(query);
+  protected deleteUser = async (id: String) => {
+    const userOnId = { _id: id };
+    await user.deleteOne(userOnId);
   };
 }

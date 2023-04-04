@@ -4,7 +4,7 @@ import {
   mongoError,
   successResponse,
   failureResponse,
-} from "../common/modules.common.service";
+} from "../common/responseService";
 import { IArticle } from "../interfaces/index";
 import ArticleService from "../services/article_service";
 

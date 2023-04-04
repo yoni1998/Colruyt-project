@@ -1,28 +1,35 @@
-import { Application, Request, Response } from "express";
+import express, { Application, Request, Response } from "express";
 import { UserController } from "../controllers/userController";
+import userMiddleware from "../middlewares/user.middleware";
+const router = express.Router();
 
-export class UserRoutes {
-  private user_controller: UserController = new UserController();
-
+export class UserRoutes extends UserController {
   public route(app: Application) {
-    app.post("/api/user", (req: Request, res: Response) => {
-      this.user_controller.create_user(req, res);
-    });
+    // middlewares
+    router.use("/", userMiddleware);
+    app.use("/api/users", userMiddleware);
 
-    app.get("/api/user/:id", (req: Request, res: Response) => {
-      this.user_controller.get_user(req, res);
-    });
-
+    // app routes
     app.get("/api/users", (req: Request, res: Response) => {
-      this.user_controller.get_all_users(req, res);
+      this.getAllUsers(req, res);
     });
 
-    app.put("/api/user/:id", (req: Request, res: Response) => {
-      this.user_controller.update_user(req, res);
+    app.post("/api/user", (req: Request, res: Response) => {
+      this.createNewUser(req, res);
     });
 
-    app.delete("/api/user/:id", (req: Request, res: Response) => {
-      this.user_controller.delete_user(req, res);
-    });
+    // router
+    app.use("/api/user", router);
+    router
+      .route("/:id")
+      .get((req: Request, res: Response) => {
+        this.getUserOnId(req, res);
+      })
+      .put((req: Request, res: Response) => {
+        this.updateCurrentUser(req, res);
+      })
+      .delete((req: Request, res: Response) => {
+        this.deleteUserOnId(req, res);
+      });
   }
 }

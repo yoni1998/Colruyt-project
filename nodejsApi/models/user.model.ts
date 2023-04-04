@@ -1,5 +1,5 @@
 import * as mongoose from "mongoose";
-import { ModificationNote } from "../common/modules.common.model";
+import { ModificationNote } from "../common/AbstractModel";
 
 const schema = new mongoose.Schema({
   name: {
@@ -17,4 +17,4 @@ const schema = new mongoose.Schema({
   modification_notes: [ModificationNote],
 });
 
-export default mongoose.model("users", schema);
+export default mongoose.model("user", schema);
