@@ -67,13 +67,11 @@ export class UserController extends UserService {
         email: req.body.email,
         phone_number: req.body.phone_number,
         gender: req.body.gender,
-        modification_notes: [
-          {
-            modified_on: new Date(Date.now()),
-            modified_by: "",
-            modification_note: "New user created",
-          },
-        ],
+        modification_notes: {
+          modified_on: new Date(Date.now()),
+          modified_by: "",
+          modification_note: "New user created",
+        },
       };
       // send request
       this.createUser(newUser);

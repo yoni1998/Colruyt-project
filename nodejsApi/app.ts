@@ -34,7 +34,7 @@ const connectDB = async () => {
 
   console.log(`MongoDB Connected: ${conn.connection.host}`);
 };
-
+// connect to db
 connectDB();
 /**
  * Server Activation

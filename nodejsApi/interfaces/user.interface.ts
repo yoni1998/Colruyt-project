@@ -11,5 +11,5 @@ export interface IUser {
   phone_number: String;
   gender: String;
   is_deleted?: Boolean;
-  modification_notes: ModificationNote[];
+  modification_notes: ModificationNote;
 }
