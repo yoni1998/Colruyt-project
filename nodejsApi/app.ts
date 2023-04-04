@@ -6,7 +6,8 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import mongoose from "mongoose";
-import { UserRoutes, ArticleRoutes } from "./routes/index";
+import { Routes } from "./routes/index";
+import { UserRoutes } from "./routes/user_routes";
 dotenv.config();
 /**
  * App Variables
@@ -14,8 +15,9 @@ dotenv.config();
 if (!process.env.PORT) {
   process.exit(1);
 }
+
+const routes: Routes = new Routes();
 const user_routes: UserRoutes = new UserRoutes();
-const article_routes: ArticleRoutes = new ArticleRoutes();
 const PORT: number = parseInt(process.env.PORT as string, 10);
 const URI: string = process.env.URI as string;
 
@@ -26,8 +28,8 @@ const app = express();
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
-user_routes.route(app);
-article_routes.route(app);
+routes.route(app);
+user_routes.route();
 
 const connectDB = async () => {
   const conn = await mongoose.connect(URI);
