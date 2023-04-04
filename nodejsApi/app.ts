@@ -33,7 +33,6 @@ user_routes.route();
 
 const connectDB = async () => {
   const conn = await mongoose.connect(URI);
-
   console.log(`MongoDB Connected: ${conn.connection.host}`);
 };
 // connect to db

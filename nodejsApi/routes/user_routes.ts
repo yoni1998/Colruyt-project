@@ -7,14 +7,14 @@ export class UserRoutes extends UserController {
   public route() {
     // use middleware
     router
-      .use("/", userMiddleware)
-      .route("/")
+      .use("/user", userMiddleware)
+      .route("/user")
       .post((req: Request, res: Response) => {
         this.createNewUser(req, res);
       });
 
     router
-      .route("/:id")
+      .route("/user/:id")
       .get((req: Request, res: Response) => {
         this.getUserOnId(req, res);
       })
