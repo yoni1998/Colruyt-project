@@ -94,6 +94,7 @@ export class UserController extends UserService {
           phone_number: Joi.string(),
           gender: Joi.string(),
         });
+
         if (schema.validate(req.body).error) {
           failureResponse(
             "something went wrong",

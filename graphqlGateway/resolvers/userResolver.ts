@@ -1,41 +1,71 @@
-import fetch from "node-fetch";
-
 export const resolvers = {
   Query: {
-    hello: () => "home",
-    getPerson: async (_: any, { id }: any) => {
-      const response = await fetch(
-        "http://localhost:7000/api/user/6426a784562a4ccf599e2550"
-      );
-      return response.json();
+    getAllPersons: async (
+      root: any,
+      _args: any,
+      { dataSources }: any,
+      info: any
+    ) => {
+      try {
+        const result = await dataSources.userDatasource.getAllPersons();
+        return result.DATA;
+      } catch (error) {
+        throw error;
+      }
     },
-    getAllPersons: async (root: any, _args: any, { dataSources }: any) => {
-      const result = await dataSources.userDatasource.getAllPersons();
-      return result.DATA;
+    getPerson: async (
+      root: any,
+      { id }: any,
+      { dataSources }: any,
+      info: any
+    ) => {
+      try {
+        const result = await dataSources.userDatasource.getPerson(id);
+        return result;
+      } catch (error) {
+        throw error;
+      }
     },
   },
   Mutation: {
-    removeUser: async (_: any, { id }: any) => {
-      let options = {
-        method: "delete",
-        mode: "cors",
-        cache: "no-cache",
-        credentials: "omit",
-      };
-      const response = await fetch(
-        `http://localhost:7000/api/user/${id}`,
-        options
-      );
-      return response.json();
+    removeUser: async (
+      root: any,
+      { id }: any,
+      { dataSources }: any,
+      info: any
+    ) => {
+      try {
+        const result = await dataSources.userDatasource.deletePerson(id);
+        return result;
+      } catch (error) {
+        throw error;
+      }
     },
-    createUser: async (parent: any, args: any, ctx: any, info: any) => {
-      await fetch(`http://localhost:7000/api/user`, {
-        method: "post",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(args.input),
-      }).then((x) => {
-        return x.json();
-      });
+    createUser: async (
+      parent: any,
+      { input }: any,
+      { dataSources }: any,
+      info: any
+    ) => {
+      try {
+        const result = await dataSources.userDatasource.addPerson(input);
+        return result;
+      } catch (error) {
+        throw error;
+      }
+    },
+    updateUser: async (
+      parent: any,
+      { input, id }: any,
+      { dataSources }: any,
+      info: any
+    ) => {
+      try {
+        const result = await dataSources.userDatasource.updatePerson(id, input);
+        return result;
+      } catch (error) {
+        throw error;
+      }
     },
   },
 };
