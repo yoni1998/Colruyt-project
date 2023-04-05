@@ -6,10 +6,10 @@ export default class UserService {
 
   protected userOnId = async (id: any) => await user.findOne(id);
 
-  protected createUser(newUser: IUser) {
+  protected createUser = async (newUser: IUser) => {
     const createdUser = new user(newUser);
-    createdUser.save();
-  }
+    await createdUser.save();
+  };
 
   protected updateUser = async (editUser: IUser) => {
     const id = { _id: editUser._id };

@@ -74,8 +74,9 @@ export class UserController extends UserService {
         },
       };
       // send request
-      this.createUser(newUser);
-      successResponse("create user successfully", newUser, res);
+      this.createUser(newUser).then(() => {
+        successResponse("create user successfully", newUser, res);
+      });
     }
   }
 
