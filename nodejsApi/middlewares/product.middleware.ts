@@ -1,13 +1,13 @@
 import { NextFunction } from "express";
 
 // Middleware function
-const userMiddleware: any = (
+const productMiddleware: any = (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  console.log("Middleware user is called");
+  console.log("Middleware product is called");
   next();
 };
 
-export default userMiddleware;
+export default productMiddleware;

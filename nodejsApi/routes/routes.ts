@@ -1,20 +1,24 @@
 import { Application, Request, Response } from "express";
 import * as dotenv from "dotenv";
-import { UserController } from "../controllers/userController";
-import userMiddleware from "../middlewares/user.middleware";
-import router from "./user_routes";
+import productMiddleware from "../middlewares/product.middleware";
+import router from "./product.routes";
+import basketRouter from "./basket.routes";
+import { getAllProducts } from "../controllers/product.controller";
 dotenv.config();
 
-export class Routes extends UserController {
-  ROOTPATH: string = process.env.ROOTPATH as string;
-  SUBPATH: string = process.env.SUBPATH as string;
+export class Routes {
+  private ROOTPATH: string = process.env.ROOTPATH as string;
+  private SUBPATH: string = process.env.SUBPATH as string;
 
   public route(app: Application) {
     // middleware
-    app.use(this.ROOTPATH, userMiddleware).use(this.SUBPATH, router);
+    app
+      .use("/", productMiddleware)
+      .use("/api", router)
+      .use("/api/basket", basketRouter);
     // app routes
-    app.get(this.ROOTPATH, (req: Request, res: Response) => {
-      this.getAllUsers(req, res);
+    app.get("/", (req: Request, res: Response) => {
+      getAllProducts(req, res);
     });
   }
 }

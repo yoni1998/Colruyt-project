@@ -7,7 +7,6 @@ import cors from "cors";
 import helmet from "helmet";
 import mongoose from "mongoose";
 import { Routes } from "./routes/index";
-import { UserRoutes } from "./routes/user_routes";
 dotenv.config();
 /**
  * App Variables
@@ -17,7 +16,6 @@ if (!process.env.PORT) {
 }
 
 const routes: Routes = new Routes();
-const user_routes: UserRoutes = new UserRoutes();
 const PORT: number = parseInt(process.env.PORT as string, 10);
 const URI: string = process.env.URI as string;
 
@@ -29,7 +27,6 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 routes.route(app);
-user_routes.route();
 
 const connectDB = async () => {
   const conn = await mongoose.connect(URI);
