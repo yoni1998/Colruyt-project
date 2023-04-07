@@ -1,16 +1,18 @@
 import cors from "cors";
-import { resolvers } from "./resolvers/userResolver";
-import { typeDefs } from "./typedefs/userTypedef";
+import { typeDefs } from "./typedefs/productTypedef";
 import { ApolloServer } from "apollo-server-express";
 import express from "express";
 import bodyParser from "body-parser";
-import { UserDatasource } from "./datasource/userDatasource";
+import { ProductDatasource } from "./datasource/productDatasource";
+import { resolvers } from "./resolvers/productResolver";
+import { BasketDatasource } from "./datasource/basketDatasource";
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   dataSources: () => ({
-    userDatasource: new UserDatasource(),
+    productDatasource: new ProductDatasource(),
+    basketDatasource: new BasketDatasource(),
   }),
 });
 

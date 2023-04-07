@@ -1,39 +1,39 @@
 import { RESTDataSource } from "apollo-datasource-rest";
 import * as dotenv from "dotenv";
 dotenv.config();
-export class UserDatasource extends RESTDataSource {
+export class BasketDatasource extends RESTDataSource {
   ROOTPATH: string = process.env.ROOTPATH as string;
   SUBPATH: string = process.env.SUBPATH as string;
   constructor() {
     super();
   }
-  async getAllPersons() {
-    return await this.get(this.ROOTPATH);
+  async getAllBaskets() {
+    return await this.get("http://localhost:7000/api/basket");
   }
-  async getPerson(id: any) {
-    return await this.get(this.SUBPATH + id);
+  async getBasket(id: any) {
+    return await this.get("http://localhost:7000/api/basket/" + id);
   }
-  async deletePerson(id: any) {
+  async deleteBasket(id: any) {
     let options = {
       method: "delete",
       mode: "cors",
       cache: "no-cache",
       credentials: "omit",
     };
-    return await this.delete(this.SUBPATH + id, options);
+    return await this.delete("http://localhost:7000/api/basket/" + id, options);
   }
-  async addPerson(person: any) {
+  async addBasket(basket: any) {
     const options = {
       method: "post",
       headers: { "Content-Type": "application/json" },
     };
-    return this.post(this.SUBPATH, person, options);
+    return this.post("http://localhost:7000/api/basket/", basket, options);
   }
-  async updatePerson(id: any, person: any) {
+  async updateBasket(id: any, basket: any) {
     const options = {
       method: "put",
       headers: { "Content-Type": "application/json" },
     };
-    return this.put(this.SUBPATH + id, person, options);
+    return this.put("http://localhost:7000/api/basket/" + id, basket, options);
   }
 }
