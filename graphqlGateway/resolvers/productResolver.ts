@@ -1,5 +1,6 @@
 export const resolvers = {
   Query: {
+    // products
     getAllProducts: async (
       root: any,
       _args: any,
@@ -26,6 +27,7 @@ export const resolvers = {
         throw error;
       }
     },
+    // basket
     getAllBaskets: async (
       root: any,
       _args: any,
@@ -54,6 +56,7 @@ export const resolvers = {
     },
   },
   Mutation: {
+    // products
     removeProduct: async (
       root: any,
       { id }: any,
@@ -96,6 +99,7 @@ export const resolvers = {
         throw error;
       }
     },
+    // basket
     removeBasket: async (
       root: any,
       { id }: any,

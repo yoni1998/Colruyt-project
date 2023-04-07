@@ -1,21 +1,37 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, Text, View, TextInput, SafeAreaView } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { NativeBaseProvider } from "native-base";
 
-export default function App() {
+import Home from "./screens/home.screen";
+
+function App() {
+  const Stack = createStackNavigator();
   return (
-    <View style={styles.container}>
-      <Text>new app works!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NativeBaseProvider>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{
+              headerStyle: {
+                height: 150,
+                borderBottomLeftRadius: 30,
+                borderBottomRightRadius: 30,
+                backgroundColor: "#00e4d0",
+                shadowColor: "#000",
+                elevation: 25,
+              },
+            }}
+          ></Stack.Screen>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </NativeBaseProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+export default App;
