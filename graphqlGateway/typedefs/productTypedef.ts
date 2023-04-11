@@ -3,7 +3,7 @@ import { gql } from "apollo-server-express";
 export const typeDefs = gql`
   type Query {
     getProduct(id: String!): Product
-    getAllProducts: [Products]
+    getAllProducts(search: String): [Products]
     getBasket(id: String!): Basket
     getAllBaskets: [Baskets]
   }

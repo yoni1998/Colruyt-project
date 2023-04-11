@@ -8,7 +8,9 @@ export const resolvers = {
       info: any
     ) => {
       try {
-        const result = await dataSources.productDatasource.getAllProducts();
+        const result = await dataSources.productDatasource.getAllProducts(
+          _args.search
+        );
         return result.DATA;
       } catch (error) {
         throw error;

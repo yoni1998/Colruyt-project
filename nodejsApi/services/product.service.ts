@@ -1,7 +1,13 @@
 import { IProduct } from "../interfaces/product.interface";
 import product from "../models/product.model";
 
-export const findAllProducts = async () => await product.find();
+export const findAllProducts = async (search: any) => {
+  const regex = new RegExp(search, "i");
+  if (!search) {
+    return [];
+  }
+  return await product.find({ naam: regex });
+};
 
 export const productOnId = async (id: any) => await product.findOne(id);
 

@@ -17,7 +17,7 @@ import {
 
 export const getAllProducts = (req: Request, res: Response) => {
   try {
-    findAllProducts().then((data: any) => {
+    findAllProducts(req.query?.search).then((data: any) => {
       data
         ? successResponse("get all products successfully", data, res)
         : failureResponse("something went wrong", [], res);

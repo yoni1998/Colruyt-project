@@ -7,8 +7,8 @@ export class ProductDatasource extends RESTDataSource {
   constructor() {
     super();
   }
-  async getAllProducts() {
-    return await this.get("http://localhost:7000/");
+  async getAllProducts(search: any) {
+    return await this.get(`http://localhost:7000?search=${search}`);
   }
   async getProduct(id: any) {
     return await this.get("http://localhost:7000/api/product/" + id);
