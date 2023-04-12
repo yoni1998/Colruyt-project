@@ -1,46 +1,26 @@
-import React, { FC, useState, useEffect } from "react";
-import { SafeAreaView, StyleSheet, TextInput, View, Text } from "react-native";
+import React, { FC } from "react";
+import { StyleSheet, View } from "react-native";
 import { Input, Stack } from "native-base";
-import { useQuery } from "@apollo/client";
-import { GET_PRODUCTS } from "../queries/getAllProducts";
-import Card from "../components/card";
 import ShoppingCard from "../components/shoppingCard";
+import { useNavigation } from "@react-navigation/native";
 const Home: FC = () => {
-  const [search, setSearch] = useState("");
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
-  const handleChange = (text: any) => {
-    setSearch(text);
-  };
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setDebouncedSearchTerm(search);
-    }, 1500);
-
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [search]);
-
-  const { loading, error, data } = useQuery(GET_PRODUCTS, {
-    variables: { search },
-  });
+  const navigation = useNavigation();
 
   return (
     <>
       <View>
-        <Stack style={{ margin: 30 }}>
+        <Stack
+          style={{ margin: 30 }}
+          onTouchStart={() => navigation.navigate("search")}
+        >
           <Input
+            isReadOnly={true}
             style={styles.input}
-            value={search}
             w="100%"
             size="2xl"
-            onChangeText={handleChange}
             placeholder="Zoeken naar producten..."
           />
         </Stack>
-        {!search && <Text>Zoeken naar producten</Text>}
-        <Card products={data}></Card>
         <ShoppingCard></ShoppingCard>
       </View>
     </>

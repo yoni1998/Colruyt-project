@@ -1,8 +1,10 @@
 import { View, Text, FlatList, StyleSheet, Button } from "react-native";
 import React, { useState, useEffect } from "react";
-import { ADD_PRODUCT_TO_BASKET } from "../queries/getAllProductsInBasket";
+import {
+  ADD_PRODUCT_TO_BASKET,
+  GET_PRODUCTS_IN_BASKET,
+} from "../queries/getAllProductsInBasket";
 import { useMutation } from "@apollo/client";
-import { GET_PRODUCTS } from "../queries/getAllProducts";
 
 const Card = ({ products }: any) => {
   const [id, setId] = useState("");
@@ -16,20 +18,25 @@ const Card = ({ products }: any) => {
     },
     refetchQueries: () => [
       {
-        query: GET_PRODUCTS,
+        query: GET_PRODUCTS_IN_BASKET,
       },
     ],
   });
+
+  useEffect(() => {
+    if (id) {
+      mutateFunction()
+        .then((x) => {
+          console.log(x);
+        })
+        .catch((err) => console.error(err));
+    }
+  }, [id]);
 
   const addToCard = (id: any) => {
     if (id) {
       setId(id);
     }
-    mutateFunction()
-      .then((x) => {
-        console.log(x);
-      })
-      .catch((err) => console.error(err));
   };
 
   if (products) {
