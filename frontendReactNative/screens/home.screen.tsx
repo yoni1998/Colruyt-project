@@ -1,9 +1,10 @@
 import React, { FC, useState, useEffect } from "react";
-import { SafeAreaView, StyleSheet, TextInput, View } from "react-native";
+import { SafeAreaView, StyleSheet, TextInput, View, Text } from "react-native";
 import { Input, Stack } from "native-base";
 import { useQuery } from "@apollo/client";
 import { GET_PRODUCTS } from "../queries/getAllProducts";
 import Card from "../components/card";
+import ShoppingCard from "../components/shoppingCard";
 const Home: FC = () => {
   const [search, setSearch] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
@@ -38,7 +39,9 @@ const Home: FC = () => {
             placeholder="Zoeken naar producten..."
           />
         </Stack>
+        {!search && <Text>Zoeken naar producten</Text>}
         <Card data={data}></Card>
+        <ShoppingCard></ShoppingCard>
       </View>
     </>
   );

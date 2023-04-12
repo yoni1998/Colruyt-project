@@ -47,7 +47,7 @@ export const getBasketOnId = (req: Request, res: Response) => {
 export const createNewBasket = (req: Request, res: Response) => {
   // input validation
   const schema = Joi.object().keys({
-    naam: Joi.string().required(),
+    productId: Joi.string().required(),
     aantal: Joi.number().required(),
   });
   if (schema.validate(req.body).error) {
@@ -59,17 +59,17 @@ export const createNewBasket = (req: Request, res: Response) => {
   } else {
     // this check whether all the fields were send through the request or not
     const newBasket: IBasket = {
-      naam: req.body.naam,
+      productId: req.body.productId,
       aantal: req.body.aantal,
       modification_notes: {
         modified_on: new Date(Date.now()),
         modified_by: "",
-        modification_note: "New basket created",
+        modification_note: "New Item for basket created",
       },
     };
     // send request
     createBasket(newBasket).then(() => {
-      successResponse("create basket successfully", newBasket, res);
+      successResponse("create item for basket successfully", newBasket, res);
     });
   }
 };
@@ -80,7 +80,7 @@ export const updateCurrentBasket = (req: Request, res: Response) => {
     basketOnId(basketId).then((data: any) => {
       // input validation
       const schema = Joi.object().keys({
-        naam: Joi.string().required(),
+        productId: Joi.string().required(),
         aantal: Joi.number().required(),
       });
 
@@ -93,7 +93,7 @@ export const updateCurrentBasket = (req: Request, res: Response) => {
       } else {
         const editBasket: IBasket = {
           _id: req.params.id,
-          naam: req.body.naam ? req.body.naam : data.naam,
+          productId: req.body.productId ? req.body.productId : data.productId,
           aantal: req.body.aantal ? req.body.aantal : data.aantal,
           modification_notes: data.modification_notes,
         };

@@ -2,13 +2,8 @@ import * as mongoose from "mongoose";
 import { ModificationNote } from "../common/AbstractModel";
 
 const schema = new mongoose.Schema({
-  naam: String,
+  productId: mongoose.Schema.Types.ObjectId,
   aantal: String,
-  products: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: "product",
-    default: [],
-  },
   modification_notes: [ModificationNote],
 });
 

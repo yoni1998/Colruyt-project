@@ -39,13 +39,13 @@ export const typeDefs = gql`
   }
 
   input BasketInput {
-    naam: String
+    productId: String
     aantal: String
   }
 
   type Baskets {
     _id: ID
-    naam: String
+    productId: String
     aantal: String
   }
 `;
