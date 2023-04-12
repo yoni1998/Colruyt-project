@@ -40,7 +40,7 @@ const Home: FC = () => {
           />
         </Stack>
         {!search && <Text>Zoeken naar producten</Text>}
-        <Card data={data}></Card>
+        <Card products={data}></Card>
         <ShoppingCard></ShoppingCard>
       </View>
     </>
