@@ -15,7 +15,7 @@ import {
 } from "../queries/getAllProductsInBasket";
 import { useMutation } from "@apollo/client";
 import { Pressable } from "native-base";
-
+import { Modal } from "./modal";
 const Card = ({ products }: any) => {
   const [id, setId] = useState("");
   const [aantal, setAantal] = useState(0);
@@ -55,6 +55,10 @@ const Card = ({ products }: any) => {
     setId(id);
   };
 
+  const [isModalVisible, setIsModalVisible] = React.useState(false);
+
+  const handleModal = () => setIsModalVisible(() => !isModalVisible);
+
   if (products) {
     return (
       <FlatList
@@ -73,13 +77,27 @@ const Card = ({ products }: any) => {
                 <Text style={styles.name}>{item.naam}</Text>
                 <Text style={styles.price}>€ {item.prijs}.00</Text>
               </View>
-              <View style={styles.quantityContainer}>
-                <Button title="-" onPress={() => setAantal(aantal - 1)} />
-                <TextInput style={styles.quantity}>{aantal}</TextInput>
-                <Button title="+" onPress={() => setAantal(aantal + 1)} />
-              </View>
+              <Modal isVisible={isModalVisible}>
+                <Modal.Container>
+                  <Modal.Header title="Selecteer het aantal" />
+                  <Modal.Body>
+                    <View style={styles.quantityContainer}>
+                      <Button title="-" onPress={() => setAantal(aantal - 1)} />
+                      <TextInput style={styles.quantity}>{aantal}</TextInput>
+                      <Button title="+" onPress={() => setAantal(aantal + 1)} />
+                    </View>
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button title="Close" onPress={handleModal} />
+                    <Button
+                      title="Toevoegen aan winkelmandje"
+                      onPress={() => addToCard(item._id)}
+                    />
+                  </Modal.Footer>
+                </Modal.Container>
+              </Modal>
               <View style={styles.removeButton}>
-                <Pressable onPress={() => addToCard(item._id)}>
+                <Pressable onPress={handleModal}>
                   <Text>Add to card</Text>
                 </Pressable>
               </View>
@@ -139,7 +157,7 @@ const styles = StyleSheet.create({
   quantityContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginRight: 30,
+    justifyContent: "center",
   },
   quantity: {
     marginStart: 10,

@@ -9,6 +9,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const SearchProducts = ({ navigation }: any) => {
   const [search, setSearch] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
+  const textInputRef: any = React.useRef();
   const handleChange = (text: any) => {
     setSearch(text);
   };
@@ -27,7 +28,6 @@ const SearchProducts = ({ navigation }: any) => {
     };
   }, [search]);
 
-  const textInputRef: any = React.useRef();
   useEffect(() => {
     if (textInputRef.current) {
       const unsubscribe = navigation.addListener("focus", () => {

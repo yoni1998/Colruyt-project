@@ -32,7 +32,7 @@ const BasketItems = ({ data }: any) => {
 
   const showToastWithGravity = () => {
     ToastAndroid.showWithGravity(
-      "het product is verwijderd aan je winkelmandje",
+      "het product is verwijderd uit je winkelmandje",
       ToastAndroid.LONG,
       ToastAndroid.CENTER
     );
