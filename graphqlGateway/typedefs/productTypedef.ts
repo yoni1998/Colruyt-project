@@ -45,7 +45,7 @@ export const typeDefs = gql`
 
   type Baskets {
     _id: ID
-    productId: String
+    productId: Products
     aantal: String
   }
 `;

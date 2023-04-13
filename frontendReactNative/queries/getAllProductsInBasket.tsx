@@ -4,8 +4,12 @@ export const GET_PRODUCTS_IN_BASKET = gql`
   query Query {
     getAllBaskets {
       _id
-      productId
       aantal
+      productId {
+        naam
+        aantal
+        prijs
+      }
     }
   }
 `;
@@ -15,7 +19,11 @@ export const ADD_PRODUCT_TO_BASKET = gql`
     createBasket(input: $input) {
       DATA {
         _id
-        productId
+        productId {
+          naam
+          aantal
+          prijs
+        }
         aantal
       }
     }
@@ -26,8 +34,6 @@ export const DELETE_PRODUCT_IN_BASKET = gql`
   mutation Mutation($removeBasketId: ID!) {
     removeBasket(id: $removeBasketId) {
       _id
-      productId
-      aantal
     }
   }
 `;

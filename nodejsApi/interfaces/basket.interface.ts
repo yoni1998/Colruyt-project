@@ -3,7 +3,7 @@ import { IProduct } from "./product.interface";
 
 export interface IBasket {
   _id?: String;
-  productId: String;
+  productId: [IProduct];
   aantal: String;
   modification_notes: ModificationNote;
 }

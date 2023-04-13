@@ -14,6 +14,10 @@ const Navigation = () => {
           name="Home"
           component={Home}
           options={{
+            headerTitleAlign: "center",
+            headerTitleStyle: {
+              fontSize: 25,
+            },
             headerStyle: {
               height: 150,
               borderBottomLeftRadius: 30,
@@ -28,6 +32,10 @@ const Navigation = () => {
           name="basket"
           component={Basket}
           options={{
+            headerTitleAlign: "center",
+            headerTitleStyle: {
+              fontSize: 25,
+            },
             headerStyle: {
               height: 150,
               borderBottomLeftRadius: 30,
@@ -42,10 +50,15 @@ const Navigation = () => {
           name="search"
           component={SearchProducts}
           options={{
+            headerTitleAlign: "center",
+            headerTitleStyle: {
+              fontSize: 25,
+            },
+            presentation: "modal",
+            headerMode: "float",
+            animationEnabled: true,
             headerStyle: {
               height: 150,
-              borderBottomLeftRadius: 30,
-              borderBottomRightRadius: 30,
               backgroundColor: "#00e4d0",
               shadowColor: "#000",
               elevation: 25,

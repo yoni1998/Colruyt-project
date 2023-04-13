@@ -4,7 +4,7 @@ import { Input, Stack } from "native-base";
 import ShoppingCard from "../components/shoppingCard";
 import { useNavigation } from "@react-navigation/native";
 const Home: FC = () => {
-  const navigation = useNavigation();
+  const navigation: any = useNavigation();
 
   return (
     <>

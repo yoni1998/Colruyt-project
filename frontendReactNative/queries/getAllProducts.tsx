@@ -6,6 +6,7 @@ export const GET_PRODUCTS = gql`
       _id
       naam
       prijs
+      aantal
     }
   }
 `;

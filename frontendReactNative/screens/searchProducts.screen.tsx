@@ -4,8 +4,9 @@ import { Input, Stack } from "native-base";
 import { useQuery } from "@apollo/client";
 import { GET_PRODUCTS } from "../queries/getAllProducts";
 import Card from "../components/card";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-const SearchProducts = () => {
+const SearchProducts = ({ navigation }: any) => {
   const [search, setSearch] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const handleChange = (text: any) => {
@@ -26,6 +27,19 @@ const SearchProducts = () => {
     };
   }, [search]);
 
+  const textInputRef: any = React.useRef();
+  useEffect(() => {
+    if (textInputRef.current) {
+      const unsubscribe = navigation.addListener("focus", () => {
+        setTimeout(() => {
+          textInputRef.current?.focus();
+        }, 300);
+      });
+
+      return unsubscribe;
+    }
+  }, [navigation, textInputRef.current]);
+
   return (
     <View>
       <Stack style={{ margin: 30 }}>
@@ -33,13 +47,16 @@ const SearchProducts = () => {
           style={styles.input}
           value={search}
           w="100%"
+          ref={textInputRef}
           size="2xl"
           onChangeText={handleChange}
           placeholder="Zoeken naar producten..."
         />
       </Stack>
-      {!search && <Text>Zoeken naar producten</Text>}
-      <Card products={data}></Card>
+      {!search && <Text style={styles.emptyText}>Zoeken naar producten</Text>}
+      <SafeAreaView>
+        <Card products={data}></Card>
+      </SafeAreaView>
     </View>
   );
 };
@@ -57,6 +74,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     backgroundColor: "white",
+  },
+  emptyText: {
+    fontSize: 20,
+    marginLeft: 100,
   },
 });
 

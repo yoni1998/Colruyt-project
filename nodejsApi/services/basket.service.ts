@@ -1,7 +1,8 @@
 import { IBasket } from "../interfaces/basket.interface";
 import basket from "../models/basket.model";
 
-export const findAllBaskets = async () => await basket.find();
+export const findAllBaskets = async () =>
+  await basket.find().populate("productId");
 
 export const basketOnId = async (id: any) => await basket.findOne(id);
 
