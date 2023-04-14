@@ -18,12 +18,12 @@ import { Pressable } from "native-base";
 import { Modal } from "./modal";
 const Card = ({ products }: any) => {
   const [id, setId] = useState("");
-  const [aantal, setAantal] = useState(0);
+  const [aantal, setAantal] = useState(1);
   const [mutateFunction] = useMutation(ADD_PRODUCT_TO_BASKET, {
     variables: {
       input: {
         productId: id,
-        aantal: "10",
+        aantal: aantal.toString(),
       },
     },
     refetchQueries: () => [
@@ -44,7 +44,7 @@ const Card = ({ products }: any) => {
   useEffect(() => {
     if (id) {
       mutateFunction()
-        .then((x) => {
+        .then((x: any) => {
           showToastWithGravity();
         })
         .catch((err) => console.error(err));
