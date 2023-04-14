@@ -115,6 +115,24 @@ export const resolvers = {
         throw error;
       }
     },
+    removeProductFromBasket: async (
+      root: any,
+      { id, productId }: any,
+      { dataSources }: any,
+      info: any
+    ) => {
+      try {
+        console.log(productId);
+        const result =
+          await dataSources.basketDatasource.deleteProductFromBasket(
+            id,
+            productId
+          );
+        return result;
+      } catch (error) {
+        throw error;
+      }
+    },
     createBasket: async (
       parent: any,
       { input }: any,
@@ -123,6 +141,22 @@ export const resolvers = {
     ) => {
       try {
         const result = await dataSources.basketDatasource.addBasket(input);
+        return result;
+      } catch (error) {
+        throw error;
+      }
+    },
+    addProductToBasket: async (
+      parent: any,
+      { id, input }: any,
+      { dataSources }: any,
+      info: any
+    ) => {
+      try {
+        const result = await dataSources.basketDatasource.addProductToBasket(
+          id,
+          input
+        );
         return result;
       } catch (error) {
         throw error;

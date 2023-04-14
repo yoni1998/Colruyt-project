@@ -15,6 +15,8 @@ export const typeDefs = gql`
     removeBasket(id: ID!): Baskets
     createBasket(input: BasketInput): Basket
     updateBasket(id: ID!, input: BasketInput): Basket
+    removeProductFromBasket(id: ID!, productId: ID): Baskets
+    addProductToBasket(id: ID!, input: BasketInput): Basket
   }
 
   type Product {
@@ -45,6 +47,12 @@ export const typeDefs = gql`
 
   type Baskets {
     _id: ID
+    naam: String
+    imageBackground: String
+    products: [productIds]
+  }
+
+  type productIds {
     productId: Products
     aantal: String
   }

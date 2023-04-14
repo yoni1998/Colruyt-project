@@ -63,11 +63,6 @@ export const createNewProduct = (req: Request, res: Response) => {
       naam: req.body.naam,
       prijs: req.body.prijs,
       aantal: req.body.aantal,
-      modification_notes: {
-        modified_on: new Date(Date.now()),
-        modified_by: "",
-        modification_note: "New product created",
-      },
     };
     // send request
     createProduct(newProduct).then(() => {
@@ -99,7 +94,6 @@ export const updateCurrentProduct = (req: Request, res: Response) => {
           naam: req.body.naam ? req.body.naam : data.naam,
           prijs: req.body.prijs ? req.body.prijs : data.prijs,
           aantal: req.body.aantal ? req.body.aantal : data.aantal,
-          modification_notes: data.modification_notes,
         };
         updateProduct(editProduct).then((data: any) => {
           successResponse("update product successfully", data, res);

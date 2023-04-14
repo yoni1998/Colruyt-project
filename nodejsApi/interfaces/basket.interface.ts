@@ -1,9 +1,10 @@
 import { ModificationNote } from "../common/AbstractModel";
-import { IProduct } from "./product.interface";
+import { IProducts } from "./products.interface";
 
 export interface IBasket {
   _id?: String;
-  productId: [IProduct];
-  aantal: String;
+  naam: String;
+  imageBackground: String;
+  products?: IProducts[];
   modification_notes: ModificationNote;
 }

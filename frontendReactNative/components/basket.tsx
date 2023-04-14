@@ -10,15 +10,24 @@ import {
   Animated,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import {
   DELETE_PRODUCT_IN_BASKET,
   GET_PRODUCTS_IN_BASKET,
 } from "../queries/getAllProductsInBasket";
 import { RectButton, Swipeable } from "react-native-gesture-handler";
+import { GET_BASKET_ON_ID } from "../queries/basketQueries";
 
-const BasketItems = ({ data }: any) => {
+const BasketItems = ({ route }: any) => {
+  const { basketId } = route.params;
   const [id, setId] = useState("");
+
+  const { data, loading, error } = useQuery(GET_BASKET_ON_ID, {
+    variables: {
+      getBasketId: basketId,
+    },
+  });
+
   const [mutateFunction] = useMutation(DELETE_PRODUCT_IN_BASKET, {
     variables: {
       removeBasketId: id,
@@ -68,37 +77,39 @@ const BasketItems = ({ data }: any) => {
     );
   };
 
-  if (data) {
+  if (data?.getBasket?.DATA.products) {
     return (
       <View>
         <FlatList
           keyExtractor={(item) => item._id}
-          data={data.getAllBaskets}
+          data={data.getBasket.DATA.products}
           renderItem={({ item }: any) => (
             <Swipeable
               renderRightActions={() => renderRightActions(item._id)}
               renderLeftActions={() => renderLeftActions(item._id)}
             >
-              <View style={styles.container}>
-                <View key={item.id} style={styles.itemContainer}>
-                  <Image
-                    source={{
-                      uri: "https://cdn.pixabay.com/photo/2016/03/02/20/13/grocery-1232944_960_720.jpg",
-                    }}
-                    style={styles.image}
-                  />
-                  <View style={styles.infoContainer}>
-                    <Text style={styles.name}>{item.productId.naam}</Text>
-                    <Text style={styles.price}>
-                      € {item.productId.prijs}.00
-                    </Text>
-                  </View>
-                  <View style={styles.quantityContainer}>
-                    <Text style={{ fontWeight: "bold" }}>Aantal</Text>
-                    <Text style={styles.quantity}> {item.aantal}</Text>
+              {item.productId && (
+                <View style={styles.container}>
+                  <View key={item.id} style={styles.itemContainer}>
+                    <Image
+                      source={{
+                        uri: "https://cdn.pixabay.com/photo/2016/03/02/20/13/grocery-1232944_960_720.jpg",
+                      }}
+                      style={styles.image}
+                    />
+                    <View style={styles.infoContainer}>
+                      <Text style={styles.name}>{item.productId?.naam}</Text>
+                      <Text style={styles.price}>
+                        € {item.productId?.prijs}.00
+                      </Text>
+                    </View>
+                    <View style={styles.quantityContainer}>
+                      <Text style={{ fontWeight: "bold" }}>Aantal</Text>
+                      <Text style={styles.quantity}> {item?.aantal}</Text>
+                    </View>
                   </View>
                 </View>
-              </View>
+              )}
             </Swipeable>
           )}
         />

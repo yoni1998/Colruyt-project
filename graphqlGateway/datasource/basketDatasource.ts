@@ -36,4 +36,25 @@ export class BasketDatasource extends RESTDataSource {
     };
     return this.put("http://localhost:7000/api/basket/" + id, basket, options);
   }
+  async deleteProductFromBasket(id: any, productId: any) {
+    const options = {
+      method: "delete",
+      headers: { "Content-Type": "application/json" },
+    };
+    return this.delete(
+      "http://localhost:7000/api/basket/" + id + "/products/" + productId,
+      options
+    );
+  }
+  async addProductToBasket(id: any, product: any) {
+    const options = {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+    };
+    return this.post(
+      "http://localhost:7000/api/basket/" + id,
+      product,
+      options
+    );
+  }
 }

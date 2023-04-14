@@ -5,9 +5,10 @@ import Home from "../screens/home.screen";
 import Basket from "../screens/basket.screen";
 import SearchProducts from "../screens/searchProducts.screen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import ProductForm from "../screens/productForm.screen";
+import BasketList from "../screens/basketList.screen";
 import { Icon } from "react-native-vector-icons/Icon";
 import { IconButton } from "native-base";
+import BasketItems from "../components/basket";
 
 const Navigation = () => {
   const Stack = createStackNavigator();
@@ -80,7 +81,7 @@ const Navigation = () => {
       <Stack.Navigator>
         <Stack.Screen
           name="products"
-          component={ProductForm}
+          component={BasketList}
           options={{
             headerTitleAlign: "center",
             headerTitleStyle: {
@@ -91,6 +92,24 @@ const Navigation = () => {
             animationEnabled: true,
             headerStyle: {
               height: 150,
+              backgroundColor: "#00e4d0",
+              shadowColor: "#000",
+              elevation: 25,
+            },
+          }}
+        ></Stack.Screen>
+        <Stack.Screen
+          name="basket"
+          component={BasketItems}
+          options={{
+            headerTitleAlign: "center",
+            headerTitleStyle: {
+              fontSize: 25,
+            },
+            headerStyle: {
+              height: 150,
+              borderBottomLeftRadius: 30,
+              borderBottomRightRadius: 30,
               backgroundColor: "#00e4d0",
               shadowColor: "#000",
               elevation: 25,

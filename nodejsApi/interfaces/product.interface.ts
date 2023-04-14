@@ -6,5 +6,4 @@ export interface IProduct {
   naam?: String;
   prijs?: Number;
   aantal?: Number;
-  modification_notes?: ModificationNote;
 }

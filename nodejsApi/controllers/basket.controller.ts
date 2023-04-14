@@ -12,8 +12,11 @@ import {
   createBasket,
   deleteBasket,
   updateBasket,
+  deleteProductFromBasket,
+  createProductInBasket,
 } from "../services/basket.service";
 import { IBasket } from "../interfaces";
+import { IProducts } from "../interfaces/products.interface";
 
 export const getAllBaskets = (req: Request, res: Response) => {
   try {
@@ -47,8 +50,8 @@ export const getBasketOnId = (req: Request, res: Response) => {
 export const createNewBasket = (req: Request, res: Response) => {
   // input validation
   const schema = Joi.object().keys({
-    productId: Joi.string().required(),
-    aantal: Joi.number().required(),
+    naam: Joi.string().required(),
+    imageBackground: Joi.string(),
   });
   if (schema.validate(req.body).error) {
     failureResponse(
@@ -59,17 +62,17 @@ export const createNewBasket = (req: Request, res: Response) => {
   } else {
     // this check whether all the fields were send through the request or not
     const newBasket: IBasket = {
-      productId: req.body.productId,
-      aantal: req.body.aantal,
+      naam: req.body.naam,
+      imageBackground: req.body.imageBackground,
       modification_notes: {
         modified_on: new Date(Date.now()),
         modified_by: "",
-        modification_note: "New Item for basket created",
+        modification_note: "New basket created",
       },
     };
     // send request
     createBasket(newBasket).then(() => {
-      successResponse("create item for basket successfully", newBasket, res);
+      successResponse("created basket successfully", newBasket, res);
     });
   }
 };
@@ -118,5 +121,32 @@ export const deleteBasketOnId = (req: Request, res: Response) => {
     });
   } else {
     insufficientParameters(res);
+  }
+};
+
+export const deleteProductInBasketOnId = (req: Request, res: Response) => {
+  if (req.params.productId) {
+    deleteProductFromBasket(req.params.id, req.params.productId).then(() => {
+      successResponse(
+        "delete product in basket successfull with id " + req.params.productId,
+        null,
+        res
+      );
+    });
+  } else {
+    insufficientParameters(res);
+  }
+};
+
+export const addNewProductToBasket = (req: Request, res: Response) => {
+  if (req.params.id) {
+    const newProduct: IProducts = {
+      aantal: req.body.aantal,
+      productId: req.body.productId,
+    };
+    // send request
+    createProductInBasket(req.params.id, newProduct).then(() => {
+      successResponse("created basket successfully", newProduct, res);
+    });
   }
 };
