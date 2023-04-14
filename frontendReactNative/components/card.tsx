@@ -44,7 +44,7 @@ const Card = ({ products }: any) => {
   useEffect(() => {
     if (id) {
       mutateFunction()
-        .then((x: any) => {
+        .then((x) => {
           showToastWithGravity();
         })
         .catch((err) => console.error(err));
