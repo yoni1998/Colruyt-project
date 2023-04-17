@@ -8,13 +8,11 @@ import {
   TextInput,
   ToastAndroid,
   Animated,
+  Pressable,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
-import {
-  DELETE_PRODUCT_IN_BASKET,
-  GET_PRODUCTS_IN_BASKET,
-} from "../queries/getAllProductsInBasket";
+import { DELETE_PRODUCT_IN_BASKET } from "../queries/getAllProductsInBasket";
 import { RectButton, Swipeable } from "react-native-gesture-handler";
 import { GET_ALL_BASKETS, GET_BASKET_ON_ID } from "../queries/basketQueries";
 

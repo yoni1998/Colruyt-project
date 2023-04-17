@@ -17,6 +17,7 @@
     "@types/styled-components-react-native": "^5.2.1",
     "expo": "~48.0.10",
     "expo-status-bar": "~1.4.4",
+    "formik": "^2.2.9",
     "graphql": "^15.8.0",
     "native-base": "^3.4.28",
     "react": "18.2.0",

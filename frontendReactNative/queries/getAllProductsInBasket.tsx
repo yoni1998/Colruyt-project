@@ -1,20 +1,5 @@
 import { gql } from "@apollo/client";
 
-export const GET_PRODUCTS_IN_BASKET = gql`
-  query Query {
-    getAllBaskets {
-      _id
-      aantal
-      productId {
-        _id
-        naam
-        aantal
-        prijs
-      }
-    }
-  }
-`;
-
 export const ADD_PRODUCT_TO_BASKET = gql`
   mutation Mutation($addProductToBasketId: ID!, $input: BasketInput) {
     addProductToBasket(id: $addProductToBasketId, input: $input) {

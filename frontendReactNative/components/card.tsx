@@ -9,15 +9,12 @@ import {
   ToastAndroid,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import {
-  ADD_PRODUCT_TO_BASKET,
-  GET_PRODUCTS_IN_BASKET,
-} from "../queries/getAllProductsInBasket";
+import { ADD_PRODUCT_TO_BASKET } from "../queries/getAllProductsInBasket";
 import { useMutation, useQuery } from "@apollo/client";
 import { Pressable } from "native-base";
 import SelectDropdown from "react-native-select-dropdown";
 import { Modal } from "./modal";
-import { GET_ALL_BASKETS, GET_BASKET_ON_ID } from "../queries/basketQueries";
+import { GET_ALL_BASKETS } from "../queries/basketQueries";
 const Card = ({ products }: any) => {
   const [id, setId] = useState("");
   const [aantal, setAantal] = useState(1);

@@ -4,12 +4,43 @@ import {
   TouchableOpacity,
   ImageBackground,
   StyleSheet,
+  Animated,
 } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { FlatList } from "native-base";
+import { RectButton, Swipeable } from "react-native-gesture-handler";
+import { useMutation } from "@apollo/client";
+import { GET_ALL_BASKETS, REMOVE_BASKET_ON_ID } from "../queries/basketQueries";
 const ShoppingCard = ({ basketData }: any) => {
   const navigation = useNavigation() as any;
+  const [basketId, setBasketId] = useState("");
+
+  const [deleteBasket] = useMutation(REMOVE_BASKET_ON_ID, {
+    variables: {
+      removeBasketId: basketId,
+    },
+    refetchQueries: () => [
+      {
+        query: GET_ALL_BASKETS,
+      },
+    ],
+  });
+
+  const renderRightActions = (id: any) => {
+    return (
+      <RectButton
+        style={styles.rightAction}
+        onPress={() => {
+          deleteBasket()
+            .then(() => setBasketId(id))
+            .catch((err) => console.log(err));
+        }}
+      >
+        <Animated.Text>Verwijderen</Animated.Text>
+      </RectButton>
+    );
+  };
 
   return (
     <View>
@@ -17,24 +48,26 @@ const ShoppingCard = ({ basketData }: any) => {
         keyExtractor={(item: any) => item._id}
         data={basketData}
         renderItem={({ item }: any) => (
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate("basket", { basketId: item._id })
-            }
-          >
-            <ImageBackground
-              source={{
-                uri: "https://cdn.pixabay.com/photo/2016/03/02/20/13/grocery-1232944_960_720.jpg",
-              }}
-              style={styles.catoImage}
+          <Swipeable renderRightActions={() => renderRightActions(item._id)}>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("basket", { basketId: item._id })
+              }
             >
-              <View style={styles.gridContainer}>
-                <Text style={styles.textStyle} numberOfLines={2}>
-                  {item.naam}
-                </Text>
-              </View>
-            </ImageBackground>
-          </TouchableOpacity>
+              <ImageBackground
+                source={{
+                  uri: "https://cdn.pixabay.com/photo/2016/03/02/20/13/grocery-1232944_960_720.jpg",
+                }}
+                style={styles.catoImage}
+              >
+                <View style={styles.gridContainer}>
+                  <Text style={styles.textStyle} numberOfLines={2}>
+                    {item.naam}
+                  </Text>
+                </View>
+              </ImageBackground>
+            </TouchableOpacity>
+          </Swipeable>
         )}
       />
     </View>
@@ -67,6 +100,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#1c1c1c",
     backgroundColor: "#ffffff80",
+  },
+  rightAction: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
+    backgroundColor: "#ee0303",
   },
 });
 

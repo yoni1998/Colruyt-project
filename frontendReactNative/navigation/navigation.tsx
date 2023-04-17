@@ -99,7 +99,7 @@ const Navigation = () => {
             headerRight: () => (
               <Button
                 onPress={() => navigation.navigate("AddBasketForm")}
-                title="Info"
+                title="Add basket"
               />
             ),
           }}

@@ -36,3 +36,22 @@ export const GET_BASKET_ON_ID = gql`
     }
   }
 `;
+
+export const ADD_NEW_BASKET = gql`
+  mutation CreateBasket($input: NewBasketInput) {
+    createBasket(input: $input) {
+      DATA {
+        naam
+        _id
+      }
+    }
+  }
+`;
+
+export const REMOVE_BASKET_ON_ID = gql`
+  mutation RemoveBasket($removeBasketId: ID!) {
+    removeBasket(id: $removeBasketId) {
+      _id
+    }
+  }
+`;
