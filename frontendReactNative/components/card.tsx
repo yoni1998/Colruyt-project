@@ -13,14 +13,18 @@ import {
   ADD_PRODUCT_TO_BASKET,
   GET_PRODUCTS_IN_BASKET,
 } from "../queries/getAllProductsInBasket";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { Pressable } from "native-base";
+import SelectDropdown from "react-native-select-dropdown";
 import { Modal } from "./modal";
+import { GET_ALL_BASKETS, GET_BASKET_ON_ID } from "../queries/basketQueries";
 const Card = ({ products }: any) => {
   const [id, setId] = useState("");
   const [aantal, setAantal] = useState(1);
+  const [basketId, setBasketId] = useState(null);
   const [mutateFunction] = useMutation(ADD_PRODUCT_TO_BASKET, {
     variables: {
+      addProductToBasketId: basketId,
       input: {
         productId: id,
         aantal: aantal.toString(),
@@ -28,10 +32,12 @@ const Card = ({ products }: any) => {
     },
     refetchQueries: () => [
       {
-        query: GET_PRODUCTS_IN_BASKET,
+        query: GET_ALL_BASKETS,
       },
     ],
   });
+
+  const { data, loading, error } = useQuery(GET_ALL_BASKETS);
 
   const showToastWithGravity = () => {
     ToastAndroid.showWithGravity(
@@ -65,8 +71,8 @@ const Card = ({ products }: any) => {
         keyExtractor={(item) => item._id}
         data={products.getAllProducts}
         renderItem={({ item }: any) => (
-          <View style={styles.container}>
-            <View key={item.id} style={styles.itemContainer}>
+          <View style={styles.container} key={item.id}>
+            <View style={styles.itemContainer}>
               <Image
                 source={{
                   uri: "https://cdn.pixabay.com/photo/2016/03/02/20/13/grocery-1232944_960_720.jpg",
@@ -85,6 +91,25 @@ const Card = ({ products }: any) => {
                       <Button title="-" onPress={() => setAantal(aantal - 1)} />
                       <TextInput style={styles.quantity}>{aantal}</TextInput>
                       <Button title="+" onPress={() => setAantal(aantal + 1)} />
+                    </View>
+                    <View>
+                      <SelectDropdown
+                        data={data.getAllBaskets}
+                        onSelect={(selectedItem, index) => {
+                          console.log(selectedItem._id);
+                          setBasketId(selectedItem._id);
+                        }}
+                        buttonTextAfterSelection={(selectedItem, index) => {
+                          // text represented after item is selected
+                          // if data array is an array of objects then return selectedItem.property to render after item is selected
+                          return selectedItem.naam;
+                        }}
+                        rowTextForSelection={(item, index) => {
+                          // text represented for each item in dropdown
+                          // if data array is an array of objects then return item.property to represent item in dropdown
+                          return item.naam;
+                        }}
+                      />
                     </View>
                   </Modal.Body>
                   <Modal.Footer>

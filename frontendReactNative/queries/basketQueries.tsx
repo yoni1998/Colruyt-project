@@ -18,19 +18,18 @@ export const GET_ALL_BASKETS = gql`
 `;
 
 export const GET_BASKET_ON_ID = gql`
-  query GetAllBaskets($getBasketId: String!) {
+  query Query($getBasketId: String!) {
     getBasket(id: $getBasketId) {
       DATA {
         _id
-        naam
-        imageBackground
         products {
+          aantal
           _id
           productId {
             _id
+            aantal
             naam
             prijs
-            aantal
           }
         }
       }

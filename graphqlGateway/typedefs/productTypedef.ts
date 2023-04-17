@@ -55,5 +55,6 @@ export const typeDefs = gql`
   type productIds {
     productId: Products
     aantal: String
+    _id: ID
   }
 `;

@@ -16,7 +16,7 @@ import {
   GET_PRODUCTS_IN_BASKET,
 } from "../queries/getAllProductsInBasket";
 import { RectButton, Swipeable } from "react-native-gesture-handler";
-import { GET_BASKET_ON_ID } from "../queries/basketQueries";
+import { GET_ALL_BASKETS, GET_BASKET_ON_ID } from "../queries/basketQueries";
 
 const BasketItems = ({ route }: any) => {
   const { basketId } = route.params;
@@ -30,11 +30,12 @@ const BasketItems = ({ route }: any) => {
 
   const [mutateFunction] = useMutation(DELETE_PRODUCT_IN_BASKET, {
     variables: {
-      removeBasketId: id,
+      removeProductFromBasketId: basketId,
+      productId: id,
     },
     refetchQueries: () => [
       {
-        query: GET_PRODUCTS_IN_BASKET,
+        query: GET_ALL_BASKETS,
       },
     ],
   });
@@ -58,6 +59,7 @@ const BasketItems = ({ route }: any) => {
   }, [id]);
 
   const deleteProduct = (id: any) => {
+    console.log(data.getBasket.DATA._id);
     setId(id);
   };
 
@@ -87,10 +89,11 @@ const BasketItems = ({ route }: any) => {
             <Swipeable
               renderRightActions={() => renderRightActions(item._id)}
               renderLeftActions={() => renderLeftActions(item._id)}
+              key={item._id}
             >
               {item.productId && (
                 <View style={styles.container}>
-                  <View key={item.id} style={styles.itemContainer}>
+                  <View style={styles.itemContainer}>
                     <Image
                       source={{
                         uri: "https://cdn.pixabay.com/photo/2016/03/02/20/13/grocery-1232944_960_720.jpg",
@@ -105,7 +108,7 @@ const BasketItems = ({ route }: any) => {
                     </View>
                     <View style={styles.quantityContainer}>
                       <Text style={{ fontWeight: "bold" }}>Aantal</Text>
-                      <Text style={styles.quantity}> {item?.aantal}</Text>
+                      <Text style={styles.quantity}>{item?.aantal}</Text>
                     </View>
                   </View>
                 </View>

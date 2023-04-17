@@ -1,14 +1,14 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import Home from "../screens/home.screen";
 import Basket from "../screens/basket.screen";
 import SearchProducts from "../screens/searchProducts.screen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import BasketList from "../screens/basketList.screen";
-import { Icon } from "react-native-vector-icons/Icon";
-import { IconButton } from "native-base";
+import { Button } from "react-native";
 import BasketItems from "../components/basket";
+import AddBasketScreen from "../screens/addBasketScreen";
 
 const Navigation = () => {
   const Stack = createStackNavigator();
@@ -76,7 +76,7 @@ const Navigation = () => {
     );
   };
 
-  const FormsScreen = () => {
+  const FormsScreen = ({ navigation }: any) => {
     return (
       <Stack.Navigator>
         <Stack.Screen
@@ -96,11 +96,35 @@ const Navigation = () => {
               shadowColor: "#000",
               elevation: 25,
             },
+            headerRight: () => (
+              <Button
+                onPress={() => navigation.navigate("AddBasketForm")}
+                title="Info"
+              />
+            ),
           }}
         ></Stack.Screen>
         <Stack.Screen
           name="basket"
           component={BasketItems}
+          options={{
+            headerTitleAlign: "center",
+            headerTitleStyle: {
+              fontSize: 25,
+            },
+            headerStyle: {
+              height: 150,
+              borderBottomLeftRadius: 30,
+              borderBottomRightRadius: 30,
+              backgroundColor: "#00e4d0",
+              shadowColor: "#000",
+              elevation: 25,
+            },
+          }}
+        ></Stack.Screen>
+        <Stack.Screen
+          name="AddBasketForm"
+          component={AddBasketScreen}
           options={{
             headerTitleAlign: "center",
             headerTitleStyle: {
@@ -125,7 +149,7 @@ const Navigation = () => {
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
-            if (route.name === "Home") {
+            if (route.name === "Zoeken") {
               iconName = focused
                 ? "ios-information-circle"
                 : "ios-information-circle-outline";
@@ -138,12 +162,12 @@ const Navigation = () => {
         })}
       >
         <Tab.Screen
-          name="home"
+          name="Zoeken"
           component={HomeScreen}
           options={{ headerShown: false }}
         ></Tab.Screen>
         <Tab.Screen
-          name="Products"
+          name="Baskets"
           component={FormsScreen}
           options={{ headerShown: false }}
         ></Tab.Screen>

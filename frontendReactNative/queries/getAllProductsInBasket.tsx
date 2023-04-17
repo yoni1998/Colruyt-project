@@ -6,6 +6,7 @@ export const GET_PRODUCTS_IN_BASKET = gql`
       _id
       aantal
       productId {
+        _id
         naam
         aantal
         prijs
@@ -15,24 +16,32 @@ export const GET_PRODUCTS_IN_BASKET = gql`
 `;
 
 export const ADD_PRODUCT_TO_BASKET = gql`
-  mutation Mutation($input: BasketInput) {
-    createBasket(input: $input) {
+  mutation Mutation($addProductToBasketId: ID!, $input: BasketInput) {
+    addProductToBasket(id: $addProductToBasketId, input: $input) {
       DATA {
-        _id
-        productId {
-          naam
+        products {
           aantal
-          prijs
+          productId {
+            naam
+            aantal
+            prijs
+            _id
+          }
         }
-        aantal
+        imageBackground
+        naam
+        _id
       }
     }
   }
 `;
 
 export const DELETE_PRODUCT_IN_BASKET = gql`
-  mutation Mutation($removeBasketId: ID!) {
-    removeBasket(id: $removeBasketId) {
+  mutation Mutation($removeProductFromBasketId: ID!, $productId: ID) {
+    removeProductFromBasket(
+      id: $removeProductFromBasketId
+      productId: $productId
+    ) {
       _id
     }
   }
