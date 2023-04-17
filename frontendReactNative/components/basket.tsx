@@ -15,8 +15,10 @@ import { useMutation, useQuery } from "@apollo/client";
 import { DELETE_PRODUCT_IN_BASKET } from "../queries/getAllProductsInBasket";
 import { RectButton, Swipeable } from "react-native-gesture-handler";
 import { GET_ALL_BASKETS, GET_BASKET_ON_ID } from "../queries/basketQueries";
+import { useNavigation } from "@react-navigation/native";
 
 const BasketItems = ({ route }: any) => {
+  const navigation = useNavigation();
   const { basketId } = route.params;
   const [id, setId] = useState("");
 
@@ -99,10 +101,18 @@ const BasketItems = ({ route }: any) => {
                       style={styles.image}
                     />
                     <View style={styles.infoContainer}>
-                      <Text style={styles.name}>{item.productId?.naam}</Text>
-                      <Text style={styles.price}>
-                        € {item.productId?.prijs}.00
-                      </Text>
+                      <Pressable
+                        onPress={() =>
+                          navigation.navigate("productDetails", {
+                            productId: item.productId?._id,
+                          })
+                        }
+                      >
+                        <Text style={styles.name}>{item.productId?.naam}</Text>
+                        <Text style={styles.price}>
+                          € {item.productId?.prijs}.00
+                        </Text>
+                      </Pressable>
                     </View>
                     <View style={styles.quantityContainer}>
                       <Text style={{ fontWeight: "bold" }}>Aantal</Text>

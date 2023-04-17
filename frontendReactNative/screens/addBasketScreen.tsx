@@ -1,9 +1,14 @@
 import { View, Text, TextInput, StyleSheet, Button } from "react-native";
 import React, { useState } from "react";
 import { Formik } from "formik";
-import { ADD_NEW_BASKET, GET_ALL_BASKETS } from "../queries/basketQueries";
+import {
+  ADD_NEW_BASKET,
+  GET_ALL_BASKETS,
+  UPDATE_BASKET_ON_ID,
+} from "../queries/basketQueries";
 import { useMutation } from "@apollo/client";
-const AddBasketScreen = () => {
+const AddBasketScreen = ({ route }: any | null) => {
+  const params = route?.params;
   const [naam, setNaam] = useState("");
   const [imageBackground, setImageBackground] = useState("");
 
@@ -21,16 +26,42 @@ const AddBasketScreen = () => {
     ],
   });
 
+  const [updateBasket] = useMutation(UPDATE_BASKET_ON_ID, {
+    variables: {
+      updateBasketId: params?.basketData?._id,
+      input: {
+        naam,
+        imageBackground,
+      },
+    },
+    refetchQueries: () => [
+      {
+        query: GET_ALL_BASKETS,
+      },
+    ],
+  });
+
   return (
     <View>
       <Formik
-        initialValues={{ naam: "", imageBackground: "" }}
+        initialValues={{
+          naam: params?.basketData.naam ? params?.basketData.naam : "",
+          imageBackground: params?.basketData.imageBackground
+            ? params?.basketData.imageBackground
+            : "",
+        }}
         onSubmit={(values: any) => {
           setNaam(values.naam);
           setImageBackground(values.imageBackground);
-          addNewBasket().then((x) => {
-            console.log("gelukt");
-          });
+          if (params?.basketData._id) {
+            updateBasket().then((x) => {
+              console.log("updaten gelukt");
+            });
+          } else {
+            addNewBasket().then((x) => {
+              console.log("toevoegen gelukt");
+            });
+          }
         }}
       >
         {(formikProps) => (

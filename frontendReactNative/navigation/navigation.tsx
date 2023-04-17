@@ -9,6 +9,7 @@ import BasketList from "../screens/basketList.screen";
 import { Button } from "react-native";
 import BasketItems from "../components/basket";
 import AddBasketScreen from "../screens/addBasketScreen";
+import ProductDetails from "../components/productDetails";
 
 const Navigation = () => {
   const Stack = createStackNavigator();
@@ -72,6 +73,24 @@ const Navigation = () => {
             },
           }}
         ></Stack.Screen>
+        <Stack.Screen
+          name="productDetails"
+          component={ProductDetails}
+          options={{
+            headerTitleAlign: "center",
+            headerTitleStyle: {
+              fontSize: 25,
+            },
+            headerStyle: {
+              height: 150,
+              borderBottomLeftRadius: 30,
+              borderBottomRightRadius: 30,
+              backgroundColor: "#00e4d0",
+              shadowColor: "#000",
+              elevation: 25,
+            },
+          }}
+        ></Stack.Screen>
       </Stack.Navigator>
     );
   };
@@ -125,6 +144,24 @@ const Navigation = () => {
         <Stack.Screen
           name="AddBasketForm"
           component={AddBasketScreen}
+          options={{
+            headerTitleAlign: "center",
+            headerTitleStyle: {
+              fontSize: 25,
+            },
+            headerStyle: {
+              height: 150,
+              borderBottomLeftRadius: 30,
+              borderBottomRightRadius: 30,
+              backgroundColor: "#00e4d0",
+              shadowColor: "#000",
+              elevation: 25,
+            },
+          }}
+        ></Stack.Screen>
+        <Stack.Screen
+          name="productDetails"
+          component={ProductDetails}
           options={{
             headerTitleAlign: "center",
             headerTitleStyle: {

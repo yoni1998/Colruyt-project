@@ -32,12 +32,26 @@ const ShoppingCard = ({ basketData }: any) => {
       <RectButton
         style={styles.rightAction}
         onPress={() => {
+          setBasketId(id);
           deleteBasket()
-            .then(() => setBasketId(id))
+            .then(() => console.log("deleted"))
             .catch((err) => console.log(err));
         }}
       >
         <Animated.Text>Verwijderen</Animated.Text>
+      </RectButton>
+    );
+  };
+
+  const renderLeftActions = (item: any) => {
+    return (
+      <RectButton
+        style={styles.leftAction}
+        onPress={() =>
+          navigation.navigate("AddBasketForm", { basketData: item })
+        }
+      >
+        <Animated.Text>Wijzigen</Animated.Text>
       </RectButton>
     );
   };
@@ -48,7 +62,10 @@ const ShoppingCard = ({ basketData }: any) => {
         keyExtractor={(item: any) => item._id}
         data={basketData}
         renderItem={({ item }: any) => (
-          <Swipeable renderRightActions={() => renderRightActions(item._id)}>
+          <Swipeable
+            renderRightActions={() => renderRightActions(item._id)}
+            renderLeftActions={() => renderLeftActions(item)}
+          >
             <TouchableOpacity
               onPress={() =>
                 navigation.navigate("basket", { basketId: item._id })
@@ -106,6 +123,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     backgroundColor: "#ee0303",
+  },
+  leftAction: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
+    backgroundColor: "#1ea2df",
   },
 });
 

@@ -83,8 +83,8 @@ export const updateCurrentBasket = (req: Request, res: Response) => {
     basketOnId(basketId).then((data: any) => {
       // input validation
       const schema = Joi.object().keys({
-        productId: Joi.string().required(),
-        aantal: Joi.number().required(),
+        naam: Joi.string().required(),
+        imageBackground: Joi.string().required(),
       });
 
       if (schema.validate(req.body).error) {
@@ -96,8 +96,10 @@ export const updateCurrentBasket = (req: Request, res: Response) => {
       } else {
         const editBasket: IBasket = {
           _id: req.params.id,
-          productId: req.body.productId ? req.body.productId : data.productId,
-          aantal: req.body.aantal ? req.body.aantal : data.aantal,
+          naam: req.body.naam ? req.body.naam : data.naam,
+          imageBackground: req.body.imageBackground
+            ? req.body.imageBackground
+            : data.imageBackground,
           modification_notes: data.modification_notes,
         };
         updateBasket(editBasket).then((data: any) => {

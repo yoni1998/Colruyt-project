@@ -55,3 +55,13 @@ export const REMOVE_BASKET_ON_ID = gql`
     }
   }
 `;
+
+export const UPDATE_BASKET_ON_ID = gql`
+  mutation UpdateBasket($updateBasketId: ID!, $input: NewBasketInput) {
+    updateBasket(id: $updateBasketId, input: $input) {
+      DATA {
+        _id
+      }
+    }
+  }
+`;

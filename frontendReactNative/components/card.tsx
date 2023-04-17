@@ -7,18 +7,20 @@ import {
   Image,
   TextInput,
   ToastAndroid,
+  Pressable,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { ADD_PRODUCT_TO_BASKET } from "../queries/getAllProductsInBasket";
 import { useMutation, useQuery } from "@apollo/client";
-import { Pressable } from "native-base";
 import SelectDropdown from "react-native-select-dropdown";
 import { Modal } from "./modal";
 import { GET_ALL_BASKETS } from "../queries/basketQueries";
+import { useNavigation } from "@react-navigation/native";
 const Card = ({ products }: any) => {
   const [id, setId] = useState("");
   const [aantal, setAantal] = useState(1);
   const [basketId, setBasketId] = useState(null);
+  const navigation = useNavigation();
   const [mutateFunction] = useMutation(ADD_PRODUCT_TO_BASKET, {
     variables: {
       addProductToBasketId: basketId,
@@ -68,7 +70,7 @@ const Card = ({ products }: any) => {
         keyExtractor={(item) => item._id}
         data={products.getAllProducts}
         renderItem={({ item }: any) => (
-          <View style={styles.container} key={item.id}>
+          <View style={styles.container} key={item._id}>
             <View style={styles.itemContainer}>
               <Image
                 source={{
@@ -76,10 +78,20 @@ const Card = ({ products }: any) => {
                 }}
                 style={styles.image}
               />
+
               <View style={styles.infoContainer}>
-                <Text style={styles.name}>{item.naam}</Text>
-                <Text style={styles.price}>€ {item.prijs}.00</Text>
+                <Pressable
+                  onPress={() =>
+                    navigation.navigate("productDetails", {
+                      productId: item._id,
+                    })
+                  }
+                >
+                  <Text style={styles.name}>{item.naam}</Text>
+                  <Text style={styles.price}>€ {item.prijs}.00</Text>
+                </Pressable>
               </View>
+
               <Modal isVisible={isModalVisible}>
                 <Modal.Container>
                   <Modal.Header title="Selecteer het aantal" />
