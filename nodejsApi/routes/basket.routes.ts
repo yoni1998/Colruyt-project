@@ -7,6 +7,7 @@ import {
   getAllBaskets,
   deleteProductInBasketOnId,
   addNewProductToBasket,
+  updateProductInBasket,
 } from "../controllers/basket.controller";
 let basketRouter = express.Router();
 
@@ -39,6 +40,9 @@ basketRouter
   .route("/:id/products/:productId")
   .delete((req: Request, res: Response) => {
     deleteProductInBasketOnId(req, res);
+  })
+  .put((req: Request, res: Response) => {
+    updateProductInBasket(req, res);
   });
 
 export default basketRouter;

@@ -14,6 +14,7 @@ import {
   updateBasket,
   deleteProductFromBasket,
   createProductInBasket,
+  updateProductFromBasket,
 } from "../services/basket.service";
 import { IBasket } from "../interfaces";
 import { IProducts } from "../interfaces/products.interface";
@@ -116,7 +117,7 @@ export const deleteBasketOnId = (req: Request, res: Response) => {
   if (req.params.id) {
     deleteBasket(req.params.id).then(() => {
       successResponse(
-        "delete basket successfull with id " + req.params.id,
+        "delete basket successfully with id " + req.params.id,
         null,
         res
       );
@@ -130,7 +131,7 @@ export const deleteProductInBasketOnId = (req: Request, res: Response) => {
   if (req.params.productId) {
     deleteProductFromBasket(req.params.id, req.params.productId).then(() => {
       successResponse(
-        "delete product in basket successfull with id " + req.params.productId,
+        "delete product in basket successfully with id " + req.params.productId,
         null,
         res
       );
@@ -150,5 +151,12 @@ export const addNewProductToBasket = (req: Request, res: Response) => {
     createProductInBasket(req.params.id, newProduct).then(() => {
       successResponse("created basket successfully", newProduct, res);
     });
+  }
+};
+
+export const updateProductInBasket = (req: Request, res: Response) => {
+  if (req.params.productId) {
+  } else {
+    insufficientParameters(res);
   }
 };

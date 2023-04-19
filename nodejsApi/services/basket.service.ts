@@ -37,3 +37,9 @@ export const createProductInBasket = async (id: any, product: any) => {
     { new: true }
   );
 };
+
+export const updateProductFromBasket = async (
+  id: any,
+  productId: any,
+  product: any
+) => {};
