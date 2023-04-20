@@ -1,6 +1,10 @@
 import {View, Text, StyleSheet, Button, Modal, TextInput} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {ADD_PRODUCT_TO_BASKET, GET_ALL_BASKETS} from '../queries/basketQueries';
+import {
+  ADD_PRODUCT_TO_BASKET,
+  GET_ALL_BASKETS,
+  GET_BASKET_ON_ID,
+} from '../queries/basketQueries';
 import {useMutation, useQuery} from '@apollo/client';
 import {useNavigation} from '@react-navigation/native';
 import SelectDropdown from 'react-native-select-dropdown';
@@ -20,6 +24,11 @@ const ProductModal = ({item}: any) => {
         aantal: aantal.toString(),
       },
     },
+    refetchQueries: () => [
+      {
+        query: GET_BASKET_ON_ID,
+      },
+    ],
   });
 
   const {data} = useQuery(GET_ALL_BASKETS);

@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   noProductsContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: '50%',
+    marginBottom: '100%',
   },
   text: {
     fontSize: 18,

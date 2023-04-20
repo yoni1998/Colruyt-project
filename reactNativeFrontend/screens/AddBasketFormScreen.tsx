@@ -11,12 +11,13 @@ import {useNavigation} from '@react-navigation/native';
 import {showToastWithGravity} from '../shared/Toast';
 import {useDarkModeStore} from '../components/Settings';
 import {themeStyle} from '../constants/Theme';
+import ImagePicker from 'react-native-document-picker';
 const AddBasketFormScreen = ({route}: any | null) => {
   const params = route?.params;
   const navigation = useNavigation();
   const {isDarkMode}: any | boolean = useDarkModeStore();
   const [naam, setNaam] = useState('');
-  const [imageBackground, setImageBackground] = useState('');
+  const [imageBackground, setImageBackground]: any = useState('');
 
   const [addNewBasket] = useMutation(ADD_NEW_BASKET, {
     variables: {
@@ -47,6 +48,12 @@ const AddBasketFormScreen = ({route}: any | null) => {
     ],
   });
 
+  const handleImageSubmit = () => {
+    ImagePicker.pick().then(file => {
+      setImageBackground(file[0].uri);
+    });
+  };
+
   return (
     <View
       style={
@@ -61,9 +68,8 @@ const AddBasketFormScreen = ({route}: any | null) => {
             ? params?.basketData.imageBackground
             : '',
         }}
-        onSubmit={(values: any) => {
+        onSubmit={async (values: any) => {
           setNaam(values.naam);
-          setImageBackground(values.imageBackground);
           if (params?.basketData._id) {
             updateBasket().then(() => {
               showToastWithGravity(
@@ -92,9 +98,9 @@ const AddBasketFormScreen = ({route}: any | null) => {
               style={styles.textInput}
               placeholder="Enter background"
               onChangeText={formikProps.handleChange('imageBackground')}
-              value={formikProps.values.imageBackground}
+              value={formikProps.values.imageBackground || imageBackground}
+              onPressIn={handleImageSubmit}
             />
-
             <Pressable onPress={formikProps.handleSubmit} style={styles.button}>
               {params?.basketData.naam && (
                 <Text style={styles.text}>Basket Wijzigen</Text>

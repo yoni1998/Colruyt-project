@@ -2,7 +2,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Animated,
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
@@ -76,7 +75,7 @@ const BasketCard = ({basketData, basketKey}: any) => {
           }>
           <ImageBackground
             source={{
-              uri: 'https://cdn.pixabay.com/photo/2016/03/02/20/13/grocery-1232944_960_720.jpg',
+              uri: basketData.imageBackground,
             }}
             style={styles.catoImage}>
             <View style={styles.gridContainer}>
