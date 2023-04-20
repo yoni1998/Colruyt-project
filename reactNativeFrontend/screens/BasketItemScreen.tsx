@@ -3,10 +3,11 @@ import React from 'react';
 import {GET_BASKET_ON_ID} from '../queries/basketQueries';
 import {useQuery} from '@apollo/client';
 import Products from '../components/Products';
-
+import {useDarkModeStore} from '../components/Settings';
+import {themeStyle} from '../constants/Theme';
 const BasketItemScreen = ({route}: any) => {
   const {basketId} = route.params;
-
+  const {isDarkMode}: any | boolean = useDarkModeStore();
   const {data, loading, error} = useQuery(GET_BASKET_ON_ID, {
     variables: {
       getBasketId: basketId,
@@ -22,7 +23,12 @@ const BasketItemScreen = ({route}: any) => {
   }
 
   return (
-    <View>
+    <View
+      style={
+        isDarkMode
+          ? themeStyle.blackThemeBackground
+          : themeStyle.lightThemeBackground
+      }>
       {data && (
         <FlatList
           keyExtractor={(item: any) => item._id}

@@ -1,18 +1,26 @@
 import {View, TextInput, StyleSheet} from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
-
+import {useDarkModeStore} from '../components/Settings';
+import {themeStyle} from '../constants/Theme';
 const HomeScreen = () => {
   const navigation: any = useNavigation();
+  const {isDarkMode}: any | boolean = useDarkModeStore();
   return (
     <View
-      style={styles.container}
+      style={
+        isDarkMode
+          ? themeStyle.blackThemeBackground
+          : themeStyle.lightThemeBackground
+      }
       onTouchStart={() => navigation.navigate('Search')}>
-      <TextInput
-        editable={false}
-        style={styles.input}
-        placeholder="Zoeken naar producten..."
-      />
+      <View style={styles.container}>
+        <TextInput
+          editable={false}
+          style={styles.input}
+          placeholder="Zoeken naar producten..."
+        />
+      </View>
     </View>
   );
 };

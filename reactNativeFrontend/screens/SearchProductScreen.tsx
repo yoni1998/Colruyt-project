@@ -6,14 +6,16 @@ import {
   SafeAreaView,
   FlatList,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useQuery} from '@apollo/client';
 import {GET_PRODUCTS} from '../queries/productQueries';
 import ProductCard from '../components/ProductCard';
-
+import {useDarkModeStore} from '../components/Settings';
+import {themeStyle} from '../constants/Theme';
 const SearchProductScreen = ({navigation}: any) => {
   const [search, setSearch] = useState('');
-  const textInputRef: any = React.useRef();
+  const textInputRef: any = useRef();
+  const {isDarkMode}: any | boolean = useDarkModeStore();
   const handleChange = (text: string) => {
     setSearch(text);
   };
@@ -39,26 +41,33 @@ const SearchProductScreen = ({navigation}: any) => {
   }
 
   return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        value={search}
-        ref={textInputRef}
-        onChangeText={handleChange}
-        placeholder="Zoeken naar producten..."
-      />
-      {!search && <Text style={styles.emptyText}>Zoeken naar producten</Text>}
-      {data && (
-        <SafeAreaView>
-          <FlatList
-            keyExtractor={item => item._id}
-            data={data.getAllProducts}
-            renderItem={({item}: any) => (
-              <ProductCard product={item} productKey={item._id} />
-            )}
-          />
-        </SafeAreaView>
-      )}
+    <View
+      style={
+        isDarkMode
+          ? themeStyle.blackThemeBackground
+          : themeStyle.lightThemeBackground
+      }>
+      <View style={styles.container}>
+        <TextInput
+          style={styles.input}
+          value={search}
+          ref={textInputRef}
+          onChangeText={handleChange}
+          placeholder="Zoeken naar producten..."
+        />
+        {!search && <Text style={styles.emptyText}>Zoeken naar producten</Text>}
+        {data && (
+          <SafeAreaView>
+            <FlatList
+              keyExtractor={item => item._id}
+              data={data.getAllProducts}
+              renderItem={({item}: any) => (
+                <ProductCard product={item} productKey={item._id} />
+              )}
+            />
+          </SafeAreaView>
+        )}
+      </View>
     </View>
   );
 };

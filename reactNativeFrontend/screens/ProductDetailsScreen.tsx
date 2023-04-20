@@ -1,10 +1,17 @@
 import {View, Text, StyleSheet, ImageBackground} from 'react-native';
 import React from 'react';
-
+import {useDarkModeStore} from '../components/Settings';
+import {themeStyle} from '../constants/Theme';
 const ProductDetailsScreen = ({route}: any) => {
   const {productDetails} = route.params;
+  const {isDarkMode}: any | boolean = useDarkModeStore();
   return (
-    <View>
+    <View
+      style={
+        isDarkMode
+          ? themeStyle.blackThemeBackground
+          : themeStyle.lightThemeBackground
+      }>
       <ImageBackground
         source={{
           uri: 'https://cdn.pixabay.com/photo/2016/03/02/20/13/grocery-1232944_960_720.jpg',

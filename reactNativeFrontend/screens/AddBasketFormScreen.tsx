@@ -9,10 +9,12 @@ import {
 } from '../queries/basketQueries';
 import {useNavigation} from '@react-navigation/native';
 import {showToastWithGravity} from '../shared/Toast';
-
+import {useDarkModeStore} from '../components/Settings';
+import {themeStyle} from '../constants/Theme';
 const AddBasketFormScreen = ({route}: any | null) => {
   const params = route?.params;
   const navigation = useNavigation();
+  const {isDarkMode}: any | boolean = useDarkModeStore();
   const [naam, setNaam] = useState('');
   const [imageBackground, setImageBackground] = useState('');
 
@@ -46,7 +48,12 @@ const AddBasketFormScreen = ({route}: any | null) => {
   });
 
   return (
-    <View>
+    <View
+      style={
+        isDarkMode
+          ? themeStyle.blackThemeBackground
+          : themeStyle.lightThemeBackground
+      }>
       <Formik
         initialValues={{
           naam: params?.basketData.naam ? params?.basketData.naam : '',
@@ -60,14 +67,14 @@ const AddBasketFormScreen = ({route}: any | null) => {
           if (params?.basketData._id) {
             updateBasket().then(() => {
               showToastWithGravity(
-                'Het wijzigen van een winkelmadje is gelukt',
+                'Het wijzigen van een winkelmandje is gelukt',
               );
               navigation.goBack();
             });
           } else {
             addNewBasket().then(() => {
               showToastWithGravity(
-                'Het toevoegen van een winkelmadje is gelukt',
+                'Het toevoegen van een winkelmandje is gelukt',
               );
               navigation.goBack();
             });
