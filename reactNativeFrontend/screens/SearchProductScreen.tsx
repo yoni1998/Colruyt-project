@@ -12,16 +12,24 @@ import {GET_PRODUCTS} from '../queries/productQueries';
 import ProductCard from '../components/ProductCard';
 import {useDarkModeStore} from '../components/Settings';
 import {themeStyle} from '../constants/Theme';
+import Slider from '@react-native-community/slider';
 const SearchProductScreen = ({navigation}: any) => {
   const [search, setSearch] = useState('');
+  const [minPrice] = useState('0');
+  const [maxPrice, setMaxPrice] = useState('50');
   const textInputRef: any = useRef();
   const {isDarkMode}: any | boolean = useDarkModeStore();
   const handleChange = (text: string) => {
     setSearch(text);
   };
 
+  const handleSliderChange = (event: any) => {
+    let roundedMaxprice = parseInt(event, 10);
+    setMaxPrice(roundedMaxprice.toString());
+  };
+
   const {error, data} = useQuery(GET_PRODUCTS, {
-    variables: {search},
+    variables: {search, minPrice, maxPrice},
   });
 
   useEffect(() => {
@@ -54,6 +62,17 @@ const SearchProductScreen = ({navigation}: any) => {
           ref={textInputRef}
           onChangeText={handleChange}
           placeholder="Zoeken naar producten..."
+        />
+        <Text style={styles.maxPrice}>€ {maxPrice}</Text>
+        <Slider
+          onSlidingComplete={handleSliderChange}
+          tapToSeek={true}
+          style={{width: 300, height: 50}}
+          minimumValue={50}
+          maximumValue={0}
+          value={50}
+          minimumTrackTintColor="#FFFFFF"
+          maximumTrackTintColor="#000000"
         />
         {!search && <Text style={styles.emptyText}>Zoeken naar producten</Text>}
         {data && (
@@ -88,6 +107,10 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: 20,
     marginTop: 20,
+  },
+  maxPrice: {
+    marginTop: 40,
+    fontSize: 20,
   },
 });
 export default SearchProductScreen;

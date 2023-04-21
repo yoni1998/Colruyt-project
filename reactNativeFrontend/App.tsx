@@ -5,7 +5,7 @@ import {ThemaContext} from './context/Thema';
 import {useDarkModeStore} from './components/Settings';
 const App = () => {
   const client = new ApolloClient({
-    uri: 'http://10.16.26.86:4000/graphql/',
+    uri: 'http://172.24.80.1:4000/graphql/',
     cache: new InMemoryCache(),
   });
 

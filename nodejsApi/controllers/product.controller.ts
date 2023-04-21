@@ -17,7 +17,11 @@ import {
 
 export const getAllProducts = (req: Request, res: Response) => {
   try {
-    findAllProducts(req.query?.search).then((data: any) => {
+    findAllProducts(
+      req.query?.search,
+      req.query?.minPrice,
+      req.query?.maxPrice
+    ).then((data: any) => {
       data
         ? successResponse("get all products successfully", data, res)
         : failureResponse("something went wrong", [], res);

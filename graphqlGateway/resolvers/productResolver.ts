@@ -9,7 +9,9 @@ export const resolvers = {
     ) => {
       try {
         const result = await dataSources.productDatasource.getAllProducts(
-          _args.search
+          _args.search,
+          _args.minPrice,
+          _args.maxPrice
         );
         return result.DATA;
       } catch (error) {
