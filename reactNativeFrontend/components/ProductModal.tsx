@@ -26,7 +26,7 @@ const ProductModal = ({item}: any) => {
     },
     refetchQueries: () => [
       {
-        query: GET_BASKET_ON_ID,
+        query: GET_ALL_BASKETS,
       },
     ],
   });

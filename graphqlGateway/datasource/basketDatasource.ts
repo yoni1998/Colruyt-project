@@ -57,4 +57,15 @@ export class BasketDatasource extends RESTDataSource {
       options
     );
   }
+  async updateProductToBasket(id: any, productId: any, product: any) {
+    const options = {
+      method: "put",
+      headers: { "Content-Type": "application/json" },
+    };
+    return this.put(
+      "http://localhost:7000/api/basket/" + id + "/products/" + productId,
+      product,
+      options
+    );
+  }
 }

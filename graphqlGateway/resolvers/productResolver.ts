@@ -180,5 +180,22 @@ export const resolvers = {
         throw error;
       }
     },
+    updateProductToBasket: async (
+      parent: any,
+      { id, productId, input }: any,
+      { dataSources }: any,
+      info: any
+    ) => {
+      try {
+        const result = await dataSources.basketDatasource.updateProductToBasket(
+          id,
+          productId,
+          input
+        );
+        return result;
+      } catch (error) {
+        throw error;
+      }
+    },
   },
 };

@@ -22,6 +22,15 @@ export const deleteBasket = async (id: String) => {
   await basket.deleteOne(basketOnId);
 };
 
+export const productInBasketOnId = async (id: any, productId: any) =>
+  await basket
+    .findOne(
+      { _id: id },
+      { products: { _id: productId } },
+      { projection: { productId: true } }
+    )
+    .populate("products");
+
 export const deleteProductFromBasket = async (id: any, productId: any) => {
   await basket.findOneAndUpdate(
     { _id: id },
@@ -38,8 +47,9 @@ export const createProductInBasket = async (id: any, product: any) => {
   );
 };
 
-export const updateProductFromBasket = async (
-  id: any,
-  productId: any,
-  product: any
-) => {};
+export const updateProductFromBasket = async (productId: any, product: any) => {
+  return await basket.updateOne(
+    { "products._id": productId },
+    { $set: { "products.$.aantal": product.aantal } }
+  );
+};

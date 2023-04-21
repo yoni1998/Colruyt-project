@@ -1,3 +1,4 @@
+import { productOnId } from "./../services/product.service";
 import { Request, Response } from "express";
 import {
   insufficientParameters,
@@ -15,6 +16,7 @@ import {
   deleteProductFromBasket,
   createProductInBasket,
   updateProductFromBasket,
+  productInBasketOnId,
 } from "../services/basket.service";
 import { IBasket } from "../interfaces";
 import { IProducts } from "../interfaces/products.interface";
@@ -127,6 +129,28 @@ export const deleteBasketOnId = (req: Request, res: Response) => {
   }
 };
 
+export const getProductInBasketOnId = (req: Request, res: Response) => {
+  try {
+    if (req.params.id && req.params.productId) {
+      productInBasketOnId(req.params.id, req.params.productId).then(
+        (data: any) => {
+          data
+            ? successResponse(
+                "get product in basket on id successfully",
+                data,
+                res
+              )
+            : failureResponse("something went wrong", data, res);
+        }
+      );
+    } else {
+      insufficientParameters(res);
+    }
+  } catch (error) {
+    mongoError(error, res);
+  }
+};
+
 export const deleteProductInBasketOnId = (req: Request, res: Response) => {
   if (req.params.productId) {
     deleteProductFromBasket(req.params.id, req.params.productId).then(() => {
@@ -156,6 +180,33 @@ export const addNewProductToBasket = (req: Request, res: Response) => {
 
 export const updateProductInBasket = (req: Request, res: Response) => {
   if (req.params.productId) {
+    const basketId = { _id: req.params.id };
+    basketOnId(basketId).then((data: any) => {
+      // input validation
+      const schema = Joi.object().keys({
+        aantal: Joi.number().required(),
+      });
+
+      if (schema.validate(req.body).error) {
+        failureResponse(
+          "something went wrong",
+          schema.validate(req.body).error?.message,
+          res
+        );
+      } else {
+        // data.aantal nakijken
+        const editProductInBasket: any = {
+          _id: req.params.id,
+          aantal: req.body.aantal ? req.body.aantal : data.aantal,
+        };
+
+        updateProductFromBasket(req.params.productId, editProductInBasket).then(
+          (data: any) => {
+            successResponse("update product in basket successfully", data, res);
+          }
+        );
+      }
+    });
   } else {
     insufficientParameters(res);
   }
