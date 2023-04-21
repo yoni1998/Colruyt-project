@@ -56,12 +56,14 @@ const AddBasketFormScreen = ({route}: any | null) => {
 
   return (
     <View
+      accessible={true}
       style={
         isDarkMode
           ? themeStyle.blackThemeBackground
           : themeStyle.lightThemeBackground
       }>
       <Formik
+        accessibilityLabel="add new basket form"
         initialValues={{
           naam: params?.basketData.naam ? params?.basketData.naam : '',
           imageBackground: params?.basketData.imageBackground
@@ -89,12 +91,14 @@ const AddBasketFormScreen = ({route}: any | null) => {
         {formikProps => (
           <View style={styles.container}>
             <TextInput
+              accessibilityLabel="name input"
               style={styles.textInput}
               placeholder="Enter name"
               onChangeText={formikProps.handleChange('naam')}
               value={formikProps.values.naam}
             />
             <TextInput
+              accessibilityLabel="image background"
               style={styles.textInput}
               placeholder="Enter background"
               onChangeText={formikProps.handleChange('imageBackground')}

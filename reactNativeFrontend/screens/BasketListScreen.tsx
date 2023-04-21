@@ -19,6 +19,7 @@ const BasketListScreen = () => {
 
   return (
     <View
+      accessible={true}
       style={
         isDarkMode
           ? themeStyle.blackThemeBackground
@@ -26,6 +27,7 @@ const BasketListScreen = () => {
       }>
       {data && (
         <FlatList
+          accessibilityLabel="list of all baskets"
           keyExtractor={(item: any) => item._id}
           data={data.getAllBaskets}
           renderItem={({item}: any) => (

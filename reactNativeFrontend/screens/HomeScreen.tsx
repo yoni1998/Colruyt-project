@@ -13,8 +13,11 @@ const HomeScreen = () => {
           ? themeStyle.blackThemeBackground
           : themeStyle.lightThemeBackground
       }
+      accessible={true}
       onTouchStart={() => navigation.navigate('Search')}>
-      <View style={styles.container}>
+      <View
+        style={styles.container}
+        accessibilityLabel="Tap to navigate to search products">
         <TextInput
           editable={false}
           style={styles.input}

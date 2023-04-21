@@ -54,9 +54,11 @@ const SearchProductScreen = ({navigation}: any) => {
         isDarkMode
           ? themeStyle.blackThemeBackground
           : themeStyle.lightThemeBackground
-      }>
+      }
+      accessible={true}>
       <View style={styles.container}>
         <TextInput
+          accessibilityLabel="give some input to find products"
           style={styles.input}
           value={search}
           ref={textInputRef}
@@ -65,6 +67,7 @@ const SearchProductScreen = ({navigation}: any) => {
         />
         <Text style={styles.maxPrice}>€ {maxPrice}</Text>
         <Slider
+          accessibilityLabel="select the maximum price"
           onSlidingComplete={handleSliderChange}
           tapToSeek={true}
           style={{width: 300, height: 50}}
@@ -76,7 +79,7 @@ const SearchProductScreen = ({navigation}: any) => {
         />
         {!search && <Text style={styles.emptyText}>Zoeken naar producten</Text>}
         {data && (
-          <SafeAreaView>
+          <SafeAreaView accessibilityLabel="a list of all available products that matches your search criteria">
             <FlatList
               keyExtractor={item => item._id}
               data={data.getAllProducts}

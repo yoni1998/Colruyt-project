@@ -24,6 +24,7 @@ const BasketItemScreen = ({route}: any) => {
 
   return (
     <View
+      accessible={true}
       style={
         isDarkMode
           ? themeStyle.blackThemeBackground
@@ -31,6 +32,7 @@ const BasketItemScreen = ({route}: any) => {
       }>
       {data && (
         <FlatList
+          accessibilityLabel="list of all products in the basket"
           keyExtractor={(item: any) => item._id}
           data={data.getBasket.DATA.products}
           renderItem={({item}: any) => (
@@ -43,7 +45,9 @@ const BasketItemScreen = ({route}: any) => {
         />
       )}
       {!data.getBasket.DATA.products.length && (
-        <View style={styles.noProductsContainer}>
+        <View
+          style={styles.noProductsContainer}
+          accessibilityLabel="no products in this basket found">
           <Text style={styles.text}>
             Geen producten in dit winkelmandje gevonden
           </Text>

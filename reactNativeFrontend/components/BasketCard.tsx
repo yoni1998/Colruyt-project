@@ -65,7 +65,7 @@ const BasketCard = ({basketData, basketKey}: any) => {
   };
 
   return (
-    <View key={basketKey}>
+    <View key={basketKey} accessible={true}>
       <Swipeable
         renderRightActions={() => renderRightActions(basketData?._id)}
         renderLeftActions={() => renderLeftActions(basketData)}>

@@ -11,21 +11,30 @@ const ProductDetailsScreen = ({route}: any) => {
         isDarkMode
           ? themeStyle.blackThemeBackground
           : themeStyle.lightThemeBackground
-      }>
+      }
+      accessible={true}>
       <ImageBackground
         source={{
           uri: 'https://cdn.pixabay.com/photo/2016/03/02/20/13/grocery-1232944_960_720.jpg',
         }}
         style={styles.image}
       />
-      <View>
-        <Text style={styles.textHeader}>Naam</Text>
+      <View accessibilityLabel="product details">
+        <Text accessibilityLabel="name field" style={styles.textHeader}>
+          Naam
+        </Text>
         <Text style={styles.details}>{productDetails?.naam}</Text>
-        <Text style={styles.textHeader}>Prijs</Text>
+        <Text accessibilityLabel="price field" style={styles.textHeader}>
+          Prijs
+        </Text>
         <Text style={styles.details}>€ {productDetails?.prijs}.00</Text>
-        <Text style={styles.textHeader}>kcal</Text>
+        <Text style={styles.textHeader} accessibilityLabel="kcal field">
+          kcal
+        </Text>
         <Text style={styles.details}>{productDetails?.kcal}</Text>
-        <Text style={styles.textHeader}>In stock</Text>
+        <Text style={styles.textHeader} accessibilityLabel="in stock field">
+          In stock
+        </Text>
         <Text style={styles.details}>{productDetails?.inStock}</Text>
       </View>
     </View>

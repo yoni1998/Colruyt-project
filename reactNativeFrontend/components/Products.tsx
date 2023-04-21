@@ -1,12 +1,4 @@
-import {
-  View,
-  Text,
-  ToastAndroid,
-  Animated,
-  StyleSheet,
-  Image,
-  Pressable,
-} from 'react-native';
+import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useMutation} from '@apollo/client';
