@@ -1,21 +1,15 @@
 import {View, Text, StyleSheet, Button, Modal, TextInput} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {
-  ADD_PRODUCT_TO_BASKET,
-  GET_ALL_BASKETS,
-  GET_BASKET_ON_ID,
-} from '../queries/basketQueries';
+import {ADD_PRODUCT_TO_BASKET, GET_ALL_BASKETS} from '../queries/basketQueries';
 import {useMutation, useQuery} from '@apollo/client';
-import {useNavigation} from '@react-navigation/native';
 import SelectDropdown from 'react-native-select-dropdown';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {showToastWithGravity} from '../shared/Toast';
 
-const ProductModal = ({item}: any) => {
+const ProductModal = ({item, setIsModalVisible, isEdit}: any) => {
   const [id, setId] = useState('');
-  const [aantal, setAantal] = useState(1);
+  let [aantal, setAantal] = useState(1);
   const [basketId, setBasketId] = useState(null);
-  const navigation = useNavigation() as any;
   const [mutateFunction] = useMutation(ADD_PRODUCT_TO_BASKET, {
     variables: {
       addProductToBasketId: basketId,
@@ -38,15 +32,21 @@ const ProductModal = ({item}: any) => {
       mutateFunction()
         .then(() => {
           showToastWithGravity('het product is toegevoegd aan je winkelmandje');
-          navigation.goBack();
+          setIsModalVisible(false);
         })
         .catch(err => console.error(err));
     }
-  }, [id, mutateFunction, navigation]);
+  }, [id, mutateFunction, setIsModalVisible]);
 
   // eslint-disable-next-line @typescript-eslint/no-shadow
-  const addToCard = (id: any) => {
-    setId(id);
+  const addToCard = (id: string) => {
+    if (aantal < 1) {
+      showToastWithGravity('Amount need to be above 1');
+    } else if (!basketId) {
+      showToastWithGravity('You need to select a basket');
+    } else {
+      setId(id);
+    }
   };
 
   return (
@@ -62,13 +62,16 @@ const ProductModal = ({item}: any) => {
               size={20}
               onPress={() => setAantal(aantal - 1)}
             />
-            <TextInput style={styles.quantity}>{aantal}</TextInput>
+            <TextInput style={styles.quantity}>
+              {isEdit ? item.aantal : aantal}
+            </TextInput>
             <Icon size={20} name="plus" onPress={() => setAantal(aantal + 1)} />
           </View>
           <View>
             <Text style={styles.text}>Selecteer het winkelmandje</Text>
             <View style={styles.dropdown}>
               <SelectDropdown
+                disabled={isEdit ? true : false}
                 data={data?.getAllBaskets}
                 onSelect={selectedItem => {
                   console.log(selectedItem._id);
@@ -99,7 +102,7 @@ const ProductModal = ({item}: any) => {
           <Button
             color="red"
             title="Close"
-            onPress={() => navigation.goBack()}
+            onPress={() => setIsModalVisible(false)}
           />
         </View>
       </View>

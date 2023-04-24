@@ -6,7 +6,7 @@ import ProductModal from './ProductModal';
 const ProductCard = ({product, productKey}: any) => {
   const navigation = useNavigation() as any;
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const handleModal = () => setIsModalVisible(() => !isModalVisible);
+
   return (
     <View style={styles.container} key={productKey}>
       <View style={styles.itemContainer}>
@@ -28,10 +28,16 @@ const ProductCard = ({product, productKey}: any) => {
             <Text style={styles.price}>€ {product.prijs}.00</Text>
           </Pressable>
         </View>
-        {isModalVisible && <ProductModal item={product} />}
+        {isModalVisible && (
+          <ProductModal
+            item={product}
+            setIsModalVisible={setIsModalVisible}
+            isEdit={false}
+          />
+        )}
 
         <View style={styles.button}>
-          <Pressable onPress={handleModal}>
+          <Pressable onPress={() => setIsModalVisible(true)}>
             <Text>Add to card</Text>
           </Pressable>
         </View>
@@ -72,7 +78,8 @@ const styles = StyleSheet.create({
     color: '#888',
   },
   button: {
-    marginLeft: 150,
+    right: 20,
+    position: 'absolute',
   },
 });
 

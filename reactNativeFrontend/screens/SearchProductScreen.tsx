@@ -63,7 +63,7 @@ const SearchProductScreen = ({navigation}: any) => {
           value={search}
           ref={textInputRef}
           onChangeText={handleChange}
-          placeholder="Zoeken naar producten..."
+          placeholder="Search for products..."
         />
         <Text style={styles.maxPrice}>€ {maxPrice}</Text>
         <Slider
@@ -77,7 +77,7 @@ const SearchProductScreen = ({navigation}: any) => {
           minimumTrackTintColor="#FFFFFF"
           maximumTrackTintColor="#000000"
         />
-        {!search && <Text style={styles.emptyText}>Zoeken naar producten</Text>}
+        {!search && <Text style={styles.emptyText}>Search for products</Text>}
         {data && (
           <SafeAreaView accessibilityLabel="a list of all available products that matches your search criteria">
             <FlatList

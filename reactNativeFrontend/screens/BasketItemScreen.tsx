@@ -5,6 +5,7 @@ import {useQuery} from '@apollo/client';
 import Products from '../components/Products';
 import {useDarkModeStore} from '../components/Settings';
 import {themeStyle} from '../constants/Theme';
+import Loading from '../shared/Loading';
 const BasketItemScreen = ({route}: any) => {
   const {basketId} = route.params;
   const {isDarkMode}: any | boolean = useDarkModeStore();
@@ -15,7 +16,7 @@ const BasketItemScreen = ({route}: any) => {
   });
 
   if (loading) {
-    return <Text>loading...</Text>;
+    return <Loading />;
   }
 
   if (error) {

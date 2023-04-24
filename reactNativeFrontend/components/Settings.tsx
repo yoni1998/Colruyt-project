@@ -34,7 +34,7 @@ const Settings = () => {
           style={
             isDarkMode ? themeStyle.blackThemeText : themeStyle.lightThemeText
           }>
-          Pas het thema aan
+          Change Theme
         </Text>
         <Switch
           style={styles.switch}

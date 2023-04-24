@@ -21,7 +21,7 @@ const HomeScreen = () => {
         <TextInput
           editable={false}
           style={styles.input}
-          placeholder="Zoeken naar producten..."
+          placeholder="Search for products..."
         />
       </View>
     </View>

@@ -1,7 +1,6 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createDrawerNavigator} from '@react-navigation/drawer';
 import HomeScreen from '../screens/HomeScreen';
 import SearchProductScreen from '../screens/SearchProductScreen';
 import ProductDetailsScreen from '../screens/ProductDetailsScreen';
@@ -15,9 +14,20 @@ import Settings from '../components/Settings';
 const Navigation = () => {
   const Stack = createStackNavigator();
   const Tab = createBottomTabNavigator();
-  const Drawer = createDrawerNavigator();
 
-  const HomeStack = () => {
+  const options = {
+    headerTitleStyle: {
+      fontSize: 25,
+    },
+    headerStyle: {
+      height: 80,
+      backgroundColor: '#db981b',
+      shadowColor: '#000',
+      elevation: 25,
+    },
+  };
+
+  const HomeStack = ({navigation}: any) => {
     return (
       <Stack.Navigator>
         <Stack.Screen
@@ -25,17 +35,17 @@ const Navigation = () => {
           component={HomeScreen}
           options={{
             headerTitleAlign: 'center',
-            headerTitleStyle: {
-              fontSize: 25,
-            },
-            headerStyle: {
-              height: 60,
-              borderBottomLeftRadius: 30,
-              borderBottomRightRadius: 30,
-              backgroundColor: '#00e4d0',
-              shadowColor: '#000',
-              elevation: 25,
-            },
+            ...options,
+            headerRight: () => (
+              <Icon
+                // eslint-disable-next-line react-native/no-inline-styles
+                style={{marginRight: 30}}
+                name="gear"
+                onPress={() => navigation.navigate('Settings')}
+                size={30}
+                color="black"
+              />
+            ),
           }}
         />
         <Stack.Screen
@@ -43,36 +53,24 @@ const Navigation = () => {
           component={SearchProductScreen}
           options={{
             headerTitleAlign: 'center',
-            headerTitleStyle: {
-              fontSize: 25,
-            },
             presentation: 'modal',
             headerMode: 'float',
-            animationEnabled: true,
-            headerStyle: {
-              height: 60,
-              backgroundColor: '#00e4d0',
-              shadowColor: '#000',
-              elevation: 25,
-            },
+            ...options,
           }}
         />
         <Stack.Screen
           name="Details"
           component={ProductDetailsScreen}
+          options={{headerTitleAlign: 'center', ...options}}
+        />
+        <Stack.Screen
+          name="Settings"
+          component={Settings}
           options={{
             headerTitleAlign: 'center',
-            headerTitleStyle: {
-              fontSize: 25,
-            },
-            headerStyle: {
-              height: 60,
-              borderBottomLeftRadius: 30,
-              borderBottomRightRadius: 30,
-              backgroundColor: '#00e4d0',
-              shadowColor: '#000',
-              elevation: 25,
-            },
+            presentation: 'modal',
+            headerMode: 'float',
+            ...options,
           }}
         />
       </Stack.Navigator>
@@ -87,24 +85,13 @@ const Navigation = () => {
           component={BasketListScreen}
           options={{
             headerTitleAlign: 'center',
-            headerTitleStyle: {
-              fontSize: 25,
-            },
-            presentation: 'modal',
-            headerMode: 'float',
-            animationEnabled: true,
-            headerStyle: {
-              height: 60,
-              backgroundColor: '#00e4d0',
-              shadowColor: '#000',
-              elevation: 25,
-            },
+            ...options,
             headerRight: () => (
               <Icon
                 // eslint-disable-next-line react-native/no-inline-styles
                 style={{marginRight: 30}}
                 name="plus"
-                onPress={() => navigation.navigate('AddBasketForm')}
+                onPress={() => navigation.navigate('Basket factory')}
                 size={30}
                 color="black"
               />
@@ -114,66 +101,28 @@ const Navigation = () => {
         <Stack.Screen
           name="Basket"
           component={BasketItemScreen}
-          options={{
-            headerTitleAlign: 'center',
-            headerTitleStyle: {
-              fontSize: 25,
-            },
-            headerStyle: {
-              height: 60,
-              borderBottomLeftRadius: 30,
-              borderBottomRightRadius: 30,
-              backgroundColor: '#00e4d0',
-              shadowColor: '#000',
-              elevation: 25,
-            },
-          }}
+          options={{headerTitleAlign: 'center', ...options}}
         />
         <Stack.Screen
-          name="AddBasketForm"
+          name="Basket factory"
           component={AddBasketFormScreen}
-          options={{
-            headerTitleAlign: 'center',
-            headerTitleStyle: {
-              fontSize: 25,
-            },
-            headerStyle: {
-              height: 60,
-              borderBottomLeftRadius: 30,
-              borderBottomRightRadius: 30,
-              backgroundColor: '#00e4d0',
-              shadowColor: '#000',
-              elevation: 25,
-            },
-          }}
+          options={{headerTitleAlign: 'center', ...options}}
         />
         <Stack.Screen
           name="ProductDetails"
           component={ProductDetailsScreen}
-          options={{
-            headerTitleAlign: 'center',
-            headerTitleStyle: {
-              fontSize: 25,
-            },
-            headerStyle: {
-              height: 60,
-              borderBottomLeftRadius: 30,
-              borderBottomRightRadius: 30,
-              backgroundColor: '#00e4d0',
-              shadowColor: '#000',
-              elevation: 25,
-            },
-          }}
+          options={{headerTitleAlign: 'center', ...options}}
         />
       </Stack.Navigator>
     );
   };
-  const HomeTab = () => {
-    return (
+
+  return (
+    <NavigationContainer>
       <Tab.Navigator
         screenOptions={({route}) => ({
           tabBarIcon: ({tintColor}: any) => {
-            if (route.name === 'HomeTab') {
+            if (route.name === 'Search Products') {
               return <Icon name="search" size={30} color={tintColor} />;
             } else {
               return (
@@ -183,32 +132,16 @@ const Navigation = () => {
           },
         })}>
         <Tab.Screen
-          name="HomeTab"
+          name="Search Products"
           component={HomeStack}
           options={{headerShown: false}}
         />
         <Tab.Screen
-          name="BasketsTab"
+          name="My Baskets"
           component={BasketStack}
           options={{headerShown: false}}
         />
       </Tab.Navigator>
-    );
-  };
-
-  return (
-    <NavigationContainer>
-      <Drawer.Navigator
-        initialRouteName="HomePage"
-        screenOptions={{
-          headerTitle() {
-            null;
-          },
-          headerStyle: {backgroundColor: '#00e4d0'},
-        }}>
-        <Drawer.Screen name="HomePage" component={HomeTab} />
-        <Drawer.Screen name="Settings" component={Settings} />
-      </Drawer.Navigator>
     </NavigationContainer>
   );
 };

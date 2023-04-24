@@ -57,7 +57,7 @@ const BasketCard = ({basketData, basketKey}: any) => {
       <RectButton
         style={styles.leftAction}
         onPress={() =>
-          navigation.navigate('AddBasketForm', {basketData: item})
+          navigation.navigate('Basket factory', {basketData: item})
         }>
         <Icon name="edit" color="white" size={35} />
       </RectButton>
@@ -75,7 +75,9 @@ const BasketCard = ({basketData, basketKey}: any) => {
           }>
           <ImageBackground
             source={{
-              uri: basketData.imageBackground,
+              uri:
+                basketData.imageBackground ||
+                'https://cdn.pixabay.com/photo/2016/03/02/20/13/grocery-1232944_960_720.jpg',
             }}
             style={styles.catoImage}>
             <View style={styles.gridContainer}>
@@ -113,6 +115,7 @@ const styles = StyleSheet.create({
 
   textStyle: {
     fontSize: 30,
+    marginLeft: 10,
     fontWeight: 'bold',
     color: '#1c1c1c',
     backgroundColor: '#ffffff80',

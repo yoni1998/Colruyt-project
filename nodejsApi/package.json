@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node-dev --respawn --pretty --transpile-only app.ts"
+    "dev": "ts-node-dev --respawn --pretty --transpile-only app.ts",
+    "prettify": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,html,css,md}\"",
+    "lint": "eslint --ext .ts src/",
+    "type-check": "tsc --noEmit",
+    "check": "npm run prettify && npm run lint && npm run type-check"
   },
   "keywords": [],
   "author": "",

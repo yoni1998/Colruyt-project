@@ -7,7 +7,10 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "prettify": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,html,css,md}\"",
+    "type-check": "tsc --noEmit",
+    "check": "npm run prettify && npm run type-check"
   },
   "dependencies": {
     "@apollo/client": "^3.7.12",

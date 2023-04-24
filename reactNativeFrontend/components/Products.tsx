@@ -9,6 +9,7 @@ import {
 import {RectButton, Swipeable} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {showToastWithGravity} from '../shared/Toast';
+import ProductModal from './ProductModal';
 
 const Products = ({products, productKey, basketId}: any) => {
   const navigation = useNavigation() as any;
@@ -48,11 +49,13 @@ const Products = ({products, productKey, basketId}: any) => {
       </RectButton>
     );
   };
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
-  // eslint-disable-next-line @typescript-eslint/no-shadow
-  const renderLeftActions = (id: any) => {
+  const renderLeftActions = () => {
     return (
-      <RectButton onPress={() => deleteProduct(id)} style={styles.leftAction}>
+      <RectButton
+        onPress={() => setIsModalVisible(true)}
+        style={styles.leftAction}>
         <Icon name="edit" color="white" size={35} />
       </RectButton>
     );
@@ -61,7 +64,7 @@ const Products = ({products, productKey, basketId}: any) => {
     <View>
       <Swipeable
         renderRightActions={() => renderRightActions(products._id)}
-        renderLeftActions={() => renderLeftActions(products._id)}
+        renderLeftActions={() => renderLeftActions()}
         key={productKey}>
         {products.productId && (
           <View style={styles.container}>
@@ -75,13 +78,17 @@ const Products = ({products, productKey, basketId}: any) => {
               <View style={styles.infoContainer}>
                 <Pressable
                   onPress={() =>
-                    navigation.navigate('Details', {
-                      productDetails: products.productId,
-                    })
+                    basketId
+                      ? navigation.navigate('ProductDetails', {
+                          productDetails: products.productId,
+                        })
+                      : navigation.navigate('Details', {
+                          productDetails: products.productId,
+                        })
                   }>
                   <Text style={styles.name}>{products.productId?.naam}</Text>
                   <Text style={styles.price}>
-                    € {products.productId?.prijs}.00
+                    € {products.productId?.prijs}.00 /each
                   </Text>
                 </Pressable>
               </View>
@@ -93,6 +100,13 @@ const Products = ({products, productKey, basketId}: any) => {
           </View>
         )}
       </Swipeable>
+      {isModalVisible && (
+        <ProductModal
+          item={products}
+          setIsModalVisible={setIsModalVisible}
+          isEdit={true}
+        />
+      )}
     </View>
   );
 };
@@ -158,6 +172,8 @@ const styles = StyleSheet.create({
   leftAction: {
     alignItems: 'center',
     flex: 1,
+    height: 110,
+    marginTop: 10,
     justifyContent: 'center',
     backgroundColor: '#3b3bf6',
   },
@@ -165,6 +181,8 @@ const styles = StyleSheet.create({
   rightAction: {
     alignItems: 'center',
     flex: 1,
+    height: 110,
+    marginTop: 10,
     justifyContent: 'center',
     backgroundColor: '#ee0303',
   },

@@ -194,7 +194,7 @@ export const updateProductInBasket = (req: Request, res: Response) => {
           res
         );
       } else {
-        // data.aantal nakijken
+        // data.aantal nakijken, functie productinbasket on id werkt nog niet goed
         const editProductInBasket: any = {
           _id: req.params.id,
           aantal: req.body.aantal ? req.body.aantal : data.aantal,
