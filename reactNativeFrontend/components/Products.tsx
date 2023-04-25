@@ -44,7 +44,10 @@ const Products = ({products, productKey, basketId}: any) => {
   // eslint-disable-next-line @typescript-eslint/no-shadow
   const renderRightActions = (id: any) => {
     return (
-      <RectButton onPress={() => deleteProduct(id)} style={styles.rightAction}>
+      <RectButton
+        onActiveStateChange={() => deleteProduct(id)}
+        shouldActivateOnStart={true}
+        style={styles.rightAction}>
         <Icon name="trash" color="white" size={35} />
       </RectButton>
     );
@@ -54,7 +57,8 @@ const Products = ({products, productKey, basketId}: any) => {
   const renderLeftActions = () => {
     return (
       <RectButton
-        onPress={() => setIsModalVisible(true)}
+        onActiveStateChange={() => setIsModalVisible(true)}
+        shouldActivateOnStart={true}
         style={styles.leftAction}>
         <Icon name="edit" color="white" size={35} />
       </RectButton>

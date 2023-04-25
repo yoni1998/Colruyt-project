@@ -46,7 +46,8 @@ const BasketCard = ({basketData, basketKey}: any) => {
     return (
       <RectButton
         style={styles.rightAction}
-        onPress={() => deleteBasketOnId(id)}>
+        onActiveStateChange={() => deleteBasketOnId(id)}
+        shouldActivateOnStart={true}>
         <Icon name="trash" color="white" size={35} />
       </RectButton>
     );
@@ -56,9 +57,10 @@ const BasketCard = ({basketData, basketKey}: any) => {
     return (
       <RectButton
         style={styles.leftAction}
-        onPress={() =>
+        onActiveStateChange={() =>
           navigation.navigate('Basket factory', {basketData: item})
-        }>
+        }
+        shouldActivateOnStart={true}>
         <Icon name="edit" color="white" size={35} />
       </RectButton>
     );
@@ -115,7 +117,7 @@ const styles = StyleSheet.create({
 
   textStyle: {
     fontSize: 30,
-    marginLeft: 10,
+    paddingLeft: 10,
     fontWeight: 'bold',
     color: '#1c1c1c',
     backgroundColor: '#ffffff80',

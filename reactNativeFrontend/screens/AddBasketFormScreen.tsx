@@ -3,6 +3,7 @@ import {
   TextInput,
   StyleSheet,
   Pressable,
+  PermissionsAndroid,
   Text,
   ImageBackground,
 } from 'react-native';
@@ -21,7 +22,7 @@ import {themeStyle} from '../constants/Theme';
 import ImagePicker from 'react-native-document-picker';
 const AddBasketFormScreen = ({route}: any | null) => {
   const params = route?.params;
-  const navigation = useNavigation();
+  const navigation = useNavigation() as any;
   const {isDarkMode}: any | boolean = useDarkModeStore();
   const [naam, setNaam] = useState('');
   const [imageBackground, setImageBackground]: any = useState(
@@ -59,10 +60,24 @@ const AddBasketFormScreen = ({route}: any | null) => {
     ],
   });
 
-  const handleImageSubmit = () => {
-    ImagePicker.pick().then(file => {
-      setImageBackground(file[0].uri);
-    });
+  const handleImageSubmit = async () => {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+      {
+        title: 'Storage permission',
+        message: 'Storage permission ' + 'so you can select awesome pictures.',
+        buttonNeutral: 'Ask Me Later',
+        buttonNegative: 'Cancel',
+        buttonPositive: 'OK',
+      },
+    );
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      ImagePicker.pick().then(file => {
+        setImageBackground(file[0].uri);
+      });
+    } else {
+      showToastWithGravity('Camera permission denied');
+    }
   };
 
   return (
@@ -91,14 +106,14 @@ const AddBasketFormScreen = ({route}: any | null) => {
                 showToastWithGravity(
                   'Het wijzigen van een winkelmandje is gelukt',
                 );
-                navigation.goBack();
+                navigation.navigate('Baskets');
               });
             } else {
               addNewBasket().then(() => {
                 showToastWithGravity(
                   'Het toevoegen van een winkelmandje is gelukt',
                 );
-                navigation.goBack();
+                navigation.navigate('Baskets');
               });
             }
           }

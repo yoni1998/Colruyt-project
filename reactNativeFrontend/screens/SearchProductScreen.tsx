@@ -71,8 +71,8 @@ const SearchProductScreen = ({navigation}: any) => {
           onSlidingComplete={handleSliderChange}
           tapToSeek={true}
           style={{width: 300, height: 50}}
-          minimumValue={50}
-          maximumValue={0}
+          minimumValue={0}
+          maximumValue={50}
           value={50}
           minimumTrackTintColor="#FFFFFF"
           maximumTrackTintColor="#000000"
