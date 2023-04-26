@@ -7,12 +7,11 @@ import {
   FlatList,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import {useQuery} from '@apollo/client';
-import {GET_PRODUCTS} from '../queries/productQueries';
 import ProductCard from '../components/ProductCard';
 import {useDarkModeStore} from '../components/Settings';
 import {themeStyle} from '../constants/Theme';
 import Slider from '@react-native-community/slider';
+import useProducts from '../hooks/useProducts';
 const SearchProductScreen = ({navigation}: any) => {
   const [search, setSearch] = useState('');
   const [minPrice] = useState('0');
@@ -28,9 +27,7 @@ const SearchProductScreen = ({navigation}: any) => {
     setMaxPrice(roundedMaxprice.toString());
   };
 
-  const {error, data} = useQuery(GET_PRODUCTS, {
-    variables: {search, minPrice, maxPrice},
-  });
+  const {error, data} = useProducts({search, minPrice, maxPrice});
 
   useEffect(() => {
     if (textInputRef.current) {

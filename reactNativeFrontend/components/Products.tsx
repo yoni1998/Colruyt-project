@@ -1,47 +1,29 @@
 import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {useMutation} from '@apollo/client';
-import {
-  DELETE_PRODUCT_IN_BASKET,
-  GET_ALL_BASKETS,
-} from '../queries/basketQueries';
 import {RectButton, Swipeable} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {showToastWithGravity} from '../shared/Toast';
 import ProductModal from './ProductModal';
+import useDeleteProductInBasket from '../hooks/useDeleteProductInBasket';
+import {queryClient} from '../constants/GraphqlAccess';
 
 const Products = ({products, productKey, basketId}: any) => {
   const navigation = useNavigation() as any;
-  const [id, setId] = useState('');
-  const [mutateFunction] = useMutation(DELETE_PRODUCT_IN_BASKET, {
-    variables: {
-      removeProductFromBasketId: basketId,
-      productId: id,
-    },
-    refetchQueries: () => [
-      {
-        query: GET_ALL_BASKETS,
-      },
-    ],
-  });
+  const deleteProductInBasket = useDeleteProductInBasket();
 
-  useEffect(() => {
-    if (id) {
-      mutateFunction()
-        .then(() => {
-          showToastWithGravity('Het product is verwijderd uit je winkelmandje');
-        })
-        .catch(err => console.log(err));
-    }
-  }, [id, mutateFunction]);
-
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   const deleteProduct = (id: any) => {
-    setId(id);
+    deleteProductInBasket.mutate({
+      basketId,
+      id,
+    });
+    showToastWithGravity('Het product is verwijderd uit je winkelmandje');
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-shadow
+  if (deleteProductInBasket.isSuccess) {
+    queryClient.refetchQueries('basket');
+  }
+
   const renderRightActions = (id: any) => {
     return (
       <RectButton
@@ -106,6 +88,7 @@ const Products = ({products, productKey, basketId}: any) => {
       </Swipeable>
       {isModalVisible && (
         <ProductModal
+          editBasketId={basketId}
           item={products}
           setIsModalVisible={setIsModalVisible}
           isEdit={true}

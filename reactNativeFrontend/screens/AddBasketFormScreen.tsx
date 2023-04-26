@@ -9,17 +9,14 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {Formik} from 'formik';
-import {useMutation} from '@apollo/client';
-import {
-  ADD_NEW_BASKET,
-  GET_ALL_BASKETS,
-  UPDATE_BASKET_ON_ID,
-} from '../queries/basketQueries';
 import {useNavigation} from '@react-navigation/native';
 import {showToastWithGravity} from '../shared/Toast';
 import {useDarkModeStore} from '../components/Settings';
 import {themeStyle} from '../constants/Theme';
 import ImagePicker from 'react-native-document-picker';
+import useCreateNewBasket from '../hooks/useCreateNewBasket';
+import {queryClient} from '../constants/GraphqlAccess';
+import useUpdateBasket from '../hooks/useUpdateBasket';
 const AddBasketFormScreen = ({route}: any | null) => {
   const params = route?.params;
   const navigation = useNavigation() as any;
@@ -31,34 +28,13 @@ const AddBasketFormScreen = ({route}: any | null) => {
       : 'https://cdn.pixabay.com/photo/2016/03/02/20/13/grocery-1232944_960_720.jpg',
   );
 
-  const [addNewBasket] = useMutation(ADD_NEW_BASKET, {
-    variables: {
-      input: {
-        naam,
-        imageBackground,
-      },
-    },
-    refetchQueries: () => [
-      {
-        query: GET_ALL_BASKETS,
-      },
-    ],
-  });
+  const addBasket = useCreateNewBasket();
 
-  const [updateBasket] = useMutation(UPDATE_BASKET_ON_ID, {
-    variables: {
-      updateBasketId: params?.basketData?._id,
-      input: {
-        naam,
-        imageBackground,
-      },
-    },
-    refetchQueries: () => [
-      {
-        query: GET_ALL_BASKETS,
-      },
-    ],
-  });
+  const updateBasket = useUpdateBasket({basketId: params?.basketData?._id});
+
+  if (addBasket.isSuccess || updateBasket.isSuccess) {
+    queryClient.refetchQueries('baskets');
+  }
 
   const handleImageSubmit = async () => {
     const granted = await PermissionsAndroid.request(
@@ -102,19 +78,18 @@ const AddBasketFormScreen = ({route}: any | null) => {
           } else {
             setNaam(values.naam);
             if (params?.basketData._id) {
-              updateBasket().then(() => {
-                showToastWithGravity(
-                  'Het wijzigen van een winkelmandje is gelukt',
-                );
-                navigation.navigate('Baskets');
-              });
+              updateBasket.mutate({naam: values.naam, imageBackground});
+
+              showToastWithGravity(
+                'Het wijzigen van een winkelmandje is gelukt',
+              );
+              navigation.navigate('Baskets');
             } else {
-              addNewBasket().then(() => {
-                showToastWithGravity(
-                  'Het toevoegen van een winkelmandje is gelukt',
-                );
-                navigation.navigate('Baskets');
-              });
+              addBasket.mutate({naam: values.naam, imageBackground});
+              showToastWithGravity(
+                'Het toevoegen van een winkelmandje is gelukt',
+              );
+              navigation.navigate('Baskets');
             }
           }
         }}>

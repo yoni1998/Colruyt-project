@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import {gql} from '../node_modules/graphql-request/build/esm/index';
 
 export const ADD_PRODUCT_TO_BASKET = gql`
   mutation Mutation($addProductToBasketId: ID!, $input: BasketInput) {
@@ -28,6 +28,28 @@ export const DELETE_PRODUCT_IN_BASKET = gql`
       productId: $productId
     ) {
       _id
+    }
+  }
+`;
+
+export const UPDATE_PRODUCT_IN_BASKET = gql`
+  mutation Mutation(
+    $productId: ID!
+    $updateProductToBasketId: ID
+    $input: BasketInput
+  ) {
+    updateProductToBasket(
+      productId: $productId
+      id: $updateProductToBasketId
+      input: $input
+    ) {
+      DATA {
+        _id
+        products {
+          _id
+          aantal
+        }
+      }
     }
   }
 `;

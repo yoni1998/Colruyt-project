@@ -1,53 +1,46 @@
 import {View, Text, StyleSheet, Button, Modal, TextInput} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {ADD_PRODUCT_TO_BASKET, GET_ALL_BASKETS} from '../queries/basketQueries';
-import {useMutation, useQuery} from '@apollo/client';
+import React, {useState} from 'react';
 import SelectDropdown from 'react-native-select-dropdown';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {showToastWithGravity} from '../shared/Toast';
+import useBaskets from '../hooks/useBasket';
+import useAddProductToBasket from '../hooks/useAddProductToBasket';
+import {queryClient} from '../constants/GraphqlAccess';
+import useUpdateProductToBasket from '../hooks/useUpdateProductToBasket';
 
-const ProductModal = ({item, setIsModalVisible, isEdit}: any) => {
-  const [id, setId] = useState('');
+const ProductModal = ({item, setIsModalVisible, isEdit, editBasketId}: any) => {
   let [aantal, setAantal] = useState(1);
   const [basketId, setBasketId] = useState(null);
-  const [mutateFunction] = useMutation(ADD_PRODUCT_TO_BASKET, {
-    variables: {
-      addProductToBasketId: basketId,
-      input: {
-        productId: id,
-        aantal: aantal.toString(),
-      },
-    },
-    refetchQueries: () => [
-      {
-        query: GET_ALL_BASKETS,
-      },
-    ],
-  });
 
-  const {data} = useQuery(GET_ALL_BASKETS);
+  const addProductToBasket = useAddProductToBasket({basketId});
+  const updateProductToBasket = useUpdateProductToBasket();
 
-  useEffect(() => {
-    if (id) {
-      mutateFunction()
-        .then(() => {
-          showToastWithGravity('het product is toegevoegd aan je winkelmandje');
-          setIsModalVisible(false);
-        })
-        .catch(err => console.error(err));
-    }
-  }, [id, mutateFunction, setIsModalVisible]);
+  const {data} = useBaskets();
 
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   const addToCard = (id: string) => {
-    if (aantal < 1) {
-      showToastWithGravity('Amount need to be above 1');
-    } else if (!basketId) {
-      showToastWithGravity('You need to select a basket');
-    } else {
-      setId(id);
+    if (!isEdit) {
+      if (aantal < 1) {
+        showToastWithGravity('Amount need to be above 1');
+      } else if (!basketId) {
+        showToastWithGravity('You need to select a basket');
+      } else {
+        addProductToBasket.mutate({productId: id, aantal: aantal.toString()});
+        setIsModalVisible(false);
+        showToastWithGravity('het product is toegevoegd aan je winkelmandje');
+      }
+    }
+    if (isEdit) {
+      updateProductToBasket.mutate({
+        productId: id,
+        updateProductToBasketId: editBasketId,
+        input: aantal.toString(),
+      });
     }
   };
+
+  if (addProductToBasket.isSuccess || updateProductToBasket.isSuccess) {
+    queryClient.refetchQueries('baskets');
+  }
 
   return (
     <Modal>

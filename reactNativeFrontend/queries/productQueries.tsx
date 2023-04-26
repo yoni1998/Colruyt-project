@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import {gql} from '../node_modules/graphql-request/build/esm/index';
 
 export const GET_PRODUCTS = gql`
   query Query($search: String, $minPrice: String, $maxPrice: String) {

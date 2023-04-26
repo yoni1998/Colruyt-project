@@ -4,7 +4,7 @@ import React from 'react';
 const Loading = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>lOADING...</Text>
+      <Text style={styles.text}>LOADING...</Text>
     </View>
   );
 };

@@ -5,42 +5,26 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {RectButton, Swipeable} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
-import {GET_ALL_BASKETS, REMOVE_BASKET_ON_ID} from '../queries/basketQueries';
-import {useMutation} from '@apollo/client';
 import {showToastWithGravity} from '../shared/Toast';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import useRemoveBasket from '../hooks/useRemoveBasket';
+import {queryClient} from '../constants/GraphqlAccess';
 
 const BasketCard = ({basketData, basketKey}: any) => {
   const navigation = useNavigation() as any;
-  const [basketId, setBasketId] = useState('');
-
-  const [deleteBasket] = useMutation(REMOVE_BASKET_ON_ID, {
-    variables: {
-      removeBasketId: basketId,
-    },
-    refetchQueries: () => [
-      {
-        query: GET_ALL_BASKETS,
-      },
-    ],
-  });
-
-  useEffect(() => {
-    if (basketId) {
-      deleteBasket()
-        .then(() => {
-          showToastWithGravity('het winkelmandje is verwijderd');
-        })
-        .catch(err => console.error(err));
-    }
-  }, [basketId, deleteBasket]);
+  const removeBasket = useRemoveBasket();
 
   const deleteBasketOnId = (id: any) => {
-    setBasketId(id);
+    removeBasket.mutate(id);
   };
+
+  if (removeBasket.isSuccess) {
+    queryClient.refetchQueries('baskets');
+    showToastWithGravity('het winkelmandje is verwijderd');
+  }
 
   const renderRightActions = (id: any) => {
     return (

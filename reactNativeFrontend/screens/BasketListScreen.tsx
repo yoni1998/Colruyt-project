@@ -1,16 +1,15 @@
 import {View, FlatList} from 'react-native';
 import React from 'react';
-import {GET_ALL_BASKETS} from '../queries/basketQueries';
-import {useQuery} from '@apollo/client';
 import BasketCard from '../components/BasketCard';
 import {useDarkModeStore} from '../components/Settings';
 import {themeStyle} from '../constants/Theme';
 import Loading from '../shared/Loading';
+import useBaskets from '../hooks/useBasket';
 const BasketListScreen = () => {
-  const {loading, error, data} = useQuery(GET_ALL_BASKETS);
+  const {isLoading, error, data} = useBaskets();
   const {isDarkMode}: any | boolean = useDarkModeStore();
 
-  if (loading) {
+  if (isLoading) {
     return <Loading />;
   }
 
