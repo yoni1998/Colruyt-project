@@ -71,7 +71,7 @@ const ProductModal = ({item, setIsModalVisible, isEdit, editBasketId}: any) => {
             <View style={styles.dropdown}>
               <SelectDropdown
                 disabled={isEdit ? true : false}
-                data={data?.getAllBaskets}
+                data={data?.baskets}
                 onSelect={selectedItem => {
                   console.log(selectedItem._id);
                   setBasketId(selectedItem._id);

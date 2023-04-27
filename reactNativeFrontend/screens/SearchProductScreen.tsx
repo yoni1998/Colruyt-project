@@ -79,7 +79,7 @@ const SearchProductScreen = ({navigation}: any) => {
           <SafeAreaView accessibilityLabel="a list of all available products that matches your search criteria">
             <FlatList
               keyExtractor={item => item._id}
-              data={data.getAllProducts}
+              data={data.products}
               renderItem={({item}: any) => (
                 <ProductCard product={item} productKey={item._id} />
               )}

@@ -1,8 +1,8 @@
 import {gql} from '../node_modules/graphql-request/build/esm/index';
 
 export const GET_PRODUCTS = gql`
-  query Query($search: String, $minPrice: String, $maxPrice: String) {
-    getAllProducts(search: $search, minPrice: $minPrice, maxPrice: $maxPrice) {
+  query Query($search: String!, $minPrice: String, $maxPrice: String) {
+    products(search: $search, minPrice: $minPrice, maxPrice: $maxPrice) {
       prijs
       naam
       aantal
@@ -13,7 +13,7 @@ export const GET_PRODUCTS = gql`
 
 export const GET_PRODUCT_ON_ID = gql`
   query Query($getProductId: String!) {
-    getProduct(id: $getProductId) {
+    product(id: $getProductId) {
       DATA {
         naam
         aantal

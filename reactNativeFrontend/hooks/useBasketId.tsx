@@ -6,7 +6,7 @@ import Basket from '../interfaces/Basket.interface';
 const useBasketId = ({basketId}: any) => {
   const {data, isLoading, error} = useQuery(['basket', basketId], async () => {
     const basket: Basket = await request(graphqlUri, GET_BASKET_ON_ID, {
-      getBasketId: basketId,
+      basketId,
     });
     return basket;
   });

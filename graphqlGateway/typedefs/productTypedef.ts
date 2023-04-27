@@ -1,70 +1,302 @@
-import { gql } from "apollo-server-express";
+import {
+  idArg,
+  inputObjectType,
+  list,
+  makeSchema,
+  mutationField,
+  nonNull,
+  nullable,
+  objectType,
+  queryType,
+  stringArg,
+} from "nexus";
 
-export const typeDefs = gql`
-  type Query {
-    getProduct(id: String!): Product
-    getAllProducts(
-      search: String
-      minPrice: String
-      maxPrice: String
-    ): [Products]
-    getBasket(id: String!): Basket
-    getAllBaskets: [Baskets]
-  }
+const Products = objectType({
+  name: "Products",
+  definition(t) {
+    t.id("_id"), t.string("naam"), t.string("aantal"), t.int("prijs");
+  },
+});
 
-  type Mutation {
-    removeProduct(id: ID!): Products
-    createProduct(input: ProductInput): Product
-    updateProduct(id: ID!, input: ProductInput): Product
-    removeBasket(id: ID!): Baskets
-    createBasket(input: NewBasketInput): Basket
-    updateBasket(id: ID!, input: NewBasketInput): Basket
-    removeProductFromBasket(id: ID!, productId: ID): Baskets
-    addProductToBasket(id: ID!, input: BasketInput): Basket
-    updateProductToBasket(id: ID, productId: ID!, input: BasketInput): Basket
-  }
+const Product = objectType({
+  name: "Product",
+  definition(t) {
+    t.id("_id"), t.string("naam"), t.string("aantal"), t.int("prijs");
+  },
+});
 
-  type Product {
-    DATA: Products
-  }
+const ProductIds = objectType({
+  name: "ProductId",
+  definition(t) {
+    t.string("_id"),
+      t.string("aantal"),
+      t.field("productId", { type: "Product" });
+  },
+});
 
-  input ProductInput {
-    naam: String
-    aantal: String
-    prijs: String
-  }
+const Baskets = objectType({
+  name: "Baskets",
+  definition(t) {
+    t.id("_id"),
+      t.string("naam"),
+      t.string("imageBackground"),
+      t.field("products", { type: list("ProductId") });
+  },
+});
 
-  type Products {
-    _id: ID
-    naam: String
-    aantal: String
-    prijs: String
-  }
+const Basket = objectType({
+  name: "Basket",
+  definition(t) {
+    t.id("_id"),
+      t.string("naam"),
+      t.string("imageBackground"),
+      t.field("products", { type: list("ProductId") });
+  },
+});
 
-  type Basket {
-    DATA: Baskets
-  }
+const Query = queryType({
+  definition(t) {
+    t.list.field("products", {
+      type: "Products",
+      args: {
+        search: nonNull(stringArg()),
+        minPrice: nullable(stringArg()),
+        maxPrice: nullable(stringArg()),
+      },
+      resolve: async (
+        root: any,
+        _args: any,
+        { dataSources }: any,
+        info: any
+      ) => {
+        try {
+          const result = await dataSources.productDatasource.getAllProducts(
+            _args.search,
+            _args.minPrice,
+            _args.maxPrice
+          );
+          return result.DATA;
+        } catch (error) {
+          throw error;
+        }
+      },
+    });
+    t.list.field("baskets", {
+      type: "Baskets",
+      resolve: async (
+        root: any,
+        _args: any,
+        { dataSources }: any,
+        info: any
+      ) => {
+        try {
+          const result = await dataSources.basketDatasource.getAllBaskets();
+          return result.DATA;
+        } catch (error) {
+          throw error;
+        }
+      },
+    });
+    t.field("basket", {
+      type: "Basket",
+      args: {
+        id: nonNull(stringArg()),
+      },
+      resolve: async (
+        root: any,
+        { id }: any,
+        { dataSources }: any,
+        info: any
+      ) => {
+        try {
+          const result = await dataSources.basketDatasource.getBasket(id);
+          return result.DATA;
+        } catch (error) {
+          throw error;
+        }
+      },
+    });
+    t.field("product", {
+      type: "Product",
+      args: {
+        id: nonNull(stringArg()),
+      },
+      resolve: async (
+        root: any,
+        { id }: any,
+        { dataSources }: any,
+        info: any
+      ) => {
+        try {
+          const result = await dataSources.productDatasource.getProduct(id);
+          return result.DATA;
+        } catch (error) {
+          throw error;
+        }
+      },
+    });
+  },
+});
 
-  input BasketInput {
-    productId: String
-    aantal: String
-  }
+const removeBasket = mutationField("removeBasket", {
+  type: "Basket",
+  args: {
+    id: nonNull(idArg()),
+  },
+  resolve: async (root: any, { id }: any, { dataSources }: any, info: any) => {
+    try {
+      const result = await dataSources.basketDatasource.deleteBasket(id);
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+});
 
-  input NewBasketInput {
-    naam: String
-    imageBackground: String
-  }
+const BasketInput = inputObjectType({
+  name: "NewBasketInput",
+  definition(t) {
+    t.nonNull.string("naam");
+    t.nonNull.string("imageBackground");
+  },
+});
 
-  type Baskets {
-    _id: ID
-    naam: String
-    imageBackground: String
-    products: [productIds]
-  }
+const BasketProductInput = inputObjectType({
+  name: "BasketProductInput",
+  definition(t) {
+    t.nullable.string("productId");
+    t.nonNull.string("aantal");
+  },
+});
 
-  type productIds {
-    productId: Products
-    aantal: String
-    _id: ID
-  }
-`;
+const createBasket = mutationField("createBasket", {
+  type: "Basket",
+  args: {
+    input: BasketInput,
+  },
+  resolve: async (
+    root: any,
+    { input }: any,
+    { dataSources }: any,
+    info: any
+  ) => {
+    try {
+      const result = await dataSources.basketDatasource.addBasket(input);
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+});
+
+const updateBasket = mutationField("updateBasket", {
+  type: "Basket",
+  args: {
+    id: nonNull(idArg()),
+    input: BasketInput,
+  },
+  resolve: async (
+    root: any,
+    { input, id }: any,
+    { dataSources }: any,
+    info: any
+  ) => {
+    try {
+      const result = await dataSources.basketDatasource.updateBasket(id, input);
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+});
+
+const removeProductFromBasket = mutationField("removeProductFromBasket", {
+  type: "Baskets",
+  args: {
+    id: nonNull(idArg()),
+    productId: nonNull(idArg()),
+  },
+  resolve: async (
+    root: any,
+    { productId, id }: any,
+    { dataSources }: any,
+    info: any
+  ) => {
+    try {
+      const result = await dataSources.basketDatasource.deleteProductFromBasket(
+        id,
+        productId
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+});
+
+const addProductToBasket = mutationField("addProductToBasket", {
+  type: "Baskets",
+  args: {
+    id: nonNull(idArg()),
+    input: BasketProductInput,
+  },
+  resolve: async (
+    root: any,
+    { input, id }: any,
+    { dataSources }: any,
+    info: any
+  ) => {
+    try {
+      const result = await dataSources.basketDatasource.addProductToBasket(
+        id,
+        input
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+});
+
+const updateProductToBasket = mutationField("updateProductToBasket", {
+  type: "Baskets",
+  args: {
+    id: nonNull(idArg()),
+    productId: nonNull(idArg()),
+    input: BasketProductInput,
+  },
+  resolve: async (
+    root: any,
+    { input, id, productId }: any,
+    { dataSources }: any,
+    info: any
+  ) => {
+    try {
+      const result = await dataSources.basketDatasource.updateProductToBasket(
+        id,
+        productId,
+        input
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+});
+
+export const schema = makeSchema({
+  types: [
+    Query,
+    Products,
+    Product,
+    Basket,
+    Baskets,
+    ProductIds,
+    removeBasket,
+    createBasket,
+    updateBasket,
+    removeProductFromBasket,
+    addProductToBasket,
+    updateProductToBasket,
+  ],
+});

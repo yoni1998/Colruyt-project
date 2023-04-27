@@ -1,28 +1,28 @@
 import {gql} from '../node_modules/graphql-request/build/esm/index';
 
 export const ADD_PRODUCT_TO_BASKET = gql`
-  mutation Mutation($addProductToBasketId: ID!, $input: BasketInput) {
-    addProductToBasket(id: $addProductToBasketId, input: $input) {
-      DATA {
-        products {
-          aantal
-          productId {
-            naam
-            aantal
-            prijs
-            _id
-          }
-        }
-        imageBackground
-        naam
+  mutation AddProductToBasket(
+    $input: BasketProductInput
+    $addProductToBasketId: ID!
+  ) {
+    addProductToBasket(input: $input, id: $addProductToBasketId) {
+      _id
+      products {
         _id
+        aantal
+        productId {
+          prijs
+          aantal
+          naam
+          _id
+        }
       }
     }
   }
 `;
 
 export const DELETE_PRODUCT_IN_BASKET = gql`
-  mutation Mutation($removeProductFromBasketId: ID!, $productId: ID) {
+  mutation Mutation($removeProductFromBasketId: ID!, $productId: ID!) {
     removeProductFromBasket(
       id: $removeProductFromBasketId
       productId: $productId
@@ -34,34 +34,21 @@ export const DELETE_PRODUCT_IN_BASKET = gql`
 
 export const UPDATE_PRODUCT_IN_BASKET = gql`
   mutation Mutation(
+    $updateProductToBasketId: ID!
     $productId: ID!
-    $updateProductToBasketId: ID
-    $input: BasketInput
+    $input: BasketProductInput
   ) {
     updateProductToBasket(
-      productId: $productId
       id: $updateProductToBasketId
+      productId: $productId
       input: $input
     ) {
-      DATA {
-        _id
-        products {
-          _id
-          aantal
-        }
-      }
-    }
-  }
-`;
-
-export const GET_ALL_BASKETS = gql`
-  query GetAllBaskets {
-    getAllBaskets {
       _id
-      naam
-      imageBackground
       products {
+        _id
+        aantal
         productId {
+          _id
           naam
           aantal
           prijs
@@ -71,20 +58,38 @@ export const GET_ALL_BASKETS = gql`
   }
 `;
 
-export const GET_BASKET_ON_ID = gql`
-  query Query($getBasketId: String!) {
-    getBasket(id: $getBasketId) {
-      DATA {
-        _id
-        products {
+export const GET_ALL_BASKETS = gql`
+  query Query {
+    baskets {
+      naam
+      imageBackground
+      _id
+      products {
+        productId {
+          naam
           aantal
           _id
-          productId {
-            _id
-            aantal
-            naam
-            prijs
-          }
+        }
+        _id
+        aantal
+      }
+    }
+  }
+`;
+
+export const GET_BASKET_ON_ID = gql`
+  query Query($basketId: String!) {
+    basket(id: $basketId) {
+      naam
+      imageBackground
+      products {
+        _id
+        aantal
+        productId {
+          naam
+          aantal
+          prijs
+          _id
         }
       }
     }
@@ -92,12 +97,11 @@ export const GET_BASKET_ON_ID = gql`
 `;
 
 export const ADD_NEW_BASKET = gql`
-  mutation CreateBasket($input: NewBasketInput) {
+  mutation Mutation($input: NewBasketInput) {
     createBasket(input: $input) {
-      DATA {
-        naam
-        _id
-      }
+      _id
+      naam
+      imageBackground
     }
   }
 `;
@@ -111,11 +115,11 @@ export const REMOVE_BASKET_ON_ID = gql`
 `;
 
 export const UPDATE_BASKET_ON_ID = gql`
-  mutation UpdateBasket($updateBasketId: ID!, $input: NewBasketInput) {
+  mutation Mutation($updateBasketId: ID!, $input: NewBasketInput) {
     updateBasket(id: $updateBasketId, input: $input) {
-      DATA {
-        _id
-      }
+      _id
+      naam
+      imageBackground
     }
   }
 `;

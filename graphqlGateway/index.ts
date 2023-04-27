@@ -1,5 +1,5 @@
 import cors from "cors";
-import { typeDefs } from "./typedefs/productTypedef";
+import { schema } from "./typedefs/productTypedef";
 import { ApolloServer } from "apollo-server-express";
 import express from "express";
 import bodyParser from "body-parser";
@@ -8,7 +8,7 @@ import { resolvers } from "./resolvers/productResolver";
 import { BasketDatasource } from "./datasource/basketDatasource";
 
 const server = new ApolloServer({
-  typeDefs,
+  schema,
   resolvers,
   dataSources: () => ({
     productDatasource: new ProductDatasource(),

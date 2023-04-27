@@ -29,7 +29,7 @@ const BasketListScreen = () => {
         <FlatList
           accessibilityLabel="list of all baskets"
           keyExtractor={(item: any) => item._id}
-          data={data.getAllBaskets}
+          data={data.baskets}
           renderItem={({item}: any) => (
             <BasketCard basketData={item} basketKey={item._key} />
           )}

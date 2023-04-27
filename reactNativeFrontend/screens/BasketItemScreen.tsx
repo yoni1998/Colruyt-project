@@ -31,7 +31,7 @@ const BasketItemScreen = ({route}: any) => {
         <FlatList
           accessibilityLabel="list of all products in the basket"
           keyExtractor={(item: any) => item._id}
-          data={data.getBasket.DATA.products}
+          data={data.basket.products}
           renderItem={({item}: any) => (
             <Products
               products={item}
@@ -41,7 +41,7 @@ const BasketItemScreen = ({route}: any) => {
           )}
         />
       )}
-      {!data.getBasket.DATA.products.length && (
+      {!data.basket.products.length && (
         <View
           style={styles.noProductsContainer}
           accessibilityLabel="no products in this basket found">

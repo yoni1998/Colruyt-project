@@ -18,7 +18,7 @@ const BasketCard = ({basketData, basketKey}: any) => {
   const navigation = useNavigation() as any;
   const removeBasket = useRemoveBasket();
 
-  const deleteBasketOnId = (id: number) => {
+  const deleteBasketOnId = (id: any) => {
     removeBasket.mutate(id);
   };
 

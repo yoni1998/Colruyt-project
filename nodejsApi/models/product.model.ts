@@ -1,5 +1,4 @@
 import * as mongoose from "mongoose";
-import { ModificationNote } from "../common/AbstractModel";
 
 const schema = new mongoose.Schema({
   naam: String,
