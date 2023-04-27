@@ -1,5 +1,5 @@
 import {View, Text, StyleSheet, Button, Modal, TextInput} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import SelectDropdown from 'react-native-select-dropdown';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {showToastWithGravity} from '../shared/Toast';
@@ -35,12 +35,20 @@ const ProductModal = ({item, setIsModalVisible, isEdit, editBasketId}: any) => {
         updateProductToBasketId: editBasketId,
         input: aantal.toString(),
       });
+      setIsModalVisible(false);
+      showToastWithGravity('het product is aangepast in je winkelmandje');
     }
   };
 
   if (addProductToBasket.isSuccess || updateProductToBasket.isSuccess) {
-    queryClient.refetchQueries('baskets');
+    queryClient.refetchQueries('basket');
   }
+
+  useEffect(() => {
+    if (isEdit) {
+      setAantal(Number(item?.aantal));
+    }
+  }, [isEdit, item.aantal]);
 
   return (
     <Modal>
@@ -55,9 +63,7 @@ const ProductModal = ({item, setIsModalVisible, isEdit, editBasketId}: any) => {
               size={20}
               onPress={() => setAantal(aantal - 1)}
             />
-            <TextInput style={styles.quantity}>
-              {isEdit ? item.aantal : aantal}
-            </TextInput>
+            <TextInput style={styles.quantity}>{aantal}</TextInput>
             <Icon size={20} name="plus" onPress={() => setAantal(aantal + 1)} />
           </View>
           <View>

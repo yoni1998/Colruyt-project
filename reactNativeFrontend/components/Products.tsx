@@ -12,7 +12,7 @@ const Products = ({products, productKey, basketId}: any) => {
   const navigation = useNavigation() as any;
   const deleteProductInBasket = useDeleteProductInBasket();
 
-  const deleteProduct = (id: any) => {
+  const deleteProduct = (id: number) => {
     deleteProductInBasket.mutate({
       basketId,
       id,
@@ -24,7 +24,7 @@ const Products = ({products, productKey, basketId}: any) => {
     queryClient.refetchQueries('basket');
   }
 
-  const renderRightActions = (id: any) => {
+  const renderRightActions = (id: number) => {
     return (
       <RectButton
         onActiveStateChange={() => deleteProduct(id)}

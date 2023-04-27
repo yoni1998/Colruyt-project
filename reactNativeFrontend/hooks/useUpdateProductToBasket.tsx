@@ -15,7 +15,6 @@ const useUpdateProductToBasket = () => {
       });
     },
   );
-
   return {mutate, isLoading, isSuccess, isError};
 };
 

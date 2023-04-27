@@ -12,12 +12,13 @@ import {showToastWithGravity} from '../shared/Toast';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import useRemoveBasket from '../hooks/useRemoveBasket';
 import {queryClient} from '../constants/GraphqlAccess';
+import Basket from '../interfaces/Basket.interface';
 
 const BasketCard = ({basketData, basketKey}: any) => {
   const navigation = useNavigation() as any;
   const removeBasket = useRemoveBasket();
 
-  const deleteBasketOnId = (id: any) => {
+  const deleteBasketOnId = (id: number) => {
     removeBasket.mutate(id);
   };
 
@@ -26,7 +27,7 @@ const BasketCard = ({basketData, basketKey}: any) => {
     showToastWithGravity('het winkelmandje is verwijderd');
   }
 
-  const renderRightActions = (id: any) => {
+  const renderRightActions = (id: number) => {
     return (
       <RectButton
         style={styles.rightAction}
@@ -37,7 +38,7 @@ const BasketCard = ({basketData, basketKey}: any) => {
     );
   };
 
-  const renderLeftActions = (item: any) => {
+  const renderLeftActions = (item: Basket) => {
     return (
       <RectButton
         style={styles.leftAction}

@@ -1,5 +1,3 @@
-import { ModificationNote } from "../common/AbstractModel";
-
 export interface IProduct {
   _id?: String;
   id?: String;
