@@ -9,13 +9,13 @@ export const ADD_PRODUCT_TO_BASKET = gql`
       _id
       products {
         _id
-        aantal
+        amount
         productId {
           inStock
           kcal
           productImage
-          prijs
-          naam
+          price
+          name
           _id
         }
       }
@@ -48,13 +48,13 @@ export const UPDATE_PRODUCT_IN_BASKET = gql`
       _id
       products {
         _id
-        aantal
+        amount
         productId {
           inStock
           kcal
           productImage
-          prijs
-          naam
+          price
+          name
           _id
         }
       }
@@ -65,7 +65,7 @@ export const UPDATE_PRODUCT_IN_BASKET = gql`
 export const GET_ALL_BASKETS = gql`
   query Query {
     baskets {
-      naam
+      name
       imageBackground
       _id
       products {
@@ -73,12 +73,12 @@ export const GET_ALL_BASKETS = gql`
           inStock
           kcal
           productImage
-          prijs
-          naam
+          price
+          name
           _id
         }
         _id
-        aantal
+        amount
       }
     }
   }
@@ -87,17 +87,17 @@ export const GET_ALL_BASKETS = gql`
 export const GET_BASKET_ON_ID = gql`
   query Query($basketId: String!) {
     basket(id: $basketId) {
-      naam
+      name
       imageBackground
       products {
         _id
-        aantal
+        amount
         productId {
           inStock
           kcal
           productImage
-          prijs
-          naam
+          price
+          name
           _id
         }
       }
@@ -109,7 +109,7 @@ export const ADD_NEW_BASKET = gql`
   mutation Mutation($input: NewBasketInput) {
     createBasket(input: $input) {
       _id
-      naam
+      name
       imageBackground
     }
   }
@@ -127,7 +127,7 @@ export const UPDATE_BASKET_ON_ID = gql`
   mutation Mutation($updateBasketId: ID!, $input: NewBasketInput) {
     updateBasket(id: $updateBasketId, input: $input) {
       _id
-      naam
+      name
       imageBackground
     }
   }

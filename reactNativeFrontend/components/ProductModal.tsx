@@ -9,7 +9,7 @@ import {queryClient} from '../constants/GraphqlAccess';
 import useUpdateProductToBasket from '../hooks/useUpdateProductToBasket';
 
 const ProductModal = ({item, setIsModalVisible, isEdit, editBasketId}: any) => {
-  const [aantal, setAantal] = useState(1);
+  const [amount, setAmount] = useState(1);
   const [basketId, setBasketId] = useState(null);
 
   const addProductToBasket = useAddProductToBasket({basketId});
@@ -19,22 +19,22 @@ const ProductModal = ({item, setIsModalVisible, isEdit, editBasketId}: any) => {
 
   const addToCard = (id: string) => {
     if (!isEdit) {
-      if (aantal < 1) {
+      if (amount < 1) {
         showToastWithGravity('Amount need to be above 1');
       } else if (!basketId) {
         showToastWithGravity('You need to select a basket');
       } else {
-        addProductToBasket.mutate({productId: id, aantal: aantal});
+        addProductToBasket.mutate({productId: id, amount: amount});
       }
     }
     if (isEdit) {
-      if (aantal < 1) {
+      if (amount < 1) {
         showToastWithGravity('Amount need to be above 1');
       } else {
         updateProductToBasket.mutate({
           productId: id,
           updateProductToBasketId: editBasketId,
-          input: aantal,
+          input: amount,
         });
       }
     }
@@ -56,29 +56,29 @@ const ProductModal = ({item, setIsModalVisible, isEdit, editBasketId}: any) => {
 
   useEffect(() => {
     if (isEdit) {
-      setAantal(Number(item?.aantal));
+      setAmount(Number(item?.amount));
     }
-  }, [isEdit, item.aantal]);
+  }, [isEdit, item.amount]);
 
   return (
     <Modal>
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.text}>Selecteer het aantal</Text>
+          <Text style={styles.text}>Select the amount</Text>
         </View>
         <View style={styles.body}>
           <View style={styles.quantityContainer}>
             <Icon
               name="minus"
               size={25}
-              onPress={() => setAantal(aantal - 1)}
+              onPress={() => setAmount(amount - 1)}
             />
-            <TextInput style={styles.quantity}>{aantal}</TextInput>
+            <TextInput style={styles.quantity}>{amount}</TextInput>
             <Icon
               size={25}
               style={styles.plusIcon}
               name="plus"
-              onPress={() => setAantal(aantal + 1)}
+              onPress={() => setAmount(amount + 1)}
             />
           </View>
           <View>
@@ -88,8 +88,8 @@ const ProductModal = ({item, setIsModalVisible, isEdit, editBasketId}: any) => {
                 disabled={isEdit ? true : false}
                 data={data?.baskets}
                 onSelect={selectedItem => setBasketId(selectedItem._id)}
-                buttonTextAfterSelection={selectedItem => selectedItem.naam}
-                rowTextForSelection={textItem => textItem.naam}
+                buttonTextAfterSelection={selectedItem => selectedItem.name}
+                rowTextForSelection={textItem => textItem.name}
               />
             </View>
           </View>

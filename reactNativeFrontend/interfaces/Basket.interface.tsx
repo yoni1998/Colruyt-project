@@ -1,6 +1,6 @@
 interface Basket {
   _id?: string;
-  naam: string;
+  name: string;
   imageBackground: string;
   products?: IProducts[];
 }

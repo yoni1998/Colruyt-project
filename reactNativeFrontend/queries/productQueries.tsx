@@ -6,8 +6,8 @@ export const GET_PRODUCTS = gql`
       inStock
       kcal
       productImage
-      prijs
-      naam
+      price
+      name
       _id
     }
   }
@@ -20,8 +20,8 @@ export const GET_PRODUCT_ON_ID = gql`
         inStock
         kcal
         productImage
-        prijs
-        naam
+        price
+        name
         _id
       }
     }

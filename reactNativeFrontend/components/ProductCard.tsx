@@ -26,8 +26,8 @@ const ProductCard = ({product, productKey}: any) => {
                 productDetails: product,
               })
             }>
-            <Text style={styles.name}>{product.naam}</Text>
-            <Text style={styles.price}>€ {product.prijs}.00</Text>
+            <Text style={styles.name}>{product.name}</Text>
+            <Text style={styles.price}>€ {product.price}.00</Text>
           </Pressable>
         </View>
         {isModalVisible && (

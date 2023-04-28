@@ -16,8 +16,8 @@ const Products = objectType({
   name: "Products",
   definition(t) {
     t.id("_id"),
-      t.string("naam"),
-      t.int("prijs"),
+      t.string("name"),
+      t.int("price"),
       t.string("productImage"),
       t.string("kcal"),
       t.boolean("inStock");
@@ -28,8 +28,8 @@ const Product = objectType({
   name: "Product",
   definition(t) {
     t.id("_id"),
-      t.string("naam"),
-      t.int("prijs"),
+      t.string("name"),
+      t.int("price"),
       t.string("productImage"),
       t.string("kcal"),
       t.boolean("inStock");
@@ -40,7 +40,7 @@ const ProductIds = objectType({
   name: "ProductId",
   definition(t) {
     t.string("_id"),
-      t.string("aantal"),
+      t.string("amount"),
       t.field("productId", { type: "Product" });
   },
 });
@@ -49,7 +49,7 @@ const Baskets = objectType({
   name: "Baskets",
   definition(t) {
     t.id("_id"),
-      t.string("naam"),
+      t.string("name"),
       t.string("imageBackground"),
       t.field("products", { type: list("ProductId") });
   },
@@ -59,7 +59,7 @@ const Basket = objectType({
   name: "Basket",
   definition(t) {
     t.id("_id"),
-      t.string("naam"),
+      t.string("name"),
       t.string("imageBackground"),
       t.field("products", { type: list("ProductId") });
   },
@@ -167,7 +167,7 @@ const removeBasket = mutationField("removeBasket", {
 const BasketInput = inputObjectType({
   name: "NewBasketInput",
   definition(t) {
-    t.nonNull.string("naam");
+    t.nonNull.string("name");
     t.nonNull.string("imageBackground");
   },
 });
@@ -176,7 +176,7 @@ const BasketProductInput = inputObjectType({
   name: "BasketProductInput",
   definition(t) {
     t.nullable.string("productId");
-    t.nonNull.int("aantal");
+    t.nonNull.int("amount");
   },
 });
 

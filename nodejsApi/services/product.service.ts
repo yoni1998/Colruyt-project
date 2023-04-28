@@ -11,8 +11,8 @@ export const findAllProducts = async (
     return [];
   }
   return await product.find({
-    naam: regex,
-    prijs:
+    name: regex,
+    price:
       minPrice || maxPrice
         ? { $gte: minPrice, $lte: maxPrice }
         : { $gte: 0, $lte: 100 },

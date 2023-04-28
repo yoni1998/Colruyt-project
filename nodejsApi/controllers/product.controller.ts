@@ -51,8 +51,8 @@ export const getProductOnId = (req: Request, res: Response) => {
 export const createNewProduct = (req: Request, res: Response) => {
   // input validation
   const schema = Joi.object().keys({
-    naam: Joi.string().required(),
-    prijs: Joi.number().required(),
+    name: Joi.string().required(),
+    price: Joi.number().required(),
     productImage: Joi.string(),
     kcal: Joi.number(),
     inStock: Joi.boolean().required(),
@@ -66,8 +66,8 @@ export const createNewProduct = (req: Request, res: Response) => {
   } else {
     // this check whether all the fields were send through the request or not
     const newProduct: IProduct = {
-      naam: req.body.naam,
-      prijs: req.body.prijs,
+      name: req.body.name,
+      price: req.body.price,
       productImage: req.body.productImage,
       kcal: req.body.kcal,
       inStock: req.body.inStock,
@@ -85,8 +85,8 @@ export const updateCurrentProduct = (req: Request, res: Response) => {
     productOnId(productId).then((data: any) => {
       // input validation
       const schema = Joi.object().keys({
-        naam: req.body.naam,
-        prijs: req.body.prijs,
+        name: req.body.name,
+        price: req.body.price,
         productImage: req.body.productImage,
         kcal: req.body.kcal,
         inStock: req.body.inStock,
@@ -101,8 +101,8 @@ export const updateCurrentProduct = (req: Request, res: Response) => {
       } else {
         const editProduct: IProduct = {
           _id: req.params.id,
-          naam: req.body.naam ? req.body.naam : data.naam,
-          prijs: req.body.prijs ? req.body.prijs : data.prijs,
+          name: req.body.name ? req.body.name : data.name,
+          price: req.body.price ? req.body.price : data.price,
           productImage: req.body.productImage
             ? req.body.productImage
             : data.productImage,

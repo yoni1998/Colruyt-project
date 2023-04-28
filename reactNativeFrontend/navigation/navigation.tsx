@@ -62,7 +62,7 @@ const Navigation = () => {
           name="Details"
           component={ProductDetailsScreen}
           options={({route}: any) => ({
-            title: route?.params?.productDetails?.naam,
+            title: route?.params?.productDetails?.name,
             headerTitleAlign: 'center',
             ...options,
           })}
@@ -116,7 +116,7 @@ const Navigation = () => {
           name="ProductDetails"
           component={ProductDetailsScreen}
           options={({route}: any) => ({
-            title: route?.params?.productDetails?.naam,
+            title: route?.params?.productDetails?.name,
             headerTitleAlign: 'center',
             ...options,
           })}

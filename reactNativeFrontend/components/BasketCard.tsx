@@ -69,7 +69,7 @@ const BasketCard = ({basketData, basketKey}: any) => {
             style={styles.catoImage}>
             <View style={styles.gridContainer}>
               <Text style={styles.textStyle} numberOfLines={2}>
-                {basketData?.naam}
+                {basketData?.name}
               </Text>
             </View>
           </ImageBackground>

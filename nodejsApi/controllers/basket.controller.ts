@@ -52,7 +52,7 @@ export const getBasketOnId = (req: Request, res: Response) => {
 export const createNewBasket = (req: Request, res: Response) => {
   // input validation
   const schema = Joi.object().keys({
-    naam: Joi.string().required(),
+    name: Joi.string().required(),
     imageBackground: Joi.string().required(),
   });
   if (schema.validate(req.body).error) {
@@ -64,7 +64,7 @@ export const createNewBasket = (req: Request, res: Response) => {
   } else {
     // this check whether all the fields were send through the request or not
     const newBasket: IBasket = {
-      naam: req.body.naam,
+      name: req.body.name,
       imageBackground: req.body.imageBackground,
       modification_notes: {
         modified_on: new Date(Date.now()),
@@ -85,7 +85,7 @@ export const updateCurrentBasket = (req: Request, res: Response) => {
     basketOnId(basketId).then((data: any) => {
       // input validation
       const schema = Joi.object().keys({
-        naam: Joi.string().required(),
+        name: Joi.string().required(),
         imageBackground: Joi.string().required(),
       });
 
@@ -98,7 +98,7 @@ export const updateCurrentBasket = (req: Request, res: Response) => {
       } else {
         const editBasket: IBasket = {
           _id: req.params.id,
-          naam: req.body.naam ? req.body.naam : data.naam,
+          name: req.body.name ? req.body.name : data.name,
           imageBackground: req.body.imageBackground
             ? req.body.imageBackground
             : data.imageBackground,
@@ -167,7 +167,7 @@ export const deleteProductInBasketOnId = (req: Request, res: Response) => {
 export const addNewProductToBasket = (req: Request, res: Response) => {
   if (req.params.id) {
     const newProduct: IProducts = {
-      aantal: req.body.aantal,
+      amount: req.body.amount,
       productId: req.body.productId,
     };
     // send request
@@ -183,7 +183,7 @@ export const updateProductInBasket = (req: Request, res: Response) => {
     basketOnId(basketId).then((data: any) => {
       // input validation
       const schema = Joi.object().keys({
-        aantal: Joi.number().required(),
+        amount: Joi.number().required(),
       });
 
       if (schema.validate(req.body).error) {
@@ -195,7 +195,7 @@ export const updateProductInBasket = (req: Request, res: Response) => {
       } else {
         const editProductInBasket: any = {
           _id: req.params.id,
-          aantal: req.body.aantal ? req.body.aantal : data.aantal,
+          amount: req.body.amount ? req.body.amount : data.amount,
         };
 
         updateProductFromBasket(req.params.productId, editProductInBasket).then(

@@ -2,7 +2,7 @@ import * as mongoose from "mongoose";
 import { ModificationNote } from "../common/AbstractModel";
 
 const schema = new mongoose.Schema({
-  naam: String,
+  name: String,
   imageBackground: String,
   products: [
     {
@@ -10,7 +10,7 @@ const schema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "product",
       },
-      aantal: String,
+      amount: String,
     },
   ],
   modification_notes: [ModificationNote],

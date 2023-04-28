@@ -55,17 +55,17 @@ const AddBasketFormScreen = ({route}: any | null) => {
     }
   };
 
-  const addOrUpdateBasket = (naam: string) => {
-    if (!naam) {
+  const addOrUpdateBasket = (name: string) => {
+    if (!name) {
       showToastWithGravity('Enter the name of your basket');
     } else {
       if (params?.basketData._id) {
-        updateBasket.mutate({naam, imageBackground});
+        updateBasket.mutate({name, imageBackground});
 
         showToastWithGravity('Het wijzigen van een winkelmandje is gelukt');
         navigation.navigate('Baskets');
       } else {
-        addBasket.mutate({naam, imageBackground});
+        addBasket.mutate({name, imageBackground});
         showToastWithGravity('Het toevoegen van een winkelmandje is gelukt');
         navigation.navigate('Baskets');
       }
@@ -83,13 +83,13 @@ const AddBasketFormScreen = ({route}: any | null) => {
       <Formik
         accessibilityLabel="add new basket form"
         initialValues={{
-          naam: params?.basketData.naam ? params?.basketData.naam : '',
+          name: params?.basketData.name ? params?.basketData.name : '',
           imageBackground: params?.basketData.imageBackground
             ? params?.basketData.imageBackground
             : 'https://cdn.pixabay.com/photo/2016/03/02/20/13/grocery-1232944_960_720.jpg',
         }}
         onSubmit={async (values: any) => {
-          addOrUpdateBasket(values.naam);
+          addOrUpdateBasket(values.name);
         }}>
         {formikProps => (
           <View style={styles.container}>
@@ -97,8 +97,8 @@ const AddBasketFormScreen = ({route}: any | null) => {
               accessibilityLabel="name input"
               style={styles.textInput}
               placeholder="Enter name"
-              onChangeText={formikProps.handleChange('naam')}
-              value={formikProps.values.naam}
+              onChangeText={formikProps.handleChange('name')}
+              value={formikProps.values.name}
             />
             <Text style={styles.previewText}>Preview image</Text>
             <Pressable style={styles.pressable} onPressIn={handleImageSubmit}>
@@ -115,10 +115,10 @@ const AddBasketFormScreen = ({route}: any | null) => {
             <Pressable
               onPress={() => formikProps.handleSubmit()}
               style={styles.button}>
-              {params?.basketData.naam && (
+              {params?.basketData.name && (
                 <Text style={styles.text}>Basket Wijzigen</Text>
               )}
-              {!params?.basketData.naam && (
+              {!params?.basketData.name && (
                 <Text style={styles.text}>Basket Aanmaken</Text>
               )}
             </Pressable>

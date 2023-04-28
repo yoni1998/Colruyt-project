@@ -1,7 +1,7 @@
 export interface IProduct {
   _id?: String;
-  naam: String;
-  prijs: Number;
+  name: String;
+  price: Number;
   productImage: String;
   kcal: Number;
   inStock: Boolean;

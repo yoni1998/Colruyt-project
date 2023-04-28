@@ -1,9 +1,9 @@
 interface Product {
   _id?: string;
   id?: string;
-  naam?: string;
-  prijs?: number;
-  aantal?: number;
+  name?: string;
+  price?: number;
+  amount?: number;
 }
 
 export default Product;

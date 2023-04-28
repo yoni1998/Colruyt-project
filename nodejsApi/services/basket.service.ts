@@ -57,6 +57,6 @@ export const updateProductFromBasket = async (
 ) => {
   return await basket.updateOne(
     { "products._id": productId },
-    { $set: { "products.$.aantal": product.aantal } }
+    { $set: { "products.$.amount": product.amount } }
   );
 };

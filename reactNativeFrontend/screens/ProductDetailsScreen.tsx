@@ -24,13 +24,13 @@ const ProductDetailsScreen = ({route}: any) => {
       />
       <View accessibilityLabel="product details">
         <Text accessibilityLabel="name field" style={styles.textHeader}>
-          Naam
+          name
         </Text>
-        <Text style={styles.details}>{productDetails?.naam}</Text>
+        <Text style={styles.details}>{productDetails?.name}</Text>
         <Text accessibilityLabel="price field" style={styles.textHeader}>
-          Prijs
+          price
         </Text>
-        <Text style={styles.details}>€ {productDetails?.prijs}.00/ each</Text>
+        <Text style={styles.details}>€ {productDetails?.price}.00/ each</Text>
         <Text style={styles.textHeader} accessibilityLabel="kcal field">
           kcal
         </Text>

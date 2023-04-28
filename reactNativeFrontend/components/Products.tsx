@@ -74,15 +74,15 @@ const Products = ({products, productKey, basketId}: any) => {
                           productDetails: products.productId,
                         })
                   }>
-                  <Text style={styles.name}>{products.productId?.naam}</Text>
+                  <Text style={styles.name}>{products.productId?.name}</Text>
                   <Text style={styles.price}>
-                    € {products.productId?.prijs}.00 /each
+                    € {products.productId?.price}.00 /each
                   </Text>
                 </Pressable>
               </View>
               <View style={styles.quantityContainer}>
-                <Text style={styles.quantityTitle}>Aantal</Text>
-                <Text style={styles.quantity}>{products?.aantal}</Text>
+                <Text style={styles.quantityTitle}>Amount</Text>
+                <Text style={styles.quantity}>{products?.amount}</Text>
               </View>
             </View>
           </View>
