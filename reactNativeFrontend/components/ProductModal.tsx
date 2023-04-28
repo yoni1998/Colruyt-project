@@ -81,18 +81,20 @@ const ProductModal = ({item, setIsModalVisible, isEdit, editBasketId}: any) => {
               onPress={() => setAmount(amount + 1)}
             />
           </View>
-          <View>
-            <Text style={styles.text}>Selecteer het winkelmandje</Text>
-            <View style={styles.dropdown}>
-              <SelectDropdown
-                disabled={isEdit ? true : false}
-                data={data?.baskets}
-                onSelect={selectedItem => setBasketId(selectedItem._id)}
-                buttonTextAfterSelection={selectedItem => selectedItem.name}
-                rowTextForSelection={textItem => textItem.name}
-              />
+
+          {!isEdit && (
+            <View>
+              <Text style={styles.text}>Selecteer het winkelmandje</Text>
+              <View style={styles.dropdown}>
+                <SelectDropdown
+                  data={data?.baskets}
+                  onSelect={selectedItem => setBasketId(selectedItem._id)}
+                  buttonTextAfterSelection={selectedItem => selectedItem.name}
+                  rowTextForSelection={textItem => textItem.name}
+                />
+              </View>
             </View>
-          </View>
+          )}
         </View>
         <View style={styles.footer}>
           <Button title="Add to basket" onPress={() => addToCard(item._id)} />

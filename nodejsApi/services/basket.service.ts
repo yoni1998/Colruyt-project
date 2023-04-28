@@ -10,17 +10,17 @@ export const basketOnId = async (id: any) =>
 
 export const createBasket = async (newBasket: IBasket) => {
   const createdBasket = new basket(newBasket);
-  await createdBasket.save();
+  return await createdBasket.save();
 };
 
 export const updateBasket = async (editBasket: IBasket) => {
   const id = { _id: editBasket._id };
-  await basket.findOneAndUpdate(id, editBasket);
+  return await basket.findOneAndUpdate(id, editBasket);
 };
 
 export const deleteBasket = async (id: String) => {
   const basketOnId = { _id: id };
-  await basket.deleteOne(basketOnId);
+  return await basket.deleteOne(basketOnId);
 };
 
 export const productInBasketOnId = async (id: string, productId: string) =>
@@ -32,31 +32,25 @@ export const productInBasketOnId = async (id: string, productId: string) =>
     )
     .populate("products");
 
-export const deleteProductFromBasket = async (
-  id: string,
-  productId: string
-) => {
+export const deleteProductFromBasket = async (id: string, productId: string) =>
   await basket.findOneAndUpdate(
     { _id: id },
     { $pull: { products: { _id: productId } } },
     { new: true }
   );
-};
 
-export const createProductInBasket = async (id: string, product: IProducts) => {
+export const createProductInBasket = async (id: string, product: IProducts) =>
   await basket.findOneAndUpdate(
     { _id: id },
     { $push: { products: product } },
     { new: true }
   );
-};
 
 export const updateProductFromBasket = async (
   productId: string,
   product: IProducts
-) => {
-  return await basket.updateOne(
+) =>
+  await basket.updateOne(
     { "products._id": productId },
     { $set: { "products.$.amount": product.amount } }
   );
-};
