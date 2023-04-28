@@ -1,8 +1,8 @@
 import { RESTDataSource } from "apollo-datasource-rest";
 import * as dotenv from "dotenv";
+import { IProduct } from "../interfaces/product.interface";
 dotenv.config();
 export class ProductDatasource extends RESTDataSource {
-  ROOTPATH: string = process.env.ROOTPATH as string;
   SUBPATH: string = process.env.SUBPATH as string;
   constructor() {
     super();
@@ -14,37 +14,30 @@ export class ProductDatasource extends RESTDataSource {
       maxPrice,
     });
   }
-  async getProduct(id: any) {
-    return await this.get("http://localhost:7000/api/product/" + id);
+  async getProduct(id: string) {
+    return await this.get(this.SUBPATH + id);
   }
-  async deleteProduct(id: any) {
+  async deleteProduct(id: string) {
     let options = {
       method: "delete",
       mode: "cors",
       cache: "no-cache",
       credentials: "omit",
     };
-    return await this.delete(
-      "http://localhost:7000/api/product/" + id,
-      options
-    );
+    return await this.delete(this.SUBPATH + id, options);
   }
-  async addProduct(product: any) {
+  async addProduct(product: IProduct) {
     const options = {
       method: "post",
       headers: { "Content-Type": "application/json" },
     };
-    return this.post("http://localhost:7000/api/product/", product, options);
+    return this.post(this.SUBPATH, product, options);
   }
-  async updateProduct(id: any, product: any) {
+  async updateProduct(id: string, product: IProduct) {
     const options = {
       method: "put",
       headers: { "Content-Type": "application/json" },
     };
-    return this.put(
-      "http://localhost:7000/api/product/" + id,
-      product,
-      options
-    );
+    return this.put(this.SUBPATH + id, product, options);
   }
 }

@@ -1,4 +1,5 @@
 import { IBasket } from "../interfaces/basket.interface";
+import { IProducts } from "../interfaces/products.interface";
 import basket from "../models/basket.model";
 
 export const findAllBaskets = async () =>
@@ -22,7 +23,7 @@ export const deleteBasket = async (id: String) => {
   await basket.deleteOne(basketOnId);
 };
 
-export const productInBasketOnId = async (id: any, productId: any) =>
+export const productInBasketOnId = async (id: string, productId: string) =>
   await basket
     .findOne(
       { _id: id },
@@ -31,7 +32,10 @@ export const productInBasketOnId = async (id: any, productId: any) =>
     )
     .populate("products");
 
-export const deleteProductFromBasket = async (id: any, productId: any) => {
+export const deleteProductFromBasket = async (
+  id: string,
+  productId: string
+) => {
   await basket.findOneAndUpdate(
     { _id: id },
     { $pull: { products: { _id: productId } } },
@@ -39,7 +43,7 @@ export const deleteProductFromBasket = async (id: any, productId: any) => {
   );
 };
 
-export const createProductInBasket = async (id: any, product: any) => {
+export const createProductInBasket = async (id: string, product: IProducts) => {
   await basket.findOneAndUpdate(
     { _id: id },
     { $push: { products: product } },
@@ -47,7 +51,10 @@ export const createProductInBasket = async (id: any, product: any) => {
   );
 };
 
-export const updateProductFromBasket = async (productId: any, product: any) => {
+export const updateProductFromBasket = async (
+  productId: string,
+  product: IProducts
+) => {
   return await basket.updateOne(
     { "products._id": productId },
     { $set: { "products.$.aantal": product.aantal } }

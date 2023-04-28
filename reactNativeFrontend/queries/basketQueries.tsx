@@ -11,8 +11,10 @@ export const ADD_PRODUCT_TO_BASKET = gql`
         _id
         aantal
         productId {
+          inStock
+          kcal
+          productImage
           prijs
-          aantal
           naam
           _id
         }
@@ -48,10 +50,12 @@ export const UPDATE_PRODUCT_IN_BASKET = gql`
         _id
         aantal
         productId {
-          _id
-          naam
-          aantal
+          inStock
+          kcal
+          productImage
           prijs
+          naam
+          _id
         }
       }
     }
@@ -66,8 +70,11 @@ export const GET_ALL_BASKETS = gql`
       _id
       products {
         productId {
+          inStock
+          kcal
+          productImage
+          prijs
           naam
-          aantal
           _id
         }
         _id
@@ -86,9 +93,11 @@ export const GET_BASKET_ON_ID = gql`
         _id
         aantal
         productId {
-          naam
-          aantal
+          inStock
+          kcal
+          productImage
           prijs
+          naam
           _id
         }
       }

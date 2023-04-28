@@ -1,6 +1,7 @@
 import {
   idArg,
   inputObjectType,
+  intArg,
   list,
   makeSchema,
   mutationField,
@@ -14,14 +15,24 @@ import {
 const Products = objectType({
   name: "Products",
   definition(t) {
-    t.id("_id"), t.string("naam"), t.string("aantal"), t.int("prijs");
+    t.id("_id"),
+      t.string("naam"),
+      t.int("prijs"),
+      t.string("productImage"),
+      t.string("kcal"),
+      t.boolean("inStock");
   },
 });
 
 const Product = objectType({
   name: "Product",
   definition(t) {
-    t.id("_id"), t.string("naam"), t.string("aantal"), t.int("prijs");
+    t.id("_id"),
+      t.string("naam"),
+      t.int("prijs"),
+      t.string("productImage"),
+      t.string("kcal"),
+      t.boolean("inStock");
   },
 });
 
@@ -60,8 +71,8 @@ const Query = queryType({
       type: "Products",
       args: {
         search: nonNull(stringArg()),
-        minPrice: nullable(stringArg()),
-        maxPrice: nullable(stringArg()),
+        minPrice: nullable(intArg()),
+        maxPrice: nullable(intArg()),
       },
       resolve: async (
         root: any,

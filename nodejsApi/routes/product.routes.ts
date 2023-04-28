@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import * as dotenv from "dotenv";
 import {
   createNewProduct,
   deleteProductOnId,
@@ -6,14 +7,16 @@ import {
   updateCurrentProduct,
 } from "../controllers/product.controller";
 let router = express.Router();
+dotenv.config();
 
+const SUBPATH: string = process.env.SUBPATH as string;
 // use middleware
-router.route("/product").post((req: Request, res: Response) => {
+router.route(SUBPATH).post((req: Request, res: Response) => {
   createNewProduct(req, res);
 });
 
 router
-  .route("/product/:id")
+  .route(SUBPATH + "/:id")
   .get((req: Request, res: Response) => {
     getProductOnId(req, res);
   })

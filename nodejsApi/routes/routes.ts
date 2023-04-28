@@ -8,14 +8,13 @@ dotenv.config();
 
 export class Routes {
   private ROOTPATH: string = process.env.ROOTPATH as string;
-  private SUBPATH: string = process.env.SUBPATH as string;
 
   public route(app: Application) {
     // middleware
     app
       .use("/", productMiddleware)
       .use("/api", router)
-      .use("/api/basket", basketRouter);
+      .use(this.ROOTPATH, basketRouter);
     // app routes
     app.get("/", (req: Request, res: Response) => {
       getAllProducts(req, res);

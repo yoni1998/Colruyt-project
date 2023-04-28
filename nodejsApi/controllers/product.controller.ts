@@ -53,7 +53,9 @@ export const createNewProduct = (req: Request, res: Response) => {
   const schema = Joi.object().keys({
     naam: Joi.string().required(),
     prijs: Joi.number().required(),
-    aantal: Joi.number().required(),
+    productImage: Joi.string(),
+    kcal: Joi.number(),
+    inStock: Joi.boolean().required(),
   });
   if (schema.validate(req.body).error) {
     failureResponse(
@@ -66,7 +68,9 @@ export const createNewProduct = (req: Request, res: Response) => {
     const newProduct: IProduct = {
       naam: req.body.naam,
       prijs: req.body.prijs,
-      aantal: req.body.aantal,
+      productImage: req.body.productImage,
+      kcal: req.body.kcal,
+      inStock: req.body.inStock,
     };
     // send request
     createProduct(newProduct).then(() => {
@@ -81,9 +85,11 @@ export const updateCurrentProduct = (req: Request, res: Response) => {
     productOnId(productId).then((data: any) => {
       // input validation
       const schema = Joi.object().keys({
-        naam: Joi.string().required(),
-        prijs: Joi.number().required(),
-        aantal: Joi.number().required(),
+        naam: req.body.naam,
+        prijs: req.body.prijs,
+        productImage: req.body.productImage,
+        kcal: req.body.kcal,
+        inStock: req.body.inStock,
       });
 
       if (schema.validate(req.body).error) {
@@ -97,7 +103,11 @@ export const updateCurrentProduct = (req: Request, res: Response) => {
           _id: req.params.id,
           naam: req.body.naam ? req.body.naam : data.naam,
           prijs: req.body.prijs ? req.body.prijs : data.prijs,
-          aantal: req.body.aantal ? req.body.aantal : data.aantal,
+          productImage: req.body.productImage
+            ? req.body.productImage
+            : data.productImage,
+          kcal: req.body.kcal ? req.body.kcal : data.kcal,
+          inStock: req.body.inStock ? req.body.inStock : data.inStock,
         };
         updateProduct(editProduct).then((data: any) => {
           successResponse("update product successfully", data, res);
@@ -113,7 +123,7 @@ export const deleteProductOnId = (req: Request, res: Response) => {
   if (req.params.id) {
     deleteProduct(req.params.id).then(() => {
       successResponse(
-        "delete product successfull with id " + req.params.id,
+        "delete product successfully with id " + req.params.id,
         null,
         res
       );

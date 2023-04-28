@@ -14,8 +14,8 @@ import Slider from '@react-native-community/slider';
 import useProducts from '../hooks/useProducts';
 const SearchProductScreen = ({navigation}: any) => {
   const [search, setSearch] = useState('');
-  const [minPrice] = useState('0');
-  const [maxPrice, setMaxPrice] = useState('50');
+  const [minPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(50);
   const textInputRef: any = useRef();
   const {isDarkMode}: any | boolean = useDarkModeStore();
   const handleChange = (text: string) => {
@@ -24,7 +24,7 @@ const SearchProductScreen = ({navigation}: any) => {
 
   const handleSliderChange = (event: any) => {
     let roundedMaxprice = parseInt(event, 10);
-    setMaxPrice(roundedMaxprice.toString());
+    setMaxPrice(roundedMaxprice);
   };
 
   const {error, data} = useProducts({search, minPrice, maxPrice});
