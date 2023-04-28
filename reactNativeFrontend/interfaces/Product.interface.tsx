@@ -1,9 +1,10 @@
 interface Product {
   _id?: string;
-  id?: string;
   name?: string;
   price?: number;
-  amount?: number;
+  productImage: string;
+  kcal: string;
+  inStock: boolean;
 }
 
 export default Product;

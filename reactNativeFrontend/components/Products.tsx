@@ -9,6 +9,7 @@ import useDeleteProductInBasket from '../hooks/useDeleteProductInBasket';
 import {queryClient} from '../constants/GraphqlAccess';
 
 const Products = ({products, productKey, basketId}: any) => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const navigation = useNavigation() as any;
   const deleteProductInBasket = useDeleteProductInBasket();
 
@@ -20,8 +21,9 @@ const Products = ({products, productKey, basketId}: any) => {
   };
 
   if (deleteProductInBasket.isSuccess) {
-    queryClient.refetchQueries('basket');
-    showToastWithGravity('Het product is verwijderd uit je winkelmandje');
+    queryClient.refetchQueries('basket').then(() => {
+      showToastWithGravity('Het product is verwijderd uit je winkelmandje');
+    });
   }
 
   const renderRightActions = (id: number) => {
@@ -34,7 +36,6 @@ const Products = ({products, productKey, basketId}: any) => {
       </RectButton>
     );
   };
-  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const renderLeftActions = () => {
     return (

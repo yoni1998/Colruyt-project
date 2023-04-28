@@ -1,8 +1,10 @@
+import Products from './Products.interface';
+
 interface Basket {
   _id?: string;
   name: string;
   imageBackground: string;
-  products?: IProducts[];
+  products?: Products[];
 }
 
 export default Basket;

@@ -14,7 +14,12 @@ import useRemoveBasket from '../hooks/useRemoveBasket';
 import {queryClient} from '../constants/GraphqlAccess';
 import Basket from '../interfaces/Basket.interface';
 
-const BasketCard = ({basketData, basketKey}: any) => {
+interface BasketProps {
+  basketData: Basket;
+  basketKey: string;
+}
+
+const BasketCard = ({basketData, basketKey}: BasketProps) => {
   const navigation = useNavigation() as any;
   const removeBasket = useRemoveBasket();
 

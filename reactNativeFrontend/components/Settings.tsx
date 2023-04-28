@@ -5,7 +5,7 @@ import {useDarkModeStore} from '../hooks/useDarkModeStore';
 
 const Settings = () => {
   const [isEnabled, setIsEnabled] = useState(false);
-  const {isDarkMode, toggleDarkMode}: any | boolean = useDarkModeStore();
+  const {isDarkMode, toggleDarkMode}: boolean | any = useDarkModeStore();
 
   const toggleSwitch = () => {
     setIsEnabled((previousState: any) => !previousState);

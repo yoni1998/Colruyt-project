@@ -17,7 +17,7 @@ const ProductModal = ({item, setIsModalVisible, isEdit, editBasketId}: any) => {
 
   const {data} = useBaskets();
 
-  const addToCard = (id: string) => {
+  const addToCard = (id: any) => {
     if (!isEdit) {
       if (amount < 1) {
         showToastWithGravity('Amount need to be above 1');

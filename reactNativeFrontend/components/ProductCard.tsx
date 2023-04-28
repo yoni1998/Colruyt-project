@@ -3,8 +3,14 @@ import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import ProductModal from './ProductModal';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Product from '../interfaces/Product.interface';
+import {colors} from '../constants/Colors';
 
-const ProductCard = ({product, productKey}: any) => {
+interface ProductCardProps {
+  product: Product;
+  productKey: string;
+}
+const ProductCard = ({product, productKey}: ProductCardProps) => {
   const navigation = useNavigation() as any;
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -40,7 +46,12 @@ const ProductCard = ({product, productKey}: any) => {
 
         <View style={styles.button}>
           <Pressable onPress={() => setIsModalVisible(true)}>
-            <Icon style={styles.text} name="plus" color="#db981b" size={30} />
+            <Icon
+              style={styles.text}
+              name="plus"
+              color={colors.primary}
+              size={30}
+            />
           </Pressable>
         </View>
       </View>

@@ -42,7 +42,7 @@ const BasketItemScreen = ({route}: any) => {
           )}
         />
       )}
-      {!data.basket.products.length && (
+      {!data.basket?.products.length && (
         <View
           style={styles.noProductsContainer}
           accessibilityLabel="no products in this basket found">
