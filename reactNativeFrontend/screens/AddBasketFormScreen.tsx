@@ -11,7 +11,7 @@ import React, {useState} from 'react';
 import {Formik} from 'formik';
 import {useNavigation} from '@react-navigation/native';
 import {showToastWithGravity} from '../shared/Toast';
-import {useDarkModeStore} from '../components/Settings';
+import {useDarkModeStore} from '../hooks/useDarkModeStore';
 import {themeStyle} from '../constants/Theme';
 import ImagePicker from 'react-native-document-picker';
 import useCreateNewBasket from '../hooks/useCreateNewBasket';
@@ -21,7 +21,6 @@ const AddBasketFormScreen = ({route}: any | null) => {
   const params = route?.params;
   const navigation = useNavigation() as any;
   const {isDarkMode}: any | boolean = useDarkModeStore();
-  const [naam, setNaam] = useState('');
   const [imageBackground, setImageBackground]: any = useState(
     params?.basketData.imageBackground
       ? params?.basketData.imageBackground
@@ -56,6 +55,23 @@ const AddBasketFormScreen = ({route}: any | null) => {
     }
   };
 
+  const addOrUpdateBasket = (naam: string) => {
+    if (!naam) {
+      showToastWithGravity('Enter the name of your basket');
+    } else {
+      if (params?.basketData._id) {
+        updateBasket.mutate({naam, imageBackground});
+
+        showToastWithGravity('Het wijzigen van een winkelmandje is gelukt');
+        navigation.navigate('Baskets');
+      } else {
+        addBasket.mutate({naam, imageBackground});
+        showToastWithGravity('Het toevoegen van een winkelmandje is gelukt');
+        navigation.navigate('Baskets');
+      }
+    }
+  };
+
   return (
     <View
       accessible={true}
@@ -73,25 +89,7 @@ const AddBasketFormScreen = ({route}: any | null) => {
             : 'https://cdn.pixabay.com/photo/2016/03/02/20/13/grocery-1232944_960_720.jpg',
         }}
         onSubmit={async (values: any) => {
-          if (!values.naam) {
-            showToastWithGravity('Enter the name of your basket');
-          } else {
-            setNaam(values.naam);
-            if (params?.basketData._id) {
-              updateBasket.mutate({naam: values.naam, imageBackground});
-
-              showToastWithGravity(
-                'Het wijzigen van een winkelmandje is gelukt',
-              );
-              navigation.navigate('Baskets');
-            } else {
-              addBasket.mutate({naam: values.naam, imageBackground});
-              showToastWithGravity(
-                'Het toevoegen van een winkelmandje is gelukt',
-              );
-              navigation.navigate('Baskets');
-            }
-          }
+          addOrUpdateBasket(values.naam);
         }}>
         {formikProps => (
           <View style={styles.container}>
@@ -114,7 +112,9 @@ const AddBasketFormScreen = ({route}: any | null) => {
               />
             </Pressable>
 
-            <Pressable onPress={formikProps.handleSubmit} style={styles.button}>
+            <Pressable
+              onPress={() => formikProps.handleSubmit()}
+              style={styles.button}>
               {params?.basketData.naam && (
                 <Text style={styles.text}>Basket Wijzigen</Text>
               )}

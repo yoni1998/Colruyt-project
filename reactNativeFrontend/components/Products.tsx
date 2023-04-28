@@ -17,11 +17,11 @@ const Products = ({products, productKey, basketId}: any) => {
       basketId,
       id,
     });
-    showToastWithGravity('Het product is verwijderd uit je winkelmandje');
   };
 
   if (deleteProductInBasket.isSuccess) {
     queryClient.refetchQueries('basket');
+    showToastWithGravity('Het product is verwijderd uit je winkelmandje');
   }
 
   const renderRightActions = (id: number) => {
@@ -57,7 +57,9 @@ const Products = ({products, productKey, basketId}: any) => {
             <View style={styles.itemContainer}>
               <Image
                 source={{
-                  uri: 'https://cdn.pixabay.com/photo/2016/03/02/20/13/grocery-1232944_960_720.jpg',
+                  uri: products.productId?.productImage
+                    ? products.productId?.productImage
+                    : 'https://cdn.pixabay.com/photo/2016/03/02/20/13/grocery-1232944_960_720.jpg',
                 }}
                 style={styles.image}
               />

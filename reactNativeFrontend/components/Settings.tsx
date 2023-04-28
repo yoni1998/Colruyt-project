@@ -1,9 +1,7 @@
 import {View, Text, Switch, StyleSheet} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {create} from 'zustand';
-import {persist, createJSONStorage} from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {themeStyle} from '../constants/Theme';
+import {useDarkModeStore} from '../hooks/useDarkModeStore';
 
 const Settings = () => {
   const [isEnabled, setIsEnabled] = useState(false);
@@ -48,20 +46,6 @@ const Settings = () => {
     </View>
   );
 };
-
-export const useDarkModeStore = create(
-  persist(
-    (set: any) => ({
-      isDarkMode: false,
-      toggleDarkMode: () =>
-        set((state: any) => ({isDarkMode: !state.isDarkMode})),
-    }),
-    {
-      name: 'theme-storage',
-      storage: createJSONStorage(() => AsyncStorage),
-    },
-  ),
-);
 
 const styles = StyleSheet.create({
   container: {

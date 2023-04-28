@@ -10,7 +10,7 @@ import BasketItemScreen from '../screens/BasketItemScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Settings from '../components/Settings';
-
+import {colors} from '../constants/Colors';
 const Navigation = () => {
   const Stack = createStackNavigator();
   const Tab = createBottomTabNavigator();
@@ -21,7 +21,7 @@ const Navigation = () => {
     },
     headerStyle: {
       height: 80,
-      backgroundColor: '#db981b',
+      backgroundColor: colors.primary,
       shadowColor: '#000',
       elevation: 25,
     },
@@ -61,7 +61,11 @@ const Navigation = () => {
         <Stack.Screen
           name="Details"
           component={ProductDetailsScreen}
-          options={{headerTitleAlign: 'center', ...options}}
+          options={({route}: any) => ({
+            title: route?.params?.productDetails?.naam,
+            headerTitleAlign: 'center',
+            ...options,
+          })}
         />
         <Stack.Screen
           name="Settings"
@@ -111,7 +115,11 @@ const Navigation = () => {
         <Stack.Screen
           name="ProductDetails"
           component={ProductDetailsScreen}
-          options={{headerTitleAlign: 'center', ...options}}
+          options={({route}: any) => ({
+            title: route?.params?.productDetails?.naam,
+            headerTitleAlign: 'center',
+            ...options,
+          })}
         />
       </Stack.Navigator>
     );

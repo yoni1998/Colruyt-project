@@ -176,7 +176,7 @@ const BasketProductInput = inputObjectType({
   name: "BasketProductInput",
   definition(t) {
     t.nullable.string("productId");
-    t.nonNull.string("aantal");
+    t.nonNull.int("aantal");
   },
 });
 

@@ -1,8 +1,9 @@
 import {View, TextInput, StyleSheet} from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {useDarkModeStore} from '../components/Settings';
+import {useDarkModeStore} from '../hooks/useDarkModeStore';
 import {themeStyle} from '../constants/Theme';
+import Icon from 'react-native-vector-icons/FontAwesome';
 const HomeScreen = () => {
   const navigation: any = useNavigation();
   const {isDarkMode}: any | boolean = useDarkModeStore();
@@ -18,6 +19,7 @@ const HomeScreen = () => {
       <View
         style={styles.container}
         accessibilityLabel="Tap to navigate to search products">
+        <Icon style={styles.icon} name="search" color="#171717" size={30} />
         <TextInput
           editable={false}
           style={styles.input}
@@ -31,6 +33,11 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
+    flexDirection: 'row',
+  },
+  icon: {
+    paddingTop: 20,
+    margin: 10,
   },
   input: {
     width: 350,
@@ -38,7 +45,7 @@ const styles = StyleSheet.create({
     height: 60,
     borderWidth: 1,
     padding: 10,
-    backgroundColor: 'white',
+    backgroundColor: '#FAFCFF',
     marginTop: 30,
   },
 });

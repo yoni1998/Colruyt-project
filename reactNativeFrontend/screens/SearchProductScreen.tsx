@@ -8,16 +8,20 @@ import {
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import ProductCard from '../components/ProductCard';
-import {useDarkModeStore} from '../components/Settings';
+import {useDarkModeStore} from '../hooks/useDarkModeStore';
 import {themeStyle} from '../constants/Theme';
 import Slider from '@react-native-community/slider';
 import useProducts from '../hooks/useProducts';
+import Error from '../shared/Error';
 const SearchProductScreen = ({navigation}: any) => {
   const [search, setSearch] = useState('');
   const [minPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(50);
   const textInputRef: any = useRef();
+
   const {isDarkMode}: any | boolean = useDarkModeStore();
+  const {error, data} = useProducts({search, minPrice, maxPrice});
+
   const handleChange = (text: string) => {
     setSearch(text);
   };
@@ -26,8 +30,6 @@ const SearchProductScreen = ({navigation}: any) => {
     let roundedMaxprice = parseInt(event, 10);
     setMaxPrice(roundedMaxprice);
   };
-
-  const {error, data} = useProducts({search, minPrice, maxPrice});
 
   useEffect(() => {
     if (textInputRef.current) {
@@ -42,7 +44,7 @@ const SearchProductScreen = ({navigation}: any) => {
   }, [navigation]);
 
   if (error) {
-    console.log(error);
+    return <Error error={error} />;
   }
 
   return (
@@ -62,16 +64,18 @@ const SearchProductScreen = ({navigation}: any) => {
           onChangeText={handleChange}
           placeholder="Search for products..."
         />
-        <Text style={styles.maxPrice}>€ {maxPrice}</Text>
+        <Text style={styles.maxPrice}>
+          Maximum price for a product € {maxPrice}
+        </Text>
         <Slider
           accessibilityLabel="select the maximum price"
           onSlidingComplete={handleSliderChange}
           tapToSeek={true}
-          style={{width: 300, height: 50}}
+          style={styles.slider}
           minimumValue={0}
           maximumValue={50}
           value={50}
-          minimumTrackTintColor="#FFFFFF"
+          minimumTrackTintColor="#888888"
           maximumTrackTintColor="#000000"
         />
         {!search && <Text style={styles.emptyText}>Search for products</Text>}
@@ -94,6 +98,10 @@ const SearchProductScreen = ({navigation}: any) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
+  },
+  slider: {
+    width: 300,
+    height: 50,
   },
   input: {
     marginTop: 30,

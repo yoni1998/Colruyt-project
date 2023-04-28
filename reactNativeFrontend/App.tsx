@@ -1,7 +1,7 @@
 import React from 'react';
 import Navigation from './navigation/navigation';
 import {ThemaContext} from './context/Thema';
-import {useDarkModeStore} from './components/Settings';
+import {useDarkModeStore} from './hooks/useDarkModeStore';
 import {QueryClientProvider} from 'react-query';
 import {queryClient} from './constants/GraphqlAccess';
 

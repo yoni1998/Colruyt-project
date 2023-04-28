@@ -9,7 +9,7 @@ import {queryClient} from '../constants/GraphqlAccess';
 import useUpdateProductToBasket from '../hooks/useUpdateProductToBasket';
 
 const ProductModal = ({item, setIsModalVisible, isEdit, editBasketId}: any) => {
-  let [aantal, setAantal] = useState(1);
+  const [aantal, setAantal] = useState(1);
   const [basketId, setBasketId] = useState(null);
 
   const addProductToBasket = useAddProductToBasket({basketId});
@@ -24,24 +24,34 @@ const ProductModal = ({item, setIsModalVisible, isEdit, editBasketId}: any) => {
       } else if (!basketId) {
         showToastWithGravity('You need to select a basket');
       } else {
-        addProductToBasket.mutate({productId: id, aantal: aantal.toString()});
-        setIsModalVisible(false);
-        showToastWithGravity('het product is toegevoegd aan je winkelmandje');
+        addProductToBasket.mutate({productId: id, aantal: aantal});
       }
     }
     if (isEdit) {
-      updateProductToBasket.mutate({
-        productId: id,
-        updateProductToBasketId: editBasketId,
-        input: aantal.toString(),
-      });
-      setIsModalVisible(false);
-      showToastWithGravity('het product is aangepast in je winkelmandje');
+      if (aantal < 1) {
+        showToastWithGravity('Amount need to be above 1');
+      } else {
+        updateProductToBasket.mutate({
+          productId: id,
+          updateProductToBasketId: editBasketId,
+          input: aantal,
+        });
+      }
     }
   };
 
-  if (addProductToBasket.isSuccess || updateProductToBasket.isSuccess) {
-    queryClient.refetchQueries('basket');
+  if (updateProductToBasket.isSuccess) {
+    queryClient.refetchQueries('basket').then(() => {
+      showToastWithGravity('het product is aangepast in je winkelmandje');
+      setIsModalVisible(false);
+    });
+  }
+
+  if (addProductToBasket.isSuccess) {
+    queryClient.refetchQueries('basket').then(() => {
+      showToastWithGravity('het product is toegevoegd aan je winkelmandje');
+      setIsModalVisible(false);
+    });
   }
 
   useEffect(() => {
@@ -60,11 +70,16 @@ const ProductModal = ({item, setIsModalVisible, isEdit, editBasketId}: any) => {
           <View style={styles.quantityContainer}>
             <Icon
               name="minus"
-              size={20}
+              size={25}
               onPress={() => setAantal(aantal - 1)}
             />
             <TextInput style={styles.quantity}>{aantal}</TextInput>
-            <Icon size={20} name="plus" onPress={() => setAantal(aantal + 1)} />
+            <Icon
+              size={25}
+              style={styles.plusIcon}
+              name="plus"
+              onPress={() => setAantal(aantal + 1)}
+            />
           </View>
           <View>
             <Text style={styles.text}>Selecteer het winkelmandje</Text>
@@ -72,30 +87,15 @@ const ProductModal = ({item, setIsModalVisible, isEdit, editBasketId}: any) => {
               <SelectDropdown
                 disabled={isEdit ? true : false}
                 data={data?.baskets}
-                onSelect={selectedItem => {
-                  console.log(selectedItem._id);
-                  setBasketId(selectedItem._id);
-                }}
-                buttonTextAfterSelection={selectedItem => {
-                  // text represented after item is selected
-                  // if data array is an array of objects then return selectedItem.property to render after item is selected
-                  return selectedItem.naam;
-                }}
-                // eslint-disable-next-line @typescript-eslint/no-shadow
-                rowTextForSelection={item => {
-                  // text represented for each item in dropdown
-                  // if data array is an array of objects then return item.property to represent item in dropdown
-                  return item.naam;
-                }}
+                onSelect={selectedItem => setBasketId(selectedItem._id)}
+                buttonTextAfterSelection={selectedItem => selectedItem.naam}
+                rowTextForSelection={textItem => textItem.naam}
               />
             </View>
           </View>
         </View>
         <View style={styles.footer}>
-          <Button
-            title="Toevoegen aan winkelmandje"
-            onPress={() => addToCard(item._id)}
-          />
+          <Button title="Add to basket" onPress={() => addToCard(item._id)} />
         </View>
         <View style={styles.footer}>
           <Button
@@ -111,12 +111,13 @@ const ProductModal = ({item, setIsModalVisible, isEdit, editBasketId}: any) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#ffffff',
-    borderRadius: 25,
-    borderWidth: 1,
-    borderColor: '#000',
-    borderStyle: 'solid',
-    marginTop: '50%',
+    backgroundColor: '#FAFCFF',
+    flex: 1,
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+  plusIcon: {
+    paddingLeft: 4,
   },
   header: {
     alignItems: 'center',
@@ -136,7 +137,7 @@ const styles = StyleSheet.create({
   footer: {
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 10,
+    padding: 20,
     flexDirection: 'row',
   },
   quantityContainer: {
@@ -146,6 +147,7 @@ const styles = StyleSheet.create({
   },
   quantity: {
     marginStart: 10,
+    fontSize: 25,
   },
   dropdown: {
     justifyContent: 'center',

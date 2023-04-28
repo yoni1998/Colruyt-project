@@ -1,10 +1,11 @@
 import {View, Text, FlatList, StyleSheet} from 'react-native';
 import React from 'react';
 import Products from '../components/Products';
-import {useDarkModeStore} from '../components/Settings';
+import {useDarkModeStore} from '../hooks/useDarkModeStore';
 import {themeStyle} from '../constants/Theme';
 import Loading from '../shared/Loading';
 import useBasketId from '../hooks/useBasketId';
+import Error from '../shared/Error';
 const BasketItemScreen = ({route}: any) => {
   const {basketId} = route.params;
   const {isDarkMode}: any | boolean = useDarkModeStore();
@@ -16,7 +17,7 @@ const BasketItemScreen = ({route}: any) => {
   }
 
   if (error) {
-    console.log(error);
+    return <Error error={error} />;
   }
 
   return (

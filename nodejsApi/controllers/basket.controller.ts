@@ -1,4 +1,3 @@
-import { productOnId } from "./../services/product.service";
 import { Request, Response } from "express";
 import {
   insufficientParameters,
