@@ -8,7 +8,17 @@ import useDeleteProductInBasket from '../hooks/useDeleteProductInBasket';
 import {queryClient} from '../constants/GraphqlAccess';
 import {renderLeftActions, renderRightActions} from '../shared/Swipeable';
 
-const Products = ({products, productKey, basketId}: any) => {
+interface ProductInBasketProps {
+  products: any;
+  productKey: string;
+  basketId: string;
+}
+
+const ProductsInBasket = ({
+  products,
+  productKey,
+  basketId,
+}: ProductInBasketProps) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigation = useNavigation() as any;
   const deleteProductInBasket = useDeleteProductInBasket();
@@ -141,4 +151,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Products;
+export default ProductsInBasket;

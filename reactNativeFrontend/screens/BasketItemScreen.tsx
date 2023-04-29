@@ -1,6 +1,6 @@
 import {View, Text, FlatList, StyleSheet} from 'react-native';
 import React from 'react';
-import Products from '../components/Products';
+import ProductsInBasket from '../components/ProductsInBasket';
 import {useDarkModeStore} from '../hooks/useDarkModeStore';
 import {themeStyle} from '../constants/Theme';
 import Loading from '../shared/Loading';
@@ -34,7 +34,7 @@ const BasketItemScreen = ({route}: any) => {
           keyExtractor={(item: any) => item._id}
           data={data.basket.products}
           renderItem={({item}: any) => (
-            <Products
+            <ProductsInBasket
               products={item}
               productKey={item._id}
               basketId={basketId}

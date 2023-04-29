@@ -1,7 +1,7 @@
 interface Product {
   _id?: string;
-  name?: string;
-  price?: number;
+  name: string;
+  price: number;
   productImage: string;
   kcal: string;
   inStock: boolean;

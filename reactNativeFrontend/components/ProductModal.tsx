@@ -7,8 +7,21 @@ import useBaskets from '../hooks/useBasket';
 import useAddProductToBasket from '../hooks/useAddProductToBasket';
 import {queryClient} from '../constants/GraphqlAccess';
 import useUpdateProductToBasket from '../hooks/useUpdateProductToBasket';
+import Products from '../interfaces/Products.interface';
 
-const ProductModal = ({item, setIsModalVisible, isEdit, editBasketId}: any) => {
+interface ProductModalProps {
+  item: Products;
+  setIsModalVisible: any;
+  isEdit: boolean;
+  editBasketId: string;
+}
+
+const ProductModal = ({
+  item,
+  setIsModalVisible,
+  isEdit,
+  editBasketId,
+}: ProductModalProps) => {
   const [amount, setAmount] = useState(1);
   const [basketId, setBasketId] = useState(null);
 
