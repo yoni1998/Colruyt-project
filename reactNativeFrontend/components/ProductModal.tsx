@@ -25,7 +25,7 @@ const ProductModal = ({
   const [amount, setAmount] = useState(1);
   const [basketId, setBasketId] = useState(null);
 
-  const addProductToBasket = useAddProductToBasket({basketId});
+  const addProductToBasket = useAddProductToBasket();
   const updateProductToBasket = useUpdateProductToBasket();
 
   const {data} = useBaskets();
@@ -37,7 +37,7 @@ const ProductModal = ({
       } else if (!basketId) {
         showToastWithGravity('You need to select a basket');
       } else {
-        addProductToBasket.mutate({productId: id, amount: amount});
+        addProductToBasket.mutate({productId: id, amount, basketId});
       }
     }
     if (isEdit) {
@@ -97,7 +97,7 @@ const ProductModal = ({
 
           {!isEdit && (
             <View>
-              <Text style={styles.text}>Selecteer het winkelmandje</Text>
+              <Text style={styles.text}>Select the basket</Text>
               <View style={styles.dropdown}>
                 <SelectDropdown
                   data={data?.baskets}

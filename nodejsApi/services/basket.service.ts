@@ -39,12 +39,30 @@ export const deleteProductFromBasket = async (id: string, productId: string) =>
     { new: true }
   );
 
-export const createProductInBasket = async (id: string, product: IProducts) =>
-  await basket.findOneAndUpdate(
-    { _id: id },
-    { $push: { products: product } },
-    { new: true }
-  );
+export const createProductInBasket = async (id: string, product: IProducts) => {
+  // check if the product already exists
+  const basketData = await basket.findById(id);
+  const arrayCheck = [];
+  for (const products of basketData.products) {
+    if (products.productId?.toString() === product.productId?.toString()) {
+      arrayCheck.push("duplicated");
+    }
+  }
+  if (arrayCheck.length > 0) {
+    return await basket
+      .findById(id)
+      .updateOne(
+        { "products.productId": product.productId },
+        { $set: { "products.$.amount": product.amount } }
+      );
+  } else {
+    return await basket.findOneAndUpdate(
+      { _id: id },
+      { $push: { products: product } },
+      { new: true }
+    );
+  }
+};
 
 export const updateProductFromBasket = async (
   productId: string,

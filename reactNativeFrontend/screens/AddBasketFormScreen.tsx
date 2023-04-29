@@ -116,10 +116,10 @@ const AddBasketFormScreen = ({route}: any | null) => {
               onPress={() => formikProps.handleSubmit()}
               style={styles.button}>
               {params?.basketData.name && (
-                <Text style={styles.text}>Basket Wijzigen</Text>
+                <Text style={styles.text}>Edit basket</Text>
               )}
               {!params?.basketData.name && (
-                <Text style={styles.text}>Basket Aanmaken</Text>
+                <Text style={styles.text}>Add basket</Text>
               )}
             </Pressable>
           </View>

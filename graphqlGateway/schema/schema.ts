@@ -246,7 +246,7 @@ const removeProductFromBasket = mutationField("removeProductFromBasket", {
 });
 
 const addProductToBasket = mutationField("addProductToBasket", {
-  type: "Baskets",
+  type: "Basket",
   args: {
     id: nonNull(idArg()),
     input: BasketProductInput,
