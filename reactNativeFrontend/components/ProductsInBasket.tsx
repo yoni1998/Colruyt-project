@@ -28,7 +28,7 @@ const ProductsInBasket = ({
       basketId,
       id,
     });
-    showToastWithGravity('Het product is verwijderd uit je winkelmandje');
+    showToastWithGravity('The product is deleted from the basket');
   };
 
   if (deleteProductInBasket.isSuccess) {

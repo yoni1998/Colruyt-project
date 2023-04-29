@@ -62,11 +62,11 @@ const AddBasketFormScreen = ({route}: any | null) => {
       if (params?.basketData._id) {
         updateBasket.mutate({name, imageBackground});
 
-        showToastWithGravity('Het wijzigen van een winkelmandje is gelukt');
+        showToastWithGravity('The basket has been successfully modified');
         navigation.navigate('Baskets');
       } else {
         addBasket.mutate({name, imageBackground});
-        showToastWithGravity('Het toevoegen van een winkelmandje is gelukt');
+        showToastWithGravity('Adding a basket was successful');
         navigation.navigate('Baskets');
       }
     }

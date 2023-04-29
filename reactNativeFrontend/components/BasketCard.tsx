@@ -25,7 +25,7 @@ const BasketCard = ({basketData, basketKey}: BasketProps) => {
 
   const deleteBasketOnId = (id: any) => {
     removeBasket.mutate(id);
-    showToastWithGravity('het winkelmandje is verwijderd');
+    showToastWithGravity('The basket is deleted successfully');
   };
 
   if (removeBasket.isSuccess) {

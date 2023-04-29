@@ -49,7 +49,7 @@ const ProductModal = ({
           updateProductToBasketId: editBasketId,
           input: amount,
         });
-        showToastWithGravity('het product is aangepast in je winkelmandje');
+        showToastWithGravity('The product is modified in the basket');
       }
     }
   };
@@ -62,7 +62,7 @@ const ProductModal = ({
 
   if (addProductToBasket.isSuccess) {
     queryClient.refetchQueries('basket').then(() => {
-      showToastWithGravity('het product is toegevoegd aan je winkelmandje');
+      showToastWithGravity('The product is added to the basket');
       setIsModalVisible(false);
     });
   }
