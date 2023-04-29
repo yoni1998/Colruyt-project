@@ -6,13 +6,13 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React from 'react';
-import {RectButton, Swipeable} from 'react-native-gesture-handler';
+import {Swipeable} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import {showToastWithGravity} from '../shared/Toast';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import useRemoveBasket from '../hooks/useRemoveBasket';
 import {queryClient} from '../constants/GraphqlAccess';
 import Basket from '../interfaces/Basket.interface';
+import {renderLeftActions, renderRightActions} from '../shared/Swipeable';
 
 interface BasketProps {
   basketData: Basket;
@@ -25,42 +25,22 @@ const BasketCard = ({basketData, basketKey}: BasketProps) => {
 
   const deleteBasketOnId = (id: any) => {
     removeBasket.mutate(id);
+    showToastWithGravity('het winkelmandje is verwijderd');
   };
 
   if (removeBasket.isSuccess) {
     queryClient.refetchQueries('baskets');
-    showToastWithGravity('het winkelmandje is verwijderd');
   }
-
-  const renderRightActions = (id: number) => {
-    return (
-      <RectButton
-        style={styles.rightAction}
-        onActiveStateChange={() => deleteBasketOnId(id)}
-        shouldActivateOnStart={true}>
-        <Icon name="trash" color="white" size={35} />
-      </RectButton>
-    );
-  };
-
-  const renderLeftActions = (item: Basket) => {
-    return (
-      <RectButton
-        style={styles.leftAction}
-        onActiveStateChange={() =>
-          navigation.navigate('Basket factory', {basketData: item})
-        }
-        shouldActivateOnStart={true}>
-        <Icon name="edit" color="white" size={35} />
-      </RectButton>
-    );
-  };
 
   return (
     <View key={basketKey} accessible={true}>
       <Swipeable
-        renderRightActions={() => renderRightActions(basketData?._id)}
-        renderLeftActions={() => renderLeftActions(basketData)}>
+        renderRightActions={() => renderRightActions()}
+        renderLeftActions={() => renderLeftActions()}
+        onSwipeableRightOpen={() => deleteBasketOnId(basketData?._id)}
+        onSwipeableLeftOpen={() =>
+          navigation.navigate('Basket factory', {basketData: basketData})
+        }>
         <TouchableOpacity
           onPress={() =>
             navigation.navigate('Basket', {basketId: basketData?._id})
@@ -111,18 +91,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#1c1c1c',
     backgroundColor: '#ffffff80',
-  },
-  rightAction: {
-    alignItems: 'center',
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: '#ee0303',
-  },
-  leftAction: {
-    alignItems: 'center',
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: '#3b3bf6',
   },
 });
 

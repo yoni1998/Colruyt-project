@@ -36,13 +36,13 @@ const ProductModal = ({item, setIsModalVisible, isEdit, editBasketId}: any) => {
           updateProductToBasketId: editBasketId,
           input: amount,
         });
+        showToastWithGravity('het product is aangepast in je winkelmandje');
       }
     }
   };
 
   if (updateProductToBasket.isSuccess) {
     queryClient.refetchQueries('basket').then(() => {
-      showToastWithGravity('het product is aangepast in je winkelmandje');
       setIsModalVisible(false);
     });
   }

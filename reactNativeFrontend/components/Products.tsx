@@ -1,12 +1,12 @@
 import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {RectButton, Swipeable} from 'react-native-gesture-handler';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import {Swipeable} from 'react-native-gesture-handler';
 import {showToastWithGravity} from '../shared/Toast';
 import ProductModal from './ProductModal';
 import useDeleteProductInBasket from '../hooks/useDeleteProductInBasket';
 import {queryClient} from '../constants/GraphqlAccess';
+import {renderLeftActions, renderRightActions} from '../shared/Swipeable';
 
 const Products = ({products, productKey, basketId}: any) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -18,40 +18,20 @@ const Products = ({products, productKey, basketId}: any) => {
       basketId,
       id,
     });
+    showToastWithGravity('Het product is verwijderd uit je winkelmandje');
   };
 
   if (deleteProductInBasket.isSuccess) {
-    queryClient.refetchQueries('basket').then(() => {
-      showToastWithGravity('Het product is verwijderd uit je winkelmandje');
-    });
+    queryClient.refetchQueries('basket');
   }
 
-  const renderRightActions = (id: number) => {
-    return (
-      <RectButton
-        onActiveStateChange={() => deleteProduct(id)}
-        shouldActivateOnStart={true}
-        style={styles.rightAction}>
-        <Icon name="trash" color="white" size={35} />
-      </RectButton>
-    );
-  };
-
-  const renderLeftActions = () => {
-    return (
-      <RectButton
-        onActiveStateChange={() => setIsModalVisible(true)}
-        shouldActivateOnStart={true}
-        style={styles.leftAction}>
-        <Icon name="edit" color="white" size={35} />
-      </RectButton>
-    );
-  };
   return (
     <View>
       <Swipeable
-        renderRightActions={() => renderRightActions(products._id)}
+        renderRightActions={() => renderRightActions()}
         renderLeftActions={() => renderLeftActions()}
+        onSwipeableRightOpen={() => deleteProduct(products._id)}
+        onSwipeableLeftOpen={() => setIsModalVisible(true)}
         key={productKey}>
         {products.productId && (
           <View style={styles.container}>
@@ -158,23 +138,6 @@ const styles = StyleSheet.create({
   quantityTitle: {
     fontWeight: 'bold',
     fontSize: 18,
-  },
-  leftAction: {
-    alignItems: 'center',
-    flex: 1,
-    height: 110,
-    marginTop: 10,
-    justifyContent: 'center',
-    backgroundColor: '#3b3bf6',
-  },
-
-  rightAction: {
-    alignItems: 'center',
-    flex: 1,
-    height: 110,
-    marginTop: 10,
-    justifyContent: 'center',
-    backgroundColor: '#ee0303',
   },
 });
 
