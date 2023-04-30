@@ -12,18 +12,3 @@ export const GET_PRODUCTS = gql`
     }
   }
 `;
-
-export const GET_PRODUCT_ON_ID = gql`
-  query Query($getProductId: String!) {
-    product(id: $getProductId) {
-      DATA {
-        inStock
-        kcal
-        productImage
-        price
-        name
-        _id
-      }
-    }
-  }
-`;

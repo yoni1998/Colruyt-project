@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import SelectDropdown from 'react-native-select-dropdown';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {showToastWithGravity} from '../shared/Toast';
-import useBaskets from '../hooks/useBasket';
+import useBaskets from '../hooks/useBaskets';
 import useAddProductToBasket from '../hooks/useAddProductToBasket';
 import {queryClient} from '../constants/GraphqlAccess';
 import useUpdateProductToBasket from '../hooks/useUpdateProductToBasket';
@@ -30,14 +30,14 @@ const ProductModal = ({
 
   const {data} = useBaskets();
 
-  const addToCard = (id: any) => {
+  const addToCard = (productId: any) => {
     if (!isEdit) {
       if (amount < 1) {
         showToastWithGravity('Amount need to be above 1');
       } else if (!basketId) {
         showToastWithGravity('You need to select a basket');
       } else {
-        addProductToBasket.mutate({productId: id, amount, basketId});
+        addProductToBasket.mutate({productId, amount, basketId});
       }
     }
     if (isEdit) {
@@ -45,8 +45,8 @@ const ProductModal = ({
         showToastWithGravity('Amount need to be above 1');
       } else {
         updateProductToBasket.mutate({
-          productId: id,
-          updateProductToBasketId: editBasketId,
+          productId,
+          basketId: editBasketId,
           input: amount,
         });
         showToastWithGravity('The product is modified in the basket');

@@ -4,13 +4,13 @@ import ProductsInBasket from '../components/ProductsInBasket';
 import {useDarkModeStore} from '../hooks/useDarkModeStore';
 import {themeStyle} from '../constants/Theme';
 import Loading from '../shared/Loading';
-import useBasketId from '../hooks/useBasketId';
+import useBasket from '../hooks/useBasket';
 import Error from '../shared/Error';
 const BasketItemScreen = ({route}: any) => {
   const {basketId} = route.params;
   const {isDarkMode}: any | boolean = useDarkModeStore();
 
-  const {error, isLoading, data} = useBasketId({basketId});
+  const {error, isLoading, data} = useBasket({basketId});
 
   if (isLoading) {
     return <Loading />;

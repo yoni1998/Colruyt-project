@@ -37,22 +37,25 @@ export class BasketDatasource extends RESTDataSource {
     };
     return this.put(this.ROOTPATH + id, basket, options);
   }
-  async deleteProductFromBasket(id: string, productId: string) {
+  async deleteProductFromBasket(basketId: string, productId: string) {
     const options = {
       method: "delete",
       headers: { "Content-Type": "application/json" },
     };
-    return this.delete(this.ROOTPATH + id + "/products/" + productId, options);
+    return this.delete(
+      this.ROOTPATH + basketId + "/products/" + productId,
+      options
+    );
   }
-  async addProductToBasket(id: string, product: IProducts) {
+  async addProductToBasket(basketId: string, product: IProducts) {
     const options = {
       method: "post",
       headers: { "Content-Type": "application/json" },
     };
-    return this.post(this.ROOTPATH + id, product, options);
+    return this.post(this.ROOTPATH + basketId, product, options);
   }
   async updateProductToBasket(
-    id: string,
+    basketId: string,
     productId: string,
     product: IProducts
   ) {
@@ -61,7 +64,7 @@ export class BasketDatasource extends RESTDataSource {
       headers: { "Content-Type": "application/json" },
     };
     return this.put(
-      this.ROOTPATH + id + "/products/" + productId,
+      this.ROOTPATH + basketId + "/products/" + productId,
       product,
       options
     );

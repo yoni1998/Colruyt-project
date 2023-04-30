@@ -224,18 +224,18 @@ const updateBasket = mutationField("updateBasket", {
 const removeProductFromBasket = mutationField("removeProductFromBasket", {
   type: "Baskets",
   args: {
-    id: nonNull(idArg()),
+    basketId: nonNull(idArg()),
     productId: nonNull(idArg()),
   },
   resolve: async (
     root: any,
-    { productId, id }: any,
+    { productId, basketId }: any,
     { dataSources }: any,
     info: any
   ) => {
     try {
       const result = await dataSources.basketDatasource.deleteProductFromBasket(
-        id,
+        basketId,
         productId
       );
       return result;
@@ -248,18 +248,18 @@ const removeProductFromBasket = mutationField("removeProductFromBasket", {
 const addProductToBasket = mutationField("addProductToBasket", {
   type: "Basket",
   args: {
-    id: nonNull(idArg()),
+    basketId: nonNull(idArg()),
     input: BasketProductInput,
   },
   resolve: async (
     root: any,
-    { input, id }: any,
+    { input, basketId }: any,
     { dataSources }: any,
     info: any
   ) => {
     try {
       const result = await dataSources.basketDatasource.addProductToBasket(
-        id,
+        basketId,
         input
       );
       return result;
@@ -272,19 +272,19 @@ const addProductToBasket = mutationField("addProductToBasket", {
 const updateProductToBasket = mutationField("updateProductToBasket", {
   type: "Baskets",
   args: {
-    id: nonNull(idArg()),
+    basketId: nonNull(idArg()),
     productId: nonNull(idArg()),
     input: BasketProductInput,
   },
   resolve: async (
     root: any,
-    { input, id, productId }: any,
+    { input, basketId, productId }: any,
     { dataSources }: any,
     info: any
   ) => {
     try {
       const result = await dataSources.basketDatasource.updateProductToBasket(
-        id,
+        basketId,
         productId,
         input
       );

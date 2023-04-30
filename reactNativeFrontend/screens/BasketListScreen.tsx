@@ -4,7 +4,7 @@ import BasketCard from '../components/BasketCard';
 import {useDarkModeStore} from '../hooks/useDarkModeStore';
 import {themeStyle} from '../constants/Theme';
 import Loading from '../shared/Loading';
-import useBaskets from '../hooks/useBasket';
+import useBaskets from '../hooks/useBaskets';
 import Error from '../shared/Error';
 const BasketListScreen = () => {
   const {isLoading, error, data} = useBaskets();

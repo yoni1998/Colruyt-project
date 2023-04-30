@@ -8,7 +8,7 @@ const useUpdateProductToBasket = () => {
     async (data: any) => {
       return await request(graphqlUri, UPDATE_PRODUCT_IN_BASKET, {
         productId: data.productId,
-        updateProductToBasketId: data.updateProductToBasketId,
+        basketId: data.basketId,
         input: {
           amount: data.input,
         },

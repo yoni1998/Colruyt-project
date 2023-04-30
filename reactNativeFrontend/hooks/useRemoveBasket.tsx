@@ -8,7 +8,7 @@ const useRemoveBasket = () => {
   const {mutate, isLoading, isSuccess, isError} = useMutation(
     async (data: Basket) => {
       return await request(graphqlUri, REMOVE_BASKET_ON_ID, {
-        removeBasketId: data,
+        id: data,
       });
     },
   );

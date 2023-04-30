@@ -7,7 +7,7 @@ const useAddProductToBasket = () => {
   const {mutate, isLoading, isSuccess, isError} = useMutation(
     async (data: any) => {
       return await request(graphqlUri, ADD_PRODUCT_TO_BASKET, {
-        addProductToBasketId: data.basketId,
+        basketId: data.basketId,
         input: {
           productId: data.productId,
           amount: data.amount,

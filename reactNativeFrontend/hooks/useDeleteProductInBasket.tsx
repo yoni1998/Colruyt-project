@@ -7,7 +7,7 @@ const useDeleteProductInBasket = () => {
   const {mutate, isLoading, isSuccess, isError} = useMutation(
     async (data: any) => {
       return await request(graphqlUri, DELETE_PRODUCT_IN_BASKET, {
-        removeProductFromBasketId: data.basketId,
+        basketId: data.basketId,
         productId: data.id,
       });
     },
