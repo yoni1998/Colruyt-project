@@ -6,7 +6,7 @@ import {themeStyle} from '../constants/Theme';
 import Loading from '../shared/Loading';
 import useBasket from '../hooks/useBasket';
 import Error from '../shared/Error';
-const BasketItemScreen = ({route}: any) => {
+const ProductInBasketScreen = ({route}: any) => {
   const {basketId} = route.params;
   const {isDarkMode}: any | boolean = useDarkModeStore();
 
@@ -42,13 +42,11 @@ const BasketItemScreen = ({route}: any) => {
           )}
         />
       )}
-      {!data.basket?.products.length && (
+      {!data?.basket?.products.length && (
         <View
           style={styles.noProductsContainer}
           accessibilityLabel="no products in this basket found">
-          <Text style={styles.text}>
-            Geen producten in dit winkelmandje gevonden
-          </Text>
+          <Text style={styles.text}>No product found in this basket</Text>
         </View>
       )}
     </View>
@@ -66,4 +64,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BasketItemScreen;
+export default ProductInBasketScreen;

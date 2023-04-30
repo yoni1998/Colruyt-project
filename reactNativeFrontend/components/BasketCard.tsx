@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  ImageBackground,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Text, StyleSheet, ImageBackground, Pressable} from 'react-native';
 import React from 'react';
 import {Swipeable} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
@@ -41,7 +35,7 @@ const BasketCard = ({basketData, basketKey}: BasketProps) => {
         onSwipeableLeftOpen={() =>
           navigation.navigate('Basket factory', {basketData: basketData})
         }>
-        <TouchableOpacity
+        <Pressable
           onPress={() =>
             navigation.navigate('Basket', {basketId: basketData?._id})
           }>
@@ -58,7 +52,7 @@ const BasketCard = ({basketData, basketKey}: BasketProps) => {
               </Text>
             </View>
           </ImageBackground>
-        </TouchableOpacity>
+        </Pressable>
       </Swipeable>
     </View>
   );
@@ -67,12 +61,6 @@ const BasketCard = ({basketData, basketKey}: BasketProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 22,
-  },
-  item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
   },
   catoImage: {
     width: '100%',

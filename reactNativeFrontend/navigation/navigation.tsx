@@ -6,7 +6,7 @@ import SearchProductScreen from '../screens/SearchProductScreen';
 import ProductDetailsScreen from '../screens/ProductDetailsScreen';
 import BasketListScreen from '../screens/BasketListScreen';
 import AddBasketFormScreen from '../screens/AddBasketFormScreen';
-import BasketItemScreen from '../screens/BasketItemScreen';
+import BasketItemScreen from '../screens/ProductInBasketScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Settings from '../components/Settings';
