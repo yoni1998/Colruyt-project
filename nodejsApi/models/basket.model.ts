@@ -10,7 +10,7 @@ const schema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "product",
       },
-      amount: String,
+      quantity: String,
     },
   ],
   modification_notes: [ModificationNote],

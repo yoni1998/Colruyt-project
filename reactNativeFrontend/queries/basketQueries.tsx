@@ -16,7 +16,7 @@ export const GET_ALL_BASKETS = gql`
           _id
         }
         _id
-        amount
+        quantity
       }
     }
   }
@@ -29,7 +29,7 @@ export const GET_BASKET_ON_ID = gql`
       imageBackground
       products {
         _id
-        amount
+        quantity
         productId {
           inStock
           kcal
@@ -77,7 +77,7 @@ export const ADD_PRODUCT_TO_BASKET = gql`
       _id
       products {
         _id
-        amount
+        quantity
         productId {
           inStock
           kcal
@@ -113,7 +113,7 @@ export const UPDATE_PRODUCT_IN_BASKET = gql`
       _id
       products {
         _id
-        amount
+        quantity
         productId {
           inStock
           kcal

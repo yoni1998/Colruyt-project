@@ -72,8 +72,8 @@ const ProductsInBasket = ({
                 </Pressable>
               </View>
               <View style={styles.quantityContainer}>
-                <Text style={styles.quantityTitle}>Amount</Text>
-                <Text style={styles.quantity}>{products?.amount}</Text>
+                <Text style={styles.quantityTitle}>Quantity</Text>
+                <Text style={styles.quantity}>{products?.quantity}</Text>
               </View>
             </View>
           </View>

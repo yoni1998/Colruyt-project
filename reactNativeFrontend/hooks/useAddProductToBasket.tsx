@@ -10,7 +10,7 @@ const useAddProductToBasket = () => {
         basketId: data.basketId,
         input: {
           productId: data.productId,
-          amount: data.amount,
+          quantity: data.quantity,
         },
       });
     },

@@ -167,7 +167,7 @@ export const deleteProductInBasketOnId = (req: Request, res: Response) => {
 export const addNewProductToBasket = (req: Request, res: Response) => {
   if (req.params.id) {
     const newProduct: IProducts = {
-      amount: req.body.amount,
+      quantity: req.body.quantity,
       productId: req.body.productId,
     };
     // send request
@@ -183,7 +183,7 @@ export const updateProductInBasket = (req: Request, res: Response) => {
     basketOnId(basketId).then((data: any) => {
       // input validation
       const schema = Joi.object().keys({
-        amount: Joi.number().required(),
+        quantity: Joi.number().required(),
       });
 
       if (schema.validate(req.body).error) {
@@ -195,7 +195,7 @@ export const updateProductInBasket = (req: Request, res: Response) => {
       } else {
         const editProductInBasket: any = {
           _id: req.params.id,
-          amount: req.body.amount ? req.body.amount : data.amount,
+          quantity: req.body.quantity ? req.body.quantity : data.quantity,
         };
 
         updateProductFromBasket(req.params.productId, editProductInBasket).then(

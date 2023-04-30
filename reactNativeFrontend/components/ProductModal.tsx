@@ -22,7 +22,7 @@ const ProductModal = ({
   isEdit,
   editBasketId,
 }: ProductModalProps) => {
-  const [amount, setAmount] = useState(1);
+  const [quantity, setQuantity] = useState(1);
   const [basketId, setBasketId] = useState(null);
 
   const addProductToBasket = useAddProductToBasket();
@@ -32,22 +32,22 @@ const ProductModal = ({
 
   const addToCard = (productId: any) => {
     if (!isEdit) {
-      if (amount < 1) {
-        showToastWithGravity('Amount need to be above 1');
+      if (quantity < 1) {
+        showToastWithGravity('Quantity need to be above 1');
       } else if (!basketId) {
         showToastWithGravity('You need to select a basket');
       } else {
-        addProductToBasket.mutate({productId, amount, basketId});
+        addProductToBasket.mutate({productId, quantity, basketId});
       }
     }
     if (isEdit) {
-      if (amount < 1) {
-        showToastWithGravity('Amount need to be above 1');
+      if (quantity < 1) {
+        showToastWithGravity('quantity need to be above 1');
       } else {
         updateProductToBasket.mutate({
           productId,
           basketId: editBasketId,
-          input: amount,
+          input: quantity,
         });
         showToastWithGravity('The product is modified in the basket');
       }
@@ -69,29 +69,29 @@ const ProductModal = ({
 
   useEffect(() => {
     if (isEdit) {
-      setAmount(Number(item?.amount));
+      setQuantity(Number(item?.quantity));
     }
-  }, [isEdit, item.amount]);
+  }, [isEdit, item.quantity]);
 
   return (
     <Modal>
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.text}>Select the amount</Text>
+          <Text style={styles.text}>Select the quantity</Text>
         </View>
         <View style={styles.body}>
           <View style={styles.quantityContainer}>
             <Icon
               name="minus"
               size={25}
-              onPress={() => setAmount(amount - 1)}
+              onPress={() => setQuantity(quantity - 1)}
             />
-            <TextInput style={styles.quantity}>{amount}</TextInput>
+            <TextInput style={styles.quantity}>{quantity}</TextInput>
             <Icon
               size={25}
               style={styles.plusIcon}
               name="plus"
-              onPress={() => setAmount(amount + 1)}
+              onPress={() => setQuantity(quantity + 1)}
             />
           </View>
 

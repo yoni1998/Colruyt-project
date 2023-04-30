@@ -53,7 +53,7 @@ export const createProductInBasket = async (id: string, product: IProducts) => {
       .findById(id)
       .updateOne(
         { "products.productId": product.productId },
-        { $set: { "products.$.amount": product.amount } }
+        { $set: { "products.$.quantity": product.quantity } }
       );
   } else {
     return await basket.findOneAndUpdate(
@@ -70,5 +70,5 @@ export const updateProductFromBasket = async (
 ) =>
   await basket.updateOne(
     { "products._id": productId },
-    { $set: { "products.$.amount": product.amount } }
+    { $set: { "products.$.quantity": product.quantity } }
   );

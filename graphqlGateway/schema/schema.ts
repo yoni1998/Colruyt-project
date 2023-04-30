@@ -40,7 +40,7 @@ const ProductIds = objectType({
   name: "ProductId",
   definition(t) {
     t.string("_id"),
-      t.string("amount"),
+      t.string("quantity"),
       t.field("productId", { type: "Product" });
   },
 });
@@ -176,7 +176,7 @@ const BasketProductInput = inputObjectType({
   name: "BasketProductInput",
   definition(t) {
     t.nullable.string("productId");
-    t.nonNull.int("amount");
+    t.nonNull.int("quantity");
   },
 });
 
