@@ -21,6 +21,7 @@ const AddBasketFormScreen = ({route}: any | null) => {
   const params = route?.params;
   const navigation = useNavigation() as any;
   const {isDarkMode}: any | boolean = useDarkModeStore();
+  const [error, setError] = useState('');
   const [imageBackground, setImageBackground]: any = useState(
     params?.basketData.imageBackground
       ? params?.basketData.imageBackground
@@ -72,6 +73,16 @@ const AddBasketFormScreen = ({route}: any | null) => {
     }
   };
 
+  const validateNameInput = (values: any) => {
+    const errors: any = {};
+    if (/^[0-9]+$/.test(values.name)) {
+      setError('Invalid basket name');
+      errors.name = 'Invalid basket name';
+    } else {
+      setError('');
+    }
+  };
+
   return (
     <View
       accessible={true}
@@ -88,6 +99,8 @@ const AddBasketFormScreen = ({route}: any | null) => {
             ? params?.basketData.imageBackground
             : 'https://cdn.pixabay.com/photo/2016/03/02/20/13/grocery-1232944_960_720.jpg',
         }}
+        validate={validateNameInput}
+        validateOnChange={true}
         onSubmit={async (values: any) => {
           addOrUpdateBasket(values.name);
         }}>
@@ -100,6 +113,7 @@ const AddBasketFormScreen = ({route}: any | null) => {
               onChangeText={formikProps.handleChange('name')}
               value={formikProps.values.name}
             />
+            {error && <Text style={styles.error}>{error}</Text>}
             <Text style={styles.previewText}>Preview image</Text>
             <Pressable style={styles.pressable} onPressIn={handleImageSubmit}>
               <ImageBackground
@@ -113,6 +127,7 @@ const AddBasketFormScreen = ({route}: any | null) => {
             </Pressable>
 
             <Pressable
+              disabled={error ? true : false}
               onPress={() => formikProps.handleSubmit()}
               style={styles.button}>
               {params?.basketData.name && (
@@ -148,6 +163,9 @@ const styles = StyleSheet.create({
     marginTop: 40,
     padding: 15,
     backgroundColor: 'green',
+  },
+  error: {
+    color: 'red',
   },
   text: {
     color: 'white',
